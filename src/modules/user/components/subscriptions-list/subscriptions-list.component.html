@@ -1,0 +1,31 @@
+<mat-card>
+  <mat-card-title>Abonnements Mode Machine</mat-card-title>
+  <mat-card-content>
+    <mat-accordion *ngIf="subscriptions$ | async as subscriptions; else noSubscriptions">
+      <mat-expansion-panel *ngFor="let subscription of subscriptions; let i = index" [expanded]="i === 0">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{subscription.plan.id | plan}}
+          </mat-panel-title>
+          <mat-panel-description>
+            <span [innerHtml]="subscription | subscriptionStatus"></span>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <a mat-flat-button color="primary" [href]="subscriptionUrl(subscription)" target="_blank">
+          {{ subscription.type === 'braintree' ? 'Voir sur Braintree' : 'Voir sur Stripe' }}
+          <mat-icon>launch</mat-icon>
+        </a>
+
+        <mat-list>
+          <mat-list-item>
+            Période en cours : {{ subscription.current_period_start | date:'dd/MM/yy' }}
+            - {{ subscription.current_period_end | date:'dd/MM/yy' }}
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <ng-template #noSubscriptions>Aucune souscription</ng-template>
+  </mat-card-content>
+</mat-card>

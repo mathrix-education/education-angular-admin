@@ -1,0 +1,77 @@
+<mat-nav-list>
+  <a mat-list-item routerLink="../" data-cy="back-site">
+    <mat-icon>arrow_back</mat-icon>
+    Retour au site
+  </a>
+
+  <a mat-list-item *ngIf="xAsTokenExist()" (click)="logBack()">
+    <mat-icon>lock</mat-icon>
+    Reconnexion en admin
+  </a>
+
+  <mat-divider></mat-divider>
+
+  <a *ngIf="allowed(['users'])|async" mat-list-item routerLink="users" routerLinkActive="active"
+     data-cy="users">
+    <mat-icon>group</mat-icon>
+    Utilisateurs
+  </a>
+
+
+
+  <a mat-list-item
+     routerLink="comments"
+     routerLinkActive="active" data-cy="comments">
+    <mat-icon>forum</mat-icon>
+    Commentaires
+  </a>
+
+  <mat-divider></mat-divider>
+
+  <a *ngIf="allowed(['modules','notions','activities','chapters','disciplines', 'countries'])|async" mat-list-item
+     routerLink="content" routerLinkActive="active"
+     data-cy="content">
+    <mat-icon>comments</mat-icon>
+    Contenu
+  </a>
+
+  <a *ngIf="allowed(['users'])|async" mat-list-item routerLink="silicate" routerLinkActive="active"
+     data-cy="users">
+    <mat-icon>swap_horiz</mat-icon>
+    Migration de Silicate
+  </a>
+
+  <a *ngIf="allowed(['posts','categories'])|async" mat-list-item routerLink="blog" routerLinkActive="active" data-cy="blog">
+    <mat-icon>subscriptions</mat-icon>
+    Blog
+  </a>
+
+  <a *ngIf="allowed(['products'])|async" mat-list-item routerLink="trainings" routerLinkActive="active"
+     data-cy="trainings">
+    <mat-icon>grade</mat-icon>
+    Formations
+  </a>
+
+  <a mat-list-item routerLink="live" routerLinkActive="active" data-cy="live">
+    <mat-icon>videocam</mat-icon>
+    Live
+  </a>
+
+  <mat-divider></mat-divider>
+
+  <a *ngIf="allowed(['discounts'])|async" mat-list-item routerLink="discounts" routerLinkActive="active"
+     data-cy="discounts">
+    <mat-icon>attach_money</mat-icon>
+    Réductions
+  </a>
+
+  <a *ngIf="allowed(['reports'])|async" mat-list-item routerLink="reports" routerLinkActive="active" data-cy="reports">
+    <mat-icon>flag</mat-icon>
+    Rapports
+  </a>
+
+  <a mat-list-item routerLink="ui-kit" routerLinkActive="active" data-cy="ui-kit">
+    <mat-icon>desktop_mac</mat-icon>
+    Kits graphiques
+  </a>
+</mat-nav-list>

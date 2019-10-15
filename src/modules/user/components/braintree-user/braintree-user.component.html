@@ -1,0 +1,18 @@
+<ng-container *ngIf="user$ | async as user">
+  <mat-card>
+    <mat-card-title>Profil Braintree</mat-card-title>
+    <mat-card-content>
+      <ng-container *ngIf="user.braintree_id; else noBraintreeAccount">
+        <a mat-flat-button
+           color="primary"
+           [href]="getCustomerUrl(user)"
+           target="_blank">
+          Braintree
+          <mat-icon>launch</mat-icon>
+        </a>
+      </ng-container>
+
+      <ng-template #noBraintreeAccount>Il n'y a pas de client Braintree associé à cet utilisateur</ng-template>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

@@ -1,0 +1,106 @@
+<mat-card *ngIf="user$ | async as user">
+  <mat-card-title>Profil</mat-card-title>
+  <mat-card-content fxLayoutGap="0" fxLayoutGap.gt-xs="60px" fxLayout="column" fxLayout.gt-xs="row">
+    <section fxFlex="100" fxFlex.gt-xs="50">
+      <h2 mat-card-subtitle>Infos</h2>
+
+      <!-- firstname -->
+      <mat-form-field>
+        <input matInput
+               placeholder="Prénom"
+               [readonly]="!editMode"
+               [ngModel]="user.firstname"
+               (ngModelChange)="patch('firstname', $event)">
+      </mat-form-field>
+
+      <!-- lastname -->
+      <mat-form-field>
+        <input matInput
+               placeholder="Nom"
+               [readonly]="!editMode"
+               [ngModel]="user.lastname"
+               (ngModelChange)="patch('lastname', $event)">
+      </mat-form-field>
+
+      <!-- email -->
+      <mat-form-field>
+        <input matInput
+               placeholder="Email"
+               [readonly]="!editMode"
+               [ngModel]="user.email"
+               (ngModelChange)="patch('email', $event)">
+      </mat-form-field>
+
+      <!-- username -->
+      <mat-form-field>
+        <input matInput
+               placeholder="Nom d'utilisateur"
+               [readonly]="!editMode"
+               [ngModel]="user.username"
+               (ngModelChange)="patch('username', $event)">
+      </mat-form-field>
+
+      <mat-list>
+        <mat-list-item>
+          <span matLine>Points</span>
+          <span>{{user.points}}</span>
+        </mat-list-item>
+
+        <mat-list-item>
+          <span matLine>Niveau</span>
+          <span>{{user.level}}</span>
+        </mat-list-item>
+
+        <mat-list-item>
+          <span matLine>Inscrit le</span>
+          <span>{{user.created_at | date : 'dd/MM/yyyy'}}</span>
+        </mat-list-item>
+
+        <mat-list-item>
+          <span matLine>Premium</span>
+          <span>{{(UserHelper.hasPremiumAccess(user) ? 'oui' : 'non')}}</span>
+        </mat-list-item>
+      </mat-list>
+    </section>
+
+    <section fxFlex="100" fxFlex.gt-xs="50">
+      <h2 mat-card-subtitle>Permissions</h2>
+
+      <mat-list *ngIf="simplifiedScopesModel" class="permissions-list">
+        <mat-list-item *ngFor="let scope of simplifiedScopesModel">
+          <mat-checkbox
+            [disabled]="!editMode"
+            [(ngModel)]="scope.selected"
+            (ngModelChange)="refreshSimplifiedScopes()">
+            <span matLine>{{scope.group}}</span>
+          </mat-checkbox>
+        </mat-list-item>
+      </mat-list>
+
+      <button mat-flat-button (click)="openCustomScopesDialog()" [disabled]="!editMode">Personnaliser</button>
+    </section>
+
+    <button mat-mini-fab [color]="editMode ? 'accent' : 'primary'" (click)="toggleEditMode()">
+      <mat-icon>{{editMode ? 'check' : 'edit'}}</mat-icon>
+    </button>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #customScopes *ngIf="user$ | async as user">
+  <mat-dialog-content>
+    <mat-list #scopes *ngIf="scopesModel" fxLayout="column">
+      <mat-list-item *ngFor="let scope of scopesModel">
+        <mat-checkbox
+          [(ngModel)]="scope.selected"
+          [disabled]="!editMode"
+          (ngModelChange)="refreshScopes(user)">
+          <span matLine>{{scope.scope}}</span>
+        </mat-checkbox>
+      </mat-list-item>
+    </mat-list>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-flat-button color="primary" matDialogClose>Fermer</button>
+  </mat-dialog-actions>
+</ng-template>
+

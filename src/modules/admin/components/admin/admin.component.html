@@ -1,0 +1,15 @@
+<mat-sidenav-container>
+  <!-- sidenav allowing user to navigate through different admin tabs -->
+  <mat-sidenav #snav [(opened)]="sideMenuOpened">
+    <app-sidenav (click)="closeMenu()"></app-sidenav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <mat-icon (click)="toggleMenu()" data-cy="menu-icon">menu</mat-icon>
+      <span>{{title$ | async}}</span>
+    </mat-toolbar>
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

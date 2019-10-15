@@ -1,0 +1,47 @@
+<mat-card>
+  <mat-card-title>Achats</mat-card-title>
+
+  <mat-accordion *ngIf="products$ | async as products">
+    <mat-expansion-panel *ngFor="let product of products">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ product.name }}</mat-panel-title>
+        <mat-panel-description *ngIf="product.purchase.transaction_id">
+          Acheté le {{ product.purchase.created_at | date:'dd/MM/yy' }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div fxLayoutGap="16px">
+        <a mat-flat-button color="primary" [href]="invoiceUrl(product.purchase.transaction_id)" target="_blank">
+          {{ 'Voir sur Stripe' }}
+          <mat-icon>launch</mat-icon>
+        </a>
+
+        <button mat-flat-button (click)="openExchangeProductDialog(product)">Échanger</button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>
+
+<ng-template #exchangeProduct>
+  <h3 mat-dialog-title>Échanger un produit</h3>
+  <div mat-dialog-content>
+    <p>
+      Échanger {{ selectedProduct.name }} contre :<br>
+      <ng-container *ngIf="newProduct; else noSelectedProduct">{{ newProduct.name }}</ng-container>
+      <ng-template #noSelectedProduct>(choisir un produit)</ng-template>
+    </p>
+
+    <mat-radio-group fxLayout="column"
+                     *ngIf="exchangeableProducts$ | async as exchangeableProducts"
+                     [(ngModel)]="newProduct">
+      <mat-radio-button *ngFor="let product of exchangeableProducts" [value]="product">
+        {{ product.name }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <div mat-dialog-actions fxLayoutGap="16px">
+    <button mat-flat-button (click)="resetExchangeProduct()">Annuler</button>
+    <button mat-flat-button color="primary" (click)="doExchangeProduct()">Valider</button>
+  </div>
+</ng-template>

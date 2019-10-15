@@ -1,0 +1,23 @@
+<mat-card *ngIf="user$ | async as user">
+  <mat-card-title>Actions</mat-card-title>
+  <mat-card-content fxLayoutGap="0" fxLayoutGap.gt-xs="60px" fxLayout="column" fxLayout.gt-xs="row">
+    <section fxFlex="100" fxFlex.gt-xs="50">
+      <h2 mat-card-subtitle>Réinitialiser le mot de passe</h2>
+
+      <button mat-stroked-button (click)="sendRecoveryEmail(user)" class="mr-1">Envoyer un email</button>
+      <button mat-stroked-button (click)="setPasswordTo123456(user)">Réinitialiser 123456</button>
+    </section>
+
+    <section fxFlex="100" fxFlex.gt-xs="50">
+      <h2 mat-card-subtitle>Autres</h2>
+      <button mat-stroked-button (click)="clearCache(user)" class="mr-1">Vider le cache</button>
+
+      <button *ngIf="!auth.xAsExist() && canUseAs(loggedUser$|async) || auth.xAsExist()"
+              mat-flat-button color="primary"
+              [disabled]="auth.xAsExist()"
+              (click)="loginAs(user)">
+        {{ !auth.xAsExist() ? 'Connexion en tant que ' + user.email : 'Connecté en tant que ' + user.email }}
+      </button>
+    </section>
+  </mat-card-content>
+</mat-card>

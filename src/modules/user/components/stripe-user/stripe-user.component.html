@@ -1,0 +1,19 @@
+<ng-container *ngIf="user$ | async as user">
+  <mat-card>
+    <mat-card-title>Profil Stripe</mat-card-title>
+
+    <mat-card-content>
+      <ng-container *ngIf="user.stripe_id; else noStripeAccount">
+        <a mat-flat-button
+           color="primary"
+           [href]="'https://dashboard.stripe.com/customers/' + user.stripe_id"
+           target="_blank">
+          Voir sur Stripe
+          <mat-icon>launch</mat-icon>
+        </a>
+      </ng-container>
+
+      <ng-template #noStripeAccount>Il n'y a pas de client Stripe associé à cet utilisateur</ng-template>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
