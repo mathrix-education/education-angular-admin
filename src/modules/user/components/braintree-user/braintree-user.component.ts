@@ -1,17 +1,20 @@
 import {Component} from '@angular/core';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
+import {UserState} from '../../../../states/user/user.state';
+import {User} from '@mathrix-education/education-api-sdk/models/user';
 
 @Component({
   selector: 'app--braintree-user',
   templateUrl: './braintree-user.component.html'
 })
 export class BraintreeUserComponent {
-  @Select(AdminState.selectedUser) user$: Observable<User>;
+  @Select(UserState.selectedUser) user$: Observable<User>;
 
   /**
    * Get the Braintree Customer URL
    */
   getCustomerUrl(user: User): string {
+    return '';
   }
 }

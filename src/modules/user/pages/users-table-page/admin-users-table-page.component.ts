@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
-import {UsersHttpService} from '../../../../_core/_services/api/http/users-http.service';
-import {PaginatedResponse} from '../../../../_core/_services/api/interfaces/paginated-response.interface';
-import {User} from '../../../../_core/_services/api/models/_interfaces/user.interface';
-import {AdminPageService} from '../../../admin/services/admin-page.service';
-import {DisplayService} from '../../../admin/services/display.service';
+import {PaginatedResponse, UsersEndpoint} from '@mathrix-education/education-api-sdk';
+import {User} from '@mathrix-education/education-api-sdk/models/user';
+// import {AdminPageService} from '../../../admin/services/admin-page.service';
+// import {DisplayService} from '../../../admin/services/display.service';
 
 @Component({
   selector: 'app-admin-users-table-page',
@@ -31,14 +30,12 @@ export class AdminUsersTablePageComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private usersHttp: UsersHttpService,
-    private display: DisplayService,
-    private adminPage: AdminPageService
+    private usersEndpoint: UsersEndpoint,
   ) {
   }
 
   ngOnInit() {
-    this.adminPage.editTitle('Utilisateurs');
+    // this.adminPage.editTitle('Utilisateurs');
   }
 
   /**
@@ -71,7 +68,7 @@ export class AdminUsersTablePageComponent implements OnInit {
         break;
     }
 
-    this.usersHttp.neoSearch(query, this.results.page, this.results.per_page, this.options).subscribe(results => {
+    this.usersEndpoint.list({query}).subscribe(results => {
       this.results = results;
       this.loading = false;
     });
@@ -79,7 +76,7 @@ export class AdminUsersTablePageComponent implements OnInit {
 
   /**
    * Highlight query in results.
-   * @param value
+   * @param value the value
    */
   highlight(value: string) {
     const query = this.searchForm.get('query').value;
@@ -90,7 +87,7 @@ export class AdminUsersTablePageComponent implements OnInit {
 
   /**
    * Emit the select user
-   * @param user
+   * @param user the selected user
    */
   selectUser(user: User) {
     this.router.navigate(['admin', 'users', user.id]);

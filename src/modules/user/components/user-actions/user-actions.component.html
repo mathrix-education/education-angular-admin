@@ -12,11 +12,11 @@
       <h2 mat-card-subtitle>Autres</h2>
       <button mat-stroked-button (click)="clearCache(user)" class="mr-1">Vider le cache</button>
 
-      <button *ngIf="!auth.xAsExist() && canUseAs(loggedUser$|async) || auth.xAsExist()"
+      <button *ngIf="true"
               mat-flat-button color="primary"
-              [disabled]="auth.xAsExist()"
+              [disabled]="true"
               (click)="loginAs(user)">
-        {{ !auth.xAsExist() ? 'Connexion en tant que ' + user.email : 'Connecté en tant que ' + user.email }}
+        {{ true ? 'Connexion en tant que ' + user.email : 'Connecté en tant que ' + user.email }}
       </button>
     </section>
   </mat-card-content>

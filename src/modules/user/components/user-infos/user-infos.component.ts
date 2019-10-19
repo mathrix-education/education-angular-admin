@@ -2,14 +2,15 @@ import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {debounceTime, distinctUntilChanged, filter, first, map, switchMap, tap} from 'rxjs/operators';
-import {AdminState} from '../../../../../stores/admin/admin.state';
-import {SetSelectedUser} from '../../../../../stores/admin/admin.state.actions';
-import {SessionState} from '../../../../../stores/session/session.state';
-import {UsersHttpService} from '../../../../_core/_services/api/http/users-http.service';
-import {UserHelper} from '../../../../_core/_services/api/models/_interfaces/user.helper';
-import {User} from '../../../../_core/_services/api/models/_interfaces/user.interface';
-import {NotificationService} from '../../../admin/services/notification.service';
+import {debounceTime, distinctUntilChanged, filter, map, switchMap, tap} from 'rxjs/operators';
+import {SetSelectedUser} from '../../../../states/user/user.actions';
+import {User} from '@mathrix-education/education-api-sdk/models/user';
+import {UsersEndpoint} from '@mathrix-education/education-api-sdk';
+import {UserState} from '../../../../states/user/user.state';
+import {AdminState} from "../../../../states/admin/admin.state";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {simplifiedScopes} from "./simplified.scopes";
+import {UserHelper} from '../../../../states/user/User.helper';
 
 
 /**
@@ -21,11 +22,22 @@ import {NotificationService} from '../../../admin/services/notification.service'
   styleUrls: ['./user-infos.component.scss']
 })
 export class UserInfosComponent implements OnInit, OnDestroy {
+
+  UserHelper = UserHelper;
+
+  constructor(
+    private store: Store,
+    private dialog: MatDialog,
+    private usersEndpoint: UsersEndpoint,
+    private snackbar: MatSnackBar
+  ) {
+  }
+
   /** can edit */
   @Input() editMode: boolean;
 
-  @Select(SessionState.user) loggedUser$: Observable<User>;
-  @Select(AdminState.selectedUser) user$: Observable<User>;
+  @Select(AdminState.user) loggedUser$: Observable<User>;
+  @Select(UserState.selectedUser) user$: Observable<User>;
 
   @ViewChild('customScopes', {static: false}) customScopesTemplate;
 
@@ -42,7 +54,7 @@ export class UserInfosComponent implements OnInit, OnDestroy {
       this.scopesModel.push({scope: '*', selected: user.scopes.includes('*')});
       Object.keys(this.simplifiedScopesModel).forEach(
         key => {
-          this.simplifiedScopesModel[key].selected = this.userHasAllScopes(user, this.simplifiedScopesModel[key].scopes);
+          this.simplifiedScopesModel[key].selected = UserInfosComponent.userHasAllScopes(user, this.simplifiedScopesModel[key].scopes);
         }
       );
     }),
@@ -60,58 +72,41 @@ export class UserInfosComponent implements OnInit, OnDestroy {
     }),
     filter(() => this.editMode),
     switchMap((user: User) => this.edit(user)),
-    tap(() => this.notification.send('Mise à jour réussie'))
+    tap(() => this.snackbar.open('Mise à jour réussie'))
   );
   /** The debounce subscription */
   private debounce;
 
-  /** access userHelper static methods in view*/ // TODO V5: To be removed and use store selector instead
-  UserHelper = UserHelper;
-
   scopesModel: { scope: string, selected: boolean }[];
-  /**simplifiedScopesModel: a list of simplified scopes for the admin panel */
-  simplifiedScopesModel = [
-    {group: 'Super Administrateur', scopes: ['*'], selected: false},
-    {group: 'Utilisateur', scopes: ['users:read', 'users:write', 'users:delete'], selected: false},
-    {
-      group: 'Commentaires',
-      scopes: ['comments:read', 'comments:write', 'comments:delete', 'reports:delete', 'reports:read', 'reports:write'],
-      selected: false
-    },
-    {
-      group: 'Contenu',
-      scopes: ['grades:delete', 'grades:write', 'disciplines:delete', 'disciplines:write',
-        'activities:delete', 'activities:read', 'activities:write',
-        'chapters:delete', 'chapters:read', 'chapters:write',
-        'files:delete', 'files:read', 'files:write',
-        'modules:delete', 'modules:read', 'modules:write', 'notions:delete',
-        'notions:read', 'notions:write'], selected: false
-    },
-    {
-      group: 'Blog',
-      scopes: ['posts:delete', 'posts:get', 'posts:write', 'categories:delete', 'categories:write', 'categories:read'],
-      selected: false
-    },
-    {group: 'Formations', scopes: ['products:delete', 'products:read', 'products:write'], selected: false},
-    {group: 'Live', scopes: ['settings:read', 'settings:write'], selected: false},
-    {group: 'Réductions', scopes: ['discounts:delete', 'discounts:read', 'discounts:write'], selected: false},
-  ];
+  /** A list of simplified scopes for the admin panel */
+  simplifiedScopesModel = simplifiedScopes;
 
 
-  constructor(
-    private store: Store,
-    private dialog: MatDialog,
-    private usersHttp: UsersHttpService,
-    private notification: NotificationService,
-  ) {
+  /**
+   * Assert that user has all the required scope for a group of scopes
+   * @param user the user
+   * @param scopes: the group of scopes
+   */
+  static userHasAllScopes(user: User, scopes: string[]) {
+    if (user.scopes && user.scopes.includes('*')) {
+      return true;
+    }
+
+    for (const scope of scopes) {
+      if (!user.scopes.includes(scope)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   ngOnInit(): void {
     // Load the application scopes
-    this.usersHttp.scopes().pipe(first()).subscribe(response => {
-      this.scopes = response.data;
-      this.debounce = this.debounce$.subscribe(u => console.log(u));
-    });
+    // this.usersEndpoint.read().pipe(first()).subscribe(response => {
+    //   this.scopes = response.data;
+    //   this.debounce = this.debounce$.subscribe(u => console.log(u));
+    // });
   }
 
   ngOnDestroy(): void {
@@ -130,7 +125,7 @@ export class UserInfosComponent implements OnInit, OnDestroy {
     user.scopes = this.scopesModel.filter(s => s.selected).map(s => s.scope);
     this.simplifiedScopesModel.forEach(
       scopeEntity => {
-        scopeEntity.selected = this.userHasAllScopes(user, scopeEntity.scopes);
+        scopeEntity.selected = UserInfosComponent.userHasAllScopes(user, scopeEntity.scopes);
       }
     );
   }
@@ -158,26 +153,6 @@ export class UserInfosComponent implements OnInit, OnDestroy {
     this.patch('scopes', newScopes);
   }
 
-
-  /**
-   * Assert that user has all the required scope for a group of scopes
-   * @param user
-   * @param scopes: the group of scopes
-   */
-  userHasAllScopes(user: User, scopes: string[]) {
-    if (user.scopes && user.scopes.includes('*')) {
-      return true;
-    }
-
-    for (const scope of scopes) {
-      if (!user.scopes.includes(scope)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
   openCustomScopesDialog() {
     this.dialog.open(this.customScopesTemplate);
   }
@@ -187,7 +162,7 @@ export class UserInfosComponent implements OnInit, OnDestroy {
     patch[property] = value;
 
     this.store.dispatch(new SetSelectedUser({
-      ...this.store.selectSnapshot(AdminState.selectedUser),
+      ...this.store.selectSnapshot(UserState.selectedUser),
       ...patch
     }));
   }
@@ -195,7 +170,7 @@ export class UserInfosComponent implements OnInit, OnDestroy {
 
   /**
    * Edit user
-   * @param user
+   * @param user The user to edit.
    */
   edit(user: User): Observable<User> {
     const payload = {...user};
@@ -205,7 +180,7 @@ export class UserInfosComponent implements OnInit, OnDestroy {
     const patchedScopes = this.scopesModel.filter(s => s.selected).map(s => s.scope);
     payload.scopes = patchedScopes.includes('*') ? ['*'] : patchedScopes;
 
-    return this.usersHttp.edit<User>(payload).pipe(
+    return this.usersEndpoint.update(user.id, user).pipe(
       tap(response => {
         this.store.dispatch(new SetSelectedUser(response.data));
       }),

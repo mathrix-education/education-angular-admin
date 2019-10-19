@@ -1,18 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Select, Store} from '@ngxs/store';
+import {DeselectUser, SelectUser} from '../../../../states/user/user.actions';
+import {UserState} from '../../../../states/user/user.state';
 import {Observable} from 'rxjs';
-import {AdminState} from '../../../../../stores/admin/admin.state';
-import {DeselectUser, SelectUser} from '../../../../../stores/admin/admin.state.actions';
-import {User} from '../../../../_core/_services/api/models/_interfaces/user.interface';
+import {User} from '@mathrix-education/education-api-sdk/models/user';
 
 @Component({
-  selector: 'app-admin-user-profile-page',
-  templateUrl: './admin-user-profile-page.component.html',
-  styleUrls: ['./admin-user-profile-page.component.scss']
+  selector: 'app-user-profile-page',
+  templateUrl: './profile-page.component.html',
+  styleUrls: ['./profile-page.component.scss']
 })
-export class AdminUserProfilePageComponent implements OnInit {
-  @Select(AdminState.selectedUser) user$: Observable<User>;
+export class ProfilePageComponent implements OnInit {
+
+  @Select(UserState.selectedUser) user$: Observable<User>;
 
   constructor(private router: Router, private route: ActivatedRoute, private store: Store) {
   }
