@@ -12,7 +12,11 @@ import {SidenavComponent} from './components/sidenav/sidenav.component';
 const routes: Route[] = [{
   path: 'user',
   loadChildren: () => import('../user/user.module').then(m => m.UserModule)
-}];
+},
+  {
+    path: '',
+    redirectTo: 'user'
+  }];
 
 @NgModule({
   declarations: [
@@ -25,9 +29,8 @@ const routes: Route[] = [{
     MatListModule,
     MatSidenavModule,
     MatToolbarModule,
-    RouterModule,
     RouterModule.forChild(routes)
-  ]
+  ],
 })
 export class AdminModule {
 }

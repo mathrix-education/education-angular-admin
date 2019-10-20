@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  api: 'https://api.mathrix.fr',
   env: 'master',
   braintreeUrl: 'https://braintreegateway.com',
   braintreeMerchantId: 'rzyffphs7hk49gnj',

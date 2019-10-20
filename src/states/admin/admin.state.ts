@@ -18,4 +18,9 @@ export class AdminState {
     return state.user;
   }
 
+  @Selector()
+  public static isLogged(state: AdminStateModel) {
+    return state.user && state.user.id;
+  }
+
 }

@@ -1,5 +1,8 @@
 import {Component, HostBinding, Input} from '@angular/core';
 import {Observable, of} from 'rxjs';
+import {AdminState} from '../../../../states/admin/admin.state';
+import {User} from '@mathrix-education/education-api-sdk/models/user';
+import {Select} from '@ngxs/store';
 
 @Component({
   selector: 'app-sidenav',
@@ -11,7 +14,7 @@ export class SidenavComponent {
   @HostBinding('class.floating') @Input() floating;
 
   /** the current logged user */
-  // @Select(SessionState.user) user$: Observable<User>;
+  @Select(AdminState.user) user$: Observable<User>;
 
 
   // constructor(private auth: AuthTokensService, private store: Store) {

@@ -6,8 +6,8 @@ import {SubscriptionsListComponent} from './components/subscriptions-list/subscr
 import {UserActionsComponent} from './components/user-actions/user-actions.component';
 import {UserInfosComponent} from './components/user-infos/user-infos.component';
 import {UserPurchasesListComponent} from './components/user-purchases-list/user-purchases-list.component';
-import {SubscriptionStatusPipe} from "./pipes/subscription-status/subscription-status.pipe";
-import {ProfilePageComponent} from "./pages/user-profile-page/profile-page.component";
+import {SubscriptionStatusPipe} from './pipes/subscription-status/subscription-status.pipe';
+import {ProfilePageComponent} from './pages/user-profile-page/profile-page.component';
 import {PlanPipe} from './pipes/plan/plan.pipe';
 import {MatCardModule} from '@angular/material/card';
 import {MatExpansionModule} from '@angular/material/expansion';
