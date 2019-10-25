@@ -9,6 +9,7 @@ export const environment = {
   braintreeUrl: 'https://braintreegateway.com',
   braintreeMerchantId: '7mjzzwmq2thkzy42',
   sentry: 'https://4b85593f85fa4df1a5c45c2f629a246c@sentry.mathrix.tech/6',
+  token: 'matrix-v4-token',
   release: 'RELEASE_ALIAS',
 };
 

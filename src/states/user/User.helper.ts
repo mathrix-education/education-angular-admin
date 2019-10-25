@@ -27,7 +27,7 @@ export class UserHelper {
    * User has moderator access
    */
   static hasModeratorAccess(user) {
-    return user.scopes !== undefined && (user.scopes[0] !== undefined || this.hasAdminAccess(user));
+    return user && user.scopes !== undefined && (user.scopes[0] !== undefined || this.hasAdminAccess(user));
   }
 
   /**

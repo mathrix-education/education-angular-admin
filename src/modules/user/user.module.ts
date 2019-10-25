@@ -14,13 +14,32 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatRadioModule} from '@angular/material/radio';
 import {FlexModule} from '@angular/flex-layout';
+import {UsersTablePageComponent} from './pages/users-table-page/users-table-page.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatTableModule} from '@angular/material/table';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {SafePipe} from './pipes/safe/safe.pipe';
+import {Route, RouterModule} from '@angular/router';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
+const routes: Route[] = [{
+  path: '',
+  component: UsersTablePageComponent
+},
+  {
+    path: ':id',
+    component: ProfilePageComponent
+  }
+];
 
 
 @NgModule({
@@ -30,10 +49,12 @@ import {FlexModule} from '@angular/flex-layout';
     SubscriptionsListComponent,
     SubscriptionStatusPipe,
     PlanPipe,
-    ProfilePageComponent,
     UserActionsComponent,
     UserInfosComponent,
-    UserPurchasesListComponent
+    UserPurchasesListComponent,
+    UsersTablePageComponent,
+    ProfilePageComponent,
+    SafePipe
   ],
   imports: [
     CommonModule,
@@ -48,8 +69,17 @@ import {FlexModule} from '@angular/flex-layout';
     MatButtonModule,
     MatDialogModule,
     MatRadioModule,
-    FlexModule
+    MatSnackBarModule,
+    FlexModule,
+    MatToolbarModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatProgressBarModule,
+    MatSortModule,
+    MatPaginatorModule,
+    RouterModule.forChild(routes)
   ]
 })
+
 export class UserModule {
 }

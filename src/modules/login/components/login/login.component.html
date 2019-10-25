@@ -1,27 +1,32 @@
-<mat-card>
-  <mat-card-title>Login</mat-card-title>
-  <mat-card-content>
-    <form [formGroup]="form" (ngSubmit)="submit()">
-      <p>
-        <mat-form-field>
-          <input type="text" matInput placeholder="Username" formControlName="username">
-        </mat-form-field>
-      </p>
+<div class="login">
+  <form [formGroup]="form" (ngSubmit)="login()" *ngIf="!isLoading">
+    <!-- email -->
+    <mat-form-field appearance="outline" fxFill>
+      <mat-label class="input-label">Email</mat-label>
 
-      <p>
-        <mat-form-field>
-          <input type="password" matInput placeholder="Password" formControlName="password">
-        </mat-form-field>
-      </p>
+      <input matInput placeholder="Email ou nom d'utilisateur"
+             formControlName="email"
+             type="email">
+    </mat-form-field>
 
-      <p *ngIf="false" class="error">
-        ERROR
-      </p>
+    <!-- password -->
+    <mat-form-field appearance="outline" fxFill>
+      <mat-label class="input-label">Mot de passe</mat-label>
 
-      <div class="button">
-        <button type="submit" mat-button>Login</button>
-      </div>
+      <input matInput placeholder="Mot de passe"
+             formControlName="password"
+             type="password">
+    </mat-form-field>
 
-    </form>
-  </mat-card-content>
-</mat-card>
+    <!--Login button -->
+    <button mat-raised-button color="primary" fxFill
+            data-cy="login-submit"
+            type="submit"
+            [disabled]="form.status != 'VALID'">
+      Connexion
+    </button>
+  </form>
+
+  <mat-progress-spinner color="primary" mode="indeterminate" *ngIf="isLoading"></mat-progress-spinner>
+</div>
+

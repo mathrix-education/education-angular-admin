@@ -21,7 +21,7 @@ export class ProfilePageComponent implements OnInit {
   ngOnInit() {
     // Select the user
     if (this.route.snapshot.params.id) {
-      this.store.dispatch(new SelectUser(+this.route.snapshot.params.id));
+      this.store.dispatch(new SelectUser(this.route.snapshot.params.id));
     } else {
       this.back();
     }

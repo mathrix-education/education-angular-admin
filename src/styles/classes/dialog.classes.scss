@@ -1,0 +1,20 @@
+/**
+Make a material dialog full screen
+ */
+.fullscreen-dialog {
+  height: 100vh;
+  // sass-lint:disable no-important
+  max-width: 100vw !important;
+  width: 100vw;
+
+  .mat-dialog-content {
+    max-height: unset;
+  }
+}
+
+// Remove white background
+.invisible-dialog {
+  .mat-dialog-container {
+    background: none;
+  }
+}

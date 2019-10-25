@@ -1,0 +1,20 @@
+// Import material theming functions
+@import '~@angular/material/theming';
+@import './web.variables';
+@import 'src/styles/mixins/web.mixins';
+//----- COLORS
+@import "../commons/colors";
+//------- TYPOGRAPHY
+@import "./typography";
+
+
+
+//------- THEMING
+@include mat-core($custom-typography);
+
+
+$theme: mat-light-theme($primary-palette, $accent-palette);
+@include angular-material-theme($theme);
+
+
+

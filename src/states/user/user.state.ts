@@ -12,6 +12,8 @@ import {
 } from './user.actions';
 import {tap} from 'rxjs/operators';
 import {UsersEndpoint} from '@mathrix-education/education-api-sdk';
+import {HttpClient} from '@angular/common/http';
+import {SentryErrorHandler} from '../../modules/bootstrap/sentry-error-handler';
 
 export interface UserStateModel {
   selectedUser: User;
@@ -63,24 +65,24 @@ export class UserState {
 
   @Action(SelectUser)
   selectUserId(context: StateContext<UserStateModel>, {userId}: SelectUser) {
-    return this.usersEndpoint.read(userId).pipe(tap((response => {
-      context.dispatch(new SetSelectedUser(response.data));
-    })));
+    // return this.usersEndpoint.read(userId).pipe(tap((response => {
+    //   context.dispatch(new SetSelectedUser(response.data));
+    // })));
   }
 
   @Action(SelectUserSubscriptions)
   selectUserSubscriptions(context: StateContext<UserStateModel>, {userId}: SelectUserSubscriptions) {
-    return this.usersEndpoint.listSubscriptions(userId).pipe(tap(response => {
-      context.patchState({selectedUserSubscriptions: response.data});
-    }));
+    // return this.usersEndpoint.listSubscriptions(userId).pipe(tap(response => {
+    //   context.patchState({selectedUserSubscriptions: response.data});
+    // }));
   }
 
   @Action(SelectUserPurchases)
   selectUserPurchases(context: StateContext<UserStateModel>, {userId}: SelectUserPurchases) {
-    return this.usersEndpoint.listPurchases(userId).pipe(tap(response => {
-      // @ts-ignore
-      context.patchState({selectedUserPurchases: response.data});
-    }));
+    // return this.usersEndpoint.listPurchases(userId).pipe(tap(response => {
+    //   // @ts-ignore
+    //   context.patchState({selectedUserPurchases: response.data});
+    // }));
   }
 
   @Action(DeselectUser)

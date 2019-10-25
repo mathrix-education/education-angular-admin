@@ -10,7 +10,7 @@ import {AdminState} from '../../states/admin/admin.state';
 import {UserState} from '../../states/user/user.state';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {environment} from '../../environments/environment';
-import {EducationAPISDKModule, UsersEndpoint} from '@mathrix-education/education-api-sdk';
+import {AuthEndpoint, EducationAPISDKModule} from '@mathrix-education/education-api-sdk';
 
 
 @NgModule({
@@ -21,15 +21,17 @@ import {EducationAPISDKModule, UsersEndpoint} from '@mathrix-education/education
     BrowserModule,
     BrowserAnimationsModule,
     BootstrapRoutingModule,
-    EducationAPISDKModule.withConfig({baseUrl: environment.api}),
+    EducationAPISDKModule.withConfig({authTokenName: environment.token, baseUrl: environment.api}),
     NgxsModule.forRoot([AdminState, UserState]),
     NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}),
-    NgxsStoragePluginModule.forRoot()
+    NgxsStoragePluginModule.forRoot(),
+
   ],
   providers: [{
     provide: ErrorHandler,
     useClass: SentryErrorHandler
-  }],
+  },
+    AuthEndpoint],
   bootstrap: [RootComponent]
 })
 export class BootstrapModule {

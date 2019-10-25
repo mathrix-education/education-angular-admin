@@ -1,10 +1,12 @@
-import {CanActivate, Router} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {UserHelper} from '../../../states/user/User.helper';
 import {AdminState} from '../../../states/admin/admin.state';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AdminGuard implements CanActivate {
 
   constructor(
@@ -18,9 +20,8 @@ export class AdminGuard implements CanActivate {
    * @return whether the user is allowed to go on the admin protected routes
    */
   canActivate(): boolean {
-    console.log('activate');
     const user = this.store.selectSnapshot(AdminState.user);
-    if (UserHelper.hasModeratorAccess(user)) { // TODO has moderator
+    if (UserHelper.hasModeratorAccess(user)) {
       return true;
     } else {
       this.router.navigate(['login']);

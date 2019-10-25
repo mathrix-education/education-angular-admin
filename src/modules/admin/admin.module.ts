@@ -9,21 +9,22 @@ import {MatIconModule} from '@angular/material/icon';
 import {Route, RouterModule} from '@angular/router';
 import {SidenavComponent} from './components/sidenav/sidenav.component';
 
-const routes: Route[] = [{
-  path: 'user',
-  loadChildren: () => import('../user/user.module').then(m => m.UserModule)
-},
+const routes: Route[] = [
   {
-    path: '',
-    redirectTo: 'user'
-  }];
+    path: '', component: AdminComponent,
+
+    children: [
+      {path: 'users', loadChildren: () => import('../user/user.module').then(m => m.UserModule)},
+      {path: '', redirectTo: 'users'}
+    ]
+  },
+];
 
 @NgModule({
   declarations: [
     AdminComponent,
     SidenavComponent],
   imports: [
-    BootstrapModule,
     CommonModule,
     MatIconModule,
     MatListModule,

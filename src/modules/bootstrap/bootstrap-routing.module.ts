@@ -3,6 +3,7 @@ import {Route, RouterModule} from '@angular/router';
 import {AdminGuard} from './guards/admin.guard';
 import {LoginGuard} from './guards/login.guard';
 import {LoginComponent} from '../login/components/login/login.component';
+import {environment} from '../../environments/environment';
 
 const routes: Route[] = [
   {
@@ -23,7 +24,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [],
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {enableTracing: !environment.production})],
   exports: [RouterModule]
 })
 export class BootstrapRoutingModule {

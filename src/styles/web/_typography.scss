@@ -1,0 +1,48 @@
+@import "./web.variables";
+
+// TYPOGRAPHY: Define custom theme for material display: this is the only place to edit general settings of typography
+// the whole application is wrapped inside a <div class=section>, please use standard html tag such as <h1> or <h2> to
+// apply the relevant theme on your element.
+// No margin is provided in the typography, you have to apply margin, padding by yourself (override in a class)
+// for further detail about customisation: please visit  @ https://material.angular.io/guide/typography
+
+/**
+ * Museo Sans Rounded Font
+ */
+@mixin font($font-family, $weight, $src:$weight) {
+  font-family: $font-family;
+  src: url('/assets/fonts/museo-sans/museosans_#{$src}.ttf') format('truetype'),
+  url('/assets/fonts/museo-sans/museosans_#{$src}.woff') format('woff');
+  font-weight: $weight;
+  font-style: normal;
+}
+
+@font-face {
+  @include font('Museo Sans Rounded', normal, 300);
+}
+
+@font-face {
+  @include font('Museo Sans Rounded', bold, 700);
+}
+
+@font-face {
+  @include font('Museo Sans Rounded', 100);
+}
+
+@font-face {
+  @include font('Museo Sans Rounded', 300);
+}
+
+@font-face {
+  @include font('Museo Sans Rounded', 500);
+}
+
+@font-face {
+  @include font('Museo Sans Rounded', 700);
+}
+
+@font-face {
+  @include font('Museo Sans Rounded', 900);
+}
+
+$custom-typography: mat-typography-config($font-family: 'Museo Sans Rounded');

@@ -3,15 +3,13 @@ import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
 import {PaginatedResponse, UsersEndpoint} from '@mathrix-education/education-api-sdk';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
-// import {AdminPageService} from '../../../admin/services/admin-page.service';
-// import {DisplayService} from '../../../admin/services/display.service';
 
 @Component({
-  selector: 'app-admin-users-table-page',
-  templateUrl: './admin-users-table-page.component.html',
-  styleUrls: ['./admin-users-table-page.component.scss']
+  selector: 'app-users-table-page',
+  templateUrl: './users-table-page.component.html',
+  styleUrls: ['./users-table-page.component.scss']
 })
-export class AdminUsersTablePageComponent implements OnInit {
+export class UsersTablePageComponent implements OnInit {
   displayedColumns = ['id', 'firstname', 'lastname', 'username', 'email', 'grade_id', 'level', 'provider', 'created_at'];
   options = {};
   results: PaginatedResponse<User> = {
@@ -86,7 +84,7 @@ export class AdminUsersTablePageComponent implements OnInit {
 
 
   /**
-   * Emit the select user
+   * Redirect to the selected user
    * @param user the selected user
    */
   selectUser(user: User) {

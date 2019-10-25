@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {UserState} from '../../../../states/user/user.state';

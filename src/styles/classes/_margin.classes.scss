@@ -1,0 +1,34 @@
+@import "../mixins/margin.mixins";
+
+@for $i from 0 through 8 {
+  .m-#{$i} {
+    @include margin($i);
+  }
+
+  .mx-#{$i} {
+    @include margin-x($i);
+  }
+
+  .my-#{$i} {
+    @include margin-y($i);
+  }
+
+  .mt-#{$i} {
+    @include margin-top($i);
+  }
+
+  .mb-#{$i} {
+    @include margin-bottom($i);
+  }
+
+  .ml-#{$i} {
+    @include margin-left($i);
+  }
+
+  .mr-#{$i} {
+    @include margin-right($i);
+  }
+}
+.mx-auto {
+  margin: auto;
+}

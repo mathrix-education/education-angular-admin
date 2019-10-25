@@ -5,14 +5,15 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
+import {FlexModule} from '@angular/flex-layout';
 
-export const routes: Routes = [{
-  path: '',
-  component: LoginComponent
-},
+export const routes: Routes = [
   {
-    path: '**',
-    redirectTo: ''
+    path: '',
+    component: LoginComponent
   }
 ];
 
@@ -21,10 +22,14 @@ export const routes: Routes = [{
   declarations: [LoginComponent],
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forChild(routes),
     MatFormFieldModule,
     MatCardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatInputModule,
+    FlexModule
   ],
   exports: [LoginComponent]
 })

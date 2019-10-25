@@ -3,7 +3,9 @@ import {Injectable} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {AdminState} from '../../../states/admin/admin.state';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LoginGuard implements CanActivate {
 
   constructor(
