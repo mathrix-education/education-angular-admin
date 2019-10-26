@@ -15,7 +15,9 @@ const routes: Route[] = [
 
     children: [
       {path: 'users', loadChildren: () => import('../user/user.module').then(m => m.UserModule)},
-      {path: '', redirectTo: 'users'}
+      {path: 'content', loadChildren: () => import('../content/content.module').then(m => m.ContentModule)},
+      {path: 'training', loadChildren: () => import('../training/training.module').then(m => m.TrainingModule)}
+      {path: '', redirectTo: 'users', pathMatch: 'full'}
     ]
   },
 ];

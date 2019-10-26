@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {Route, RouterModule} from '@angular/router';
 import {AdminGuard} from './guards/admin.guard';
 import {LoginGuard} from './guards/login.guard';
-import {LoginComponent} from '../login/components/login/login.component';
 import {environment} from '../../environments/environment';
 
 const routes: Route[] = [
@@ -15,10 +14,6 @@ const routes: Route[] = [
     path: 'login',
     canActivate: [LoginGuard],
     loadChildren: () => import('../login/login.module').then(m => m.LoginModule)
-  },
-  {
-    path: 'ss',
-    component: LoginComponent
   }
 ];
 

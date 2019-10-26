@@ -31,10 +31,11 @@ import {SafePipe} from './pipes/safe/safe.pipe';
 import {Route, RouterModule} from '@angular/router';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
-const routes: Route[] = [{
-  path: '',
-  component: UsersTablePageComponent
-},
+const routes: Route[] = [
+  {
+    path: '',
+    component: UsersTablePageComponent
+  },
   {
     path: ':id',
     component: ProfilePageComponent

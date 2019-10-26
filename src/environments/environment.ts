@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: 'https://dev.api.mathrix.fr',
+  api: 'https://next.api.mathrix.fr',
   env: 'dev',
   braintreeUrl: 'https://braintreegateway.com',
   braintreeMerchantId: '7mjzzwmq2thkzy42',

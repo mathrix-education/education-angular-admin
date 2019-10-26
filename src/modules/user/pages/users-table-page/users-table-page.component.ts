@@ -88,6 +88,7 @@ export class UsersTablePageComponent implements OnInit {
    * @param user the selected user
    */
   selectUser(user: User) {
+    console.log('meur', user.id);
     this.router.navigate(['admin', 'users', user.id]);
   }
 }

@@ -1,0 +1,34 @@
+<mat-card>
+
+  <mat-tab-group #tabGroup animationDuration="0ms" (selectedIndexChange)="selectedIndexChange($event)">
+
+    <!-- Formations -->
+    <mat-tab [label]="trainingCreator.selected.training? trainingCreator.selected.training.name :'Formations'">
+      <ng-container *ngIf="selectedTabIndex === 0">
+        <app-content-creator-training (nextTab)="selectTab(1)"></app-content-creator-training>
+
+        <h4 class="my-4">Upsell Premium</h4>
+
+        <app-content-creator-premium-upsell></app-content-creator-premium-upsell>
+
+        <h4 class="my-4">Packs</h4>
+
+        <app-content-creator-pack></app-content-creator-pack>
+      </ng-container>
+
+    </mat-tab>
+
+    <!-- Sections -->
+    <mat-tab [label]="trainingCreator.selected.section?  trainingCreator.selected.section.name: 'Sections'">
+      <app-content-creator-training-section *ngIf="selectedTabIndex === 1"
+                                            (prevTab)="selectTab(0)"
+                                            (nextTab)="selectTab(2)"></app-content-creator-training-section>
+    </mat-tab>
+
+    <!-- Leçons -->
+    <mat-tab [label]="'Leçons'">
+      <app-content-creator-training-lesson *ngIf="selectedTabIndex === 2"
+                                           (prevTab)="selectTab(1)"></app-content-creator-training-lesson>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>
