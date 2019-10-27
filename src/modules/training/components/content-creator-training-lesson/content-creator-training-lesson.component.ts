@@ -4,27 +4,21 @@ import {MatDialog} from '@angular/material';
 import {Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/internal/operators/switchMap';
 import {map} from 'rxjs/operators';
-import {ArrayHelper} from '../../../../../../helpers/array.helper';
-import {Empty} from '../../../../../../helpers/empty.helper';
-import {ModulesHttpService} from '../../../../../_core/_services/api/http/modules-http.service';
-import {ProductsHttpService} from '../../../../../_core/_services/api/http/products-http.service';
-import {DataResponse} from '../../../../../_core/_services/api/interfaces/data.response';
-import {Lesson} from '../../../../../_core/_services/api/models/_interfaces/lesson.interface';
-import {BaseModuleInterface} from '../../../../../_core/_services/api/models/_modules/interfaces/base-module.interface';
-import {ChainHttpService} from '../../../../../_core/_services/api/http/chain-http.service';
-import {DisplayService} from '../../../services/display.service';
-import {TrainingCreatorService} from '../../../services/training-creator.service';
-import {BaseEditorComponent} from '../../base-editor/base-editor.component';
+import {ModulesEndpoint, ProductsEndpoint} from '@mathrix-education/education-api-sdk';
+import {BaseEditorComponent} from '../base-editor/base-editor.component';
+import {Module} from '@mathrix-education/education-api-sdk/models/module';
+import {Product} from '@mathrix-education/education-api-sdk/models/product';
+
 
 @Component({
   selector: 'app-content-creator-training-lesson',
   templateUrl: './content-creator-training-lesson.component.html'
 })
 
-export class ContentCreatorTrainingLessonComponent extends BaseEditorComponent {
+export class ContentCreatorTrainingLessonComponent extends BaseEditorComponent<Module> {
 
 
-  lesson: Lesson[] = [];
+  lesson: Product[] = [];
   displayedColumns = ['name', 'slug', 'actions'];
 
   policy = {
@@ -35,32 +29,30 @@ export class ContentCreatorTrainingLessonComponent extends BaseEditorComponent {
     visible: true
   };
 
-  addForm: FormGroup = this.formBuilder.group({...Empty.lesson, parent_id: this.trainingCreator.selected.section.id});
+  addForm: FormGroup;
+  // addForm: FormGroup = this.formBuilder.group({...Empty.lesson, parent_id: this.trainingCreator.selected.section.id});
   sub1: Subscription;
 
   constructor(
-    private productsHttp: ProductsHttpService,
-    private modulesHttp: ModulesHttpService,
-    private trainingCreator: TrainingCreatorService,
+    private productsHttp: ProductsEndpoint,
+    private modulesEndpoint: ModulesEndpoint,
+    private modulesHttp: ModulesEndpoint,
     protected formBuilder: FormBuilder,
-    protected chainHttp: ChainHttpService,
-    protected dialog: MatDialog,
-    private moduleHttp: ModulesHttpService,
-    private display: DisplayService
+    protected dialog: MatDialog
   ) {
-    super(productsHttp.recursive(trainingCreator.selected.section.id).pipe(map(d => ArrayHelper.sortByOrder(d.data.children))), productsHttp, formBuilder, dialog, chainHttp);
+    super(modulesEndpoint, productsHttp.recursive(3), formBuilder, dialog);
   }
 
-  selectElement(lesson: Lesson) {
-    this.trainingCreator.select('lesson', lesson);
-    this.sub1 = this.moduleHttp.get<BaseModuleInterface>(lesson.module.id).subscribe((response: DataResponse<BaseModuleInterface>) => {
-      this.display.showModuleEditor(response.data);
-    });
+  selectElement(lesson: Module) {
+    // this.trainingCreator.select('lesson', lesson);
+    // this.sub1 = this.moduleHttp.read(lesson.module.id).subscribe((response: DataResponse<BaseModuleInterface>) => {
+    //   this.display.showModuleEditor(response.data);
+    // });
   }
 
   add() {
-    this.modulesHttp.add(Empty.module).pipe(
-      switchMap((module: DataResponse<BaseModuleInterface>) => this.productsHttp.add(Object.assign(this.addForm.value, {module_id: module.data.id}))))
-      .subscribe(() => this.reloadData());
+    // this.modulesHttp.add(Empty.module).pipe(
+    //   switchMap((module: DataResponse<BaseModuleInterface>) => this.productsHttp.add(Object.assign(this.addForm.value, {module_id: module.data.id}))))
+    //   .subscribe(() => this.reloadData());
   }
 }

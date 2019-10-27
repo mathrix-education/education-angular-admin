@@ -33,8 +33,6 @@ export class TrainingEditorPageComponent implements OnInit {
 
   @ViewChild('tabGroup', {static: true}) tabGroup: MatTabGroup;
 
-  constructor(public trainingCreator: TrainingCreatorService) {
-  }
 
   ngOnInit() {
     //this.adminPage.editTitle('Formations');

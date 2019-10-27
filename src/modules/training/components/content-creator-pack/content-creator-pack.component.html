@@ -1,8 +1,8 @@
-<app-rest-editor [dataSource]="dataSource"
-                 [policy]="policy"
-                 [displayedColumns]="displayedColumns"
-                 (edit)="startEdit($event)"
-                 (add)="startAdd()" (visible)="visible($event)" (delete)="delete($event)">
+<rest-editor [dataSource]="dataSource"
+             [policy]="policy"
+             [displayedColumns]="displayedColumns"
+             (edit)="startEdit($event)"
+             (add)="startAdd()" (visible)="visible($event)" (delete)="delete($event)">
   <!-- name column -->
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
@@ -34,7 +34,7 @@
       <mat-icon *ngIf="element.buyable" style="color: darkgreen">check_circle</mat-icon>
     </mat-cell>
   </ng-container>
-</app-rest-editor>
+</rest-editor>
 
 
 <!-- add dialog -->
@@ -99,10 +99,9 @@
     <mat-slide-toggle formControlName="buyable">Achetable</mat-slide-toggle>
 
     <mat-selection-list #individualProducts>
-      <mat-list-option checkboxPosition="left"
+      <mat-list-option *ngFor="let training of trainings" checkboxPosition="left"
                        [value]="training"
-                       [selected]="trainingIsInPack(training)"
-                       *ngFor="let training of trainings">
+                       [selected]="trainingIsInPack(training)">
               <span matLine>{{training.name}}
                 <span class="price float-right">{{training.price | price}}</span>
               </span>

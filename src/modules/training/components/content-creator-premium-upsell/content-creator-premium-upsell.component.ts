@@ -2,22 +2,20 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {map} from 'rxjs/operators';
-import {Empty} from '../../../../../../helpers/empty.helper';
-import {ProductsHttpService} from '../../../../../_core/_services/api/http/products-http.service';
-import {Training} from '../../../../../_core/_services/api/models/_interfaces/training.interface';
-import {ChainHttpService} from '../../../../../_core/_services/api/http/chain-http.service';
-import {TrainingCreatorService} from '../../../services/training-creator.service';
-import {BaseEditorComponent} from '../../base-editor/base-editor.component';
+import {BaseEditorComponent} from '../base-editor/base-editor.component';
+import {Product} from '@mathrix-education/education-api-sdk/models/product';
+import {ProductsEndpoint} from '@mathrix-education/education-api-sdk';
+
 
 @Component({
   selector: 'app-content-creator-premium-upsell',
   templateUrl: './content-creator-premium-upsell.component.html'
 })
 
-export class ContentCreatorPremiumUpsellComponent extends BaseEditorComponent {
+export class ContentCreatorPremiumUpsellComponent extends BaseEditorComponent<Product> {
 
 
-  trainings: Training[] = [];
+  trainings: Product[] = [];
   displayedColumns = ['name', 'slug', 'description', 'price', 'buyable', 'actions'];
 
   policy = {
@@ -26,15 +24,14 @@ export class ContentCreatorPremiumUpsellComponent extends BaseEditorComponent {
     delete: true,
   };
 
-  addForm: FormGroup = this.formBuilder.group(Object.assign({...Empty.training}, {type: 'premium', slug: '', buyable: true}));
+  addForm: FormGroup = this.formBuilder.group(Object.assign({}, {type: 'premium', slug: '', buyable: true}));
 
   constructor(
-    private productsHttp: ProductsHttpService,
+    private productsEndpoint: ProductsEndpoint,
     protected formBuilder: FormBuilder,
-    protected chainHttp: ChainHttpService,
     protected dialog: MatDialog
   ) {
-    super(productsHttp.byTypes(['all'], true).pipe(map(products => products.filter(product => product.type === 'premium'))), productsHttp, formBuilder, dialog, chainHttp);
+    super(productsEndpoint, productsEndpoint.listByType(['all']), formBuilder, dialog);
   }
 
 }

@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {AdminComponent} from './components/admin/admin.component';
-import {BootstrapModule} from '../bootstrap/bootstrap.module';
 import {CommonModule} from '@angular/common';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -12,11 +11,10 @@ import {SidenavComponent} from './components/sidenav/sidenav.component';
 const routes: Route[] = [
   {
     path: '', component: AdminComponent,
-
     children: [
       {path: 'users', loadChildren: () => import('../user/user.module').then(m => m.UserModule)},
       {path: 'content', loadChildren: () => import('../content/content.module').then(m => m.ContentModule)},
-      {path: 'training', loadChildren: () => import('../training/training.module').then(m => m.TrainingModule)}
+      {path: 'training', loadChildren: () => import('../training/training.module').then(m => m.TrainingModule)},
       {path: '', redirectTo: 'users', pathMatch: 'full'}
     ]
   },

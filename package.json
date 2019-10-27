@@ -20,6 +20,7 @@
     "@angular/platform-browser": "8.2.10",
     "@angular/platform-browser-dynamic": "8.2.10",
     "@mathrix-education/education-api-sdk": "1.0.0-dims-endpoints-6166039",
+    "@mathrix-education/rest-editor": "1.0.0",
     "@angular/router": "8.2.10",
     "@ngxs/router-plugin": "3.5.1",
     "@ngxs/storage-plugin": "3.5.1",

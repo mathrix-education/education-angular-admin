@@ -1,12 +1,12 @@
-<app-rest-editor [dataSource]="dataSource"
-                 [policy]="policy"
-                 [displayedColumns]="displayedColumns"
-                 (selectedElement)="selectElement($event)"
-                 (add)="startAdd()"
-                 (edit)="startEdit($event)"
-                 (move)="move($event)"
-                 (delete)="delete($event)"
-                 (visible)="visible($event)"
+<rest-editor [dataSource]="dataSource"
+             [policy]="policy"
+             [displayedColumns]="displayedColumns"
+             (selectedElement)="selectElement($event)"
+             (add)="startAdd()"
+             (edit)="startEdit($event)"
+             (move)="move($event)"
+             (delete)="delete($event)"
+             (visible)="visible($event)"
 >
   <!-- name column -->
   <ng-container matColumnDef="name">
@@ -21,7 +21,7 @@
   </ng-container>
 
 
-</app-rest-editor>
+</rest-editor>
 
 
 <!-- add dialog -->

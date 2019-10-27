@@ -1,8 +1,8 @@
-<app-rest-editor [dataSource]="dataSource"
-                 [policy]="policy"
-                 [displayedColumns]="displayedColumns"
-                 (selectedElement)="selectElement($event)"
-                 (add)="startAdd()" (visible)="visible($event)" (edit)="startEdit($event)" (delete)="delete($event)">
+<rest-editor [dataSource]="dataSource"
+             [policy]="policy"
+             [displayedColumns]="displayedColumns"
+             (selectedElement)="selectElement($event)"
+             (add)="startAdd()" (visible)="visible($event)" (edit)="startEdit($event)" (delete)="delete($event)">
   <!-- name column -->
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
@@ -43,7 +43,7 @@
       <mat-icon *ngIf="element.buyable" style="color: darkgreen" class="btn-green">check_circle</mat-icon>
     </mat-cell>
   </ng-container>
-</app-rest-editor>
+</rest-editor>
 
 
 <ng-template #addDialogTemplate>
