@@ -2,14 +2,14 @@ import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {debounceTime, distinctUntilChanged, filter, map, switchMap, tap} from 'rxjs/operators';
-import {SetSelectedUser} from '../../../../states/user/user.actions';
+import {distinctUntilChanged, filter, map, switchMap, tap} from 'rxjs/operators';
+import {SaveSelectedUser, SetSelectedUser} from '../../../../states/user/user.actions';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {UsersEndpoint} from '@mathrix-education/education-api-sdk';
 import {UserState} from '../../../../states/user/user.state';
-import {AdminState} from "../../../../states/admin/admin.state";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {simplifiedScopes} from "./simplified.scopes";
+import {AdminState} from '../../../../states/admin/admin.state';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {scopesList, simplifiedScopes} from './simplified.scopes';
 import {UserHelper} from '../../../../states/user/User.helper';
 
 
@@ -21,17 +21,9 @@ import {UserHelper} from '../../../../states/user/User.helper';
   templateUrl: './user-infos.component.html',
   styleUrls: ['./user-infos.component.scss']
 })
-export class UserInfosComponent implements OnInit, OnDestroy {
+export class UserInfosComponent implements OnInit {
 
   UserHelper = UserHelper;
-
-  constructor(
-    private store: Store,
-    private dialog: MatDialog,
-    private usersEndpoint: UsersEndpoint,
-    private snackbar: MatSnackBar
-  ) {
-  }
 
   /** can edit */
   @Input() editMode: boolean;
@@ -41,53 +33,29 @@ export class UserInfosComponent implements OnInit, OnDestroy {
 
   @ViewChild('customScopes', {static: false}) customScopesTemplate;
 
-  private scopes: string[] = [];
-  private watchingFields = ['firstname', 'lastname', 'username', 'email'];
-
-  /** Debounce the user edit */
-  private debounce$ = this.user$.pipe(
-    filter(user => user !== null),
-    tap(user => {
-      this.scopesModel = this.scopes.map(s => {
-        return {scope: s, selected: user.scopes.includes(s)}; // {scope_name: boolean}
-      });
-      this.scopesModel.push({scope: '*', selected: user.scopes.includes('*')});
-      Object.keys(this.simplifiedScopesModel).forEach(
-        key => {
-          this.simplifiedScopesModel[key].selected = UserInfosComponent.userHasAllScopes(user, this.simplifiedScopesModel[key].scopes);
-        }
-      );
-    }),
-    debounceTime(1000),
-    distinctUntilChanged((previous: User, current: User) => {
-      // Check watching field
-      for (const field of this.watchingFields) {
-        if (previous[field] !== current[field]) {
-          return false;
-        }
-      }
-
-      // Then check the scopes
-      return JSON.stringify([...previous.scopes].sort()) === JSON.stringify([...current.scopes].sort());
-    }),
-    filter(() => this.editMode),
-    switchMap((user: User) => this.edit(user)),
-    tap(() => this.snackbar.open('Mise à jour réussie'))
-  );
-  /** The debounce subscription */
-  private debounce;
-
   scopesModel: { scope: string, selected: boolean }[];
   /** A list of simplified scopes for the admin panel */
   simplifiedScopesModel = simplifiedScopes;
 
+  constructor(
+    private store: Store,
+    private dialog: MatDialog,
+    private usersEndpoint: UsersEndpoint,
+    private snackbar: MatSnackBar
+  ) {
+  }
+
+  ngOnInit() {
+    this.initScopes();
+    this.refreshScopes();
+  }
 
   /**
-   * Assert that user has all the required scope for a group of scopes
-   * @param user the user
+   * Assert that selected user has all the required scope for a group of scopes.
    * @param scopes: the group of scopes
    */
-  static userHasAllScopes(user: User, scopes: string[]) {
+  selectedUserHasAllScopes(scopes: string[]) {
+    const user = this.store.selectSnapshot(UserState.selectedUser);
     if (user.scopes && user.scopes.includes('*')) {
       return true;
     }
@@ -97,59 +65,62 @@ export class UserInfosComponent implements OnInit, OnDestroy {
         return false;
       }
     }
-
     return true;
   }
 
-  ngOnInit(): void {
-    // Load the application scopes
-    // this.usersEndpoint.read().pipe(first()).subscribe(response => {
-    //   this.scopes = response.data;
-    //   this.debounce = this.debounce$.subscribe(u => console.log(u));
-    // });
-  }
-
-  ngOnDestroy(): void {
-    this.debounce.unsubscribe();
-  }
-
+  /**
+   * Toggle or Untoggle the edit mode.
+   */
   toggleEditMode() {
     this.editMode = !this.editMode;
+    if (!this.editMode) {
+      this.save();
+    }
   }
 
-
   /**
-   * Update the permissions of user (also update smartScopes)
+   * Trigger save action if any change has been made.
    */
-  refreshScopes(user: User) {
-    user.scopes = this.scopesModel.filter(s => s.selected).map(s => s.scope);
-    this.simplifiedScopesModel.forEach(
-      scopeEntity => {
-        scopeEntity.selected = UserInfosComponent.userHasAllScopes(user, scopeEntity.scopes);
-      }
-    );
+  save() {
+    this.store.dispatch(new SaveSelectedUser()).subscribe(() => {
+      this.snackbar.open('Utilisateur sauvegardé', null, {duration: 2500});
+    });
+  }
+
+
+  initScopes() {
+    this.scopesModel = scopesList.map(scope => {
+      return {scope, selected: this.selectedUserHasAllScopes([scope])};
+    });
   }
 
   /**
-   * Update scopeModel when user select a smart scope ( a simplified scope)
+   * Update the permissions of user.
+   */
+  refreshScopes() {
+    const user = this.store.selectSnapshot(UserState.selectedUser);
+    user.scopes = this.scopesModel.filter(s => s.selected).map(s => s.scope);
+    this.simplifiedScopesModel.forEach(scopeEntity => {
+      scopeEntity.selected = this.selectedUserHasAllScopes(scopeEntity.scopes);
+    });
+  }
+
+  /**
+   * Update scopeModel when user select a simplified scope.
    */
   refreshSimplifiedScopes() {
     const scopesModelCopy = [...this.scopesModel];
-    this.simplifiedScopesModel.forEach( // for each group of scopes we add the permissions or remove the permissions
-      (scopeEntity) => {
-        scopeEntity.scopes.forEach((scopeName) => {
-            const foundScopeIndex = scopesModelCopy.findIndex(s => s.scope === scopeName);
-            if (foundScopeIndex !== -1) {
-              scopesModelCopy[foundScopeIndex].selected = scopeEntity.selected;
-            }
-          }
-        );
-      }
-    );
+    this.simplifiedScopesModel.forEach((scopeEntities) => { // for each group of scopes we add the permissions or remove the permissions
+      console.log(scopeEntities);
+      scopeEntities.scopes.forEach((scopeName) => {
+        const foundScopeIndex = scopesModelCopy.findIndex(s => s.scope === scopeName);
+        if (foundScopeIndex !== -1) {
+          scopesModelCopy[foundScopeIndex].selected = scopeEntities.selected;
+        }
+      });
+    });
     this.scopesModel = [...scopesModelCopy];
-
     const newScopes = this.scopesModel.filter(sm => sm.selected).map(sm => sm.scope);
-    console.log(newScopes);
     this.patch('scopes', newScopes);
   }
 
@@ -157,6 +128,11 @@ export class UserInfosComponent implements OnInit, OnDestroy {
     this.dialog.open(this.customScopesTemplate);
   }
 
+  /**
+   * Patch a property of the selected user.
+   * @param property The property to patch.
+   * @param value The value to patch.
+   */
   patch(property, value) {
     const patch = {};
     patch[property] = value;
@@ -165,26 +141,5 @@ export class UserInfosComponent implements OnInit, OnDestroy {
       ...this.store.selectSnapshot(UserState.selectedUser),
       ...patch
     }));
-  }
-
-
-  /**
-   * Edit user
-   * @param user The user to edit.
-   */
-  edit(user: User): Observable<User> {
-    const payload = {...user};
-    delete payload.created_at;
-    delete payload.updated_at;
-
-    const patchedScopes = this.scopesModel.filter(s => s.selected).map(s => s.scope);
-    payload.scopes = patchedScopes.includes('*') ? ['*'] : patchedScopes;
-
-    return this.usersEndpoint.update(user.id, user).pipe(
-      tap(response => {
-        this.store.dispatch(new SetSelectedUser(response.data));
-      }),
-      map(response => response.data)
-    );
   }
 }

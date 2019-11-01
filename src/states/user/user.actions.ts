@@ -7,6 +7,10 @@ export class SetSelectedUser {
   }
 }
 
+export class SaveSelectedUser {
+  static readonly type = '[USER] Save selected User';
+}
+
 export class RefreshSelectedUser {
   static readonly type = '[USER] Refresh Selected User';
 }
@@ -20,19 +24,13 @@ export class SelectUser {
 
 export class SelectUserSubscriptions {
   static readonly type = '[USER] Select User Subscriptions';
-
-  constructor(public userId: number) {
-  }
 }
 
 export class SelectUserPurchases {
   static readonly type = '[USER] Select User Purchases';
-
-  constructor(public userId: number) {
-  }
 }
 
-export class DeselectUser {
+export class ResetSelectedUser {
   static readonly type = '[USER] Deselect User';
 }
 

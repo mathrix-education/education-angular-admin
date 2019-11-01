@@ -1,4 +1,3 @@
-KX
 <mat-card *ngIf="user$ | async as user">
   <mat-card-title>Profil</mat-card-title>
   <mat-card-content fxLayoutGap="0" fxLayoutGap.gt-xs="60px" fxLayout="column" fxLayout.gt-xs="row">
@@ -94,7 +93,7 @@ KX
         <mat-checkbox
           [(ngModel)]="scope.selected"
           [disabled]="!editMode"
-          (ngModelChange)="refreshScopes(user)">
+          (ngModelChange)="refreshScopes()">
           <span matLine>{{scope.scope}}</span>
         </mat-checkbox>
       </mat-list-item>

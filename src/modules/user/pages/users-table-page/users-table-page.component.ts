@@ -1,15 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
 import {PaginatedResponse, UsersEndpoint} from '@mathrix-education/education-api-sdk';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
+import {Store} from '@ngxs/store';
+import {ResetSelectedUser} from '../../../../states/user/user.actions';
+import {EditTitle} from '../../../../states/admin/admin.actions';
 
 @Component({
   selector: 'app-users-table-page',
   templateUrl: './users-table-page.component.html',
   styleUrls: ['./users-table-page.component.scss']
 })
-export class UsersTablePageComponent implements OnInit {
+export class UsersTablePageComponent   {
   displayedColumns = ['id', 'firstname', 'lastname', 'username', 'email', 'grade_id', 'level', 'provider', 'created_at'];
   options = {};
   results: PaginatedResponse<User> = {
@@ -28,12 +31,11 @@ export class UsersTablePageComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private store: Store,
     private usersEndpoint: UsersEndpoint,
   ) {
-  }
-
-  ngOnInit() {
-    // this.adminPage.editTitle('Utilisateurs');
+    this.store.dispatch(new ResetSelectedUser());
+    this.store.dispatch(new EditTitle('Utilisateurs'));
   }
 
   /**
@@ -51,21 +53,11 @@ export class UsersTablePageComponent implements OnInit {
 
     switch (source) {
       case 'sort':
-        if ($event.direction === '') {
-          // Neutral direction, clear order and dir
-          delete this.options['order'];
-          delete this.options['dir'];
-        } else {
-          this.options['order'] = $event.active;
-          this.options['dir'] = $event.direction;
-        }
         break;
       case 'paginator':
-        this.results.page = $event.pageIndex;
-        this.results.per_page = $event.pageSize;
         break;
     }
-
+    console.log({query});
     this.usersEndpoint.list({query}).subscribe(results => {
       this.results = results;
       this.loading = false;
@@ -88,7 +80,6 @@ export class UsersTablePageComponent implements OnInit {
    * @param user the selected user
    */
   selectUser(user: User) {
-    console.log('meur', user.id);
-    this.router.navigate(['admin', 'users', user.id]);
+    this.router.navigate(['users', user.id]);
   }
 }

@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {BraintreeUserComponent} from './components/braintree-user/braintree-user.component';
 import {StripeUserComponent} from './components/stripe-user/stripe-user.component';
 import {SubscriptionsListComponent} from './components/subscriptions-list/subscriptions-list.component';
@@ -79,7 +79,8 @@ const routes: Route[] = [
     MatSortModule,
     MatPaginatorModule,
     RouterModule.forChild(routes)
-  ]
+  ],
+  providers: [DatePipe]
 })
 
 export class UserModule {

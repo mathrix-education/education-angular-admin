@@ -5,7 +5,7 @@ import {UserState} from '../../../../states/user/user.state';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
 
 @Component({
-  selector: 'app--braintree-user',
+  selector: 'app-braintree-user',
   templateUrl: './braintree-user.component.html'
 })
 export class BraintreeUserComponent {

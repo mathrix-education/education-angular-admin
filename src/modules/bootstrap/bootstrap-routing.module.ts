@@ -19,7 +19,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [],
-  imports: [RouterModule.forRoot(routes, {enableTracing: !environment.production})],
+  imports: [RouterModule.forRoot(routes, {enableTracing: !environment.production && false})],
   exports: [RouterModule]
 })
 export class BootstrapRoutingModule {

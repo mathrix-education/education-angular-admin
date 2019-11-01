@@ -2,24 +2,26 @@ import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {Subscription} from '@mathrix-education/education-api-sdk/models/subscription';
 import {
-  DeselectUser,
+  ResetSelectedUser,
   ExchangeProduct,
-  RefreshSelectedUser,
+  SaveSelectedUser,
   SelectUser,
   SelectUserPurchases,
   SelectUserSubscriptions,
   SetSelectedUser
 } from './user.actions';
-import {tap} from 'rxjs/operators';
-import {UsersEndpoint} from '@mathrix-education/education-api-sdk';
-import {HttpClient} from '@angular/common/http';
-import {SentryErrorHandler} from '../../modules/bootstrap/sentry-error-handler';
+import {switchMap, tap} from 'rxjs/operators';
+import {PaginatedResponse, ProductsEndpoint, UsersEndpoint} from '@mathrix-education/education-api-sdk';
+import {Purchase} from '@mathrix-education/education-api-sdk/models/purchase';
+import {Product} from '@mathrix-education/education-api-sdk/models/product';
 
 export interface UserStateModel {
   selectedUser: User;
   selectedUserSubscriptions: Subscription[];
-  selectedUserPurchases: Subscription[];
+  selectedUserPurchases: (Purchase & { product: Product })[];
 }
+
+export type UserStateContext = StateContext<UserStateModel>;
 
 @State<UserStateModel>({
   name: 'user',
@@ -31,7 +33,8 @@ export interface UserStateModel {
 })
 export class UserState {
 
-  constructor(private usersEndpoint: UsersEndpoint) {
+
+  constructor(private usersEndpoint: UsersEndpoint, private productsEndpoint: ProductsEndpoint) {
   }
 
   @Selector()
@@ -50,43 +53,43 @@ export class UserState {
   }
 
   @Action(SetSelectedUser)
-  setSelectedUser(context: StateContext<UserStateModel>, {user}: SetSelectedUser) {
+  setSelectedUser(context: UserStateContext, {user}: SetSelectedUser) {
     context.patchState({selectedUser: user});
   }
 
-  @Action(RefreshSelectedUser)
-  refreshSelectedUser(context: StateContext<UserStateModel>) {
-    const state = context.getState();
-
-    if (state.selectedUser) {
-      return context.dispatch(new SelectUser(state.selectedUser.id));
-    }
+  @Action(SaveSelectedUser)
+  saveSelectedUser(context: UserStateContext) {
+    const user = context.getState().selectedUser;
+    return this.usersEndpoint.update(user.id, user);
   }
 
   @Action(SelectUser)
-  selectUserId(context: StateContext<UserStateModel>, {userId}: SelectUser) {
-    // return this.usersEndpoint.read(userId).pipe(tap((response => {
-    //   context.dispatch(new SetSelectedUser(response.data));
-    // })));
+  selectUser(context: UserStateContext, {userId}: SelectUser) {
+    return this.usersEndpoint.read(userId).pipe(tap((response => {
+      context.dispatch(new SetSelectedUser(response.data));
+      context.dispatch([new SelectUserPurchases(), new SelectUserSubscriptions()]);
+    })));
   }
 
   @Action(SelectUserSubscriptions)
-  selectUserSubscriptions(context: StateContext<UserStateModel>, {userId}: SelectUserSubscriptions) {
-    // return this.usersEndpoint.listSubscriptions(userId).pipe(tap(response => {
-    //   context.patchState({selectedUserSubscriptions: response.data});
-    // }));
+  selectUserSubscriptions(context: UserStateContext) {
+    const user = context.getState().selectedUser;
+    return this.usersEndpoint.listSubscriptions(user.id).pipe(tap(response => {
+      context.patchState({selectedUserSubscriptions: response.data});
+    }));
   }
 
   @Action(SelectUserPurchases)
-  selectUserPurchases(context: StateContext<UserStateModel>, {userId}: SelectUserPurchases) {
-    // return this.usersEndpoint.listPurchases(userId).pipe(tap(response => {
-    //   // @ts-ignore
-    //   context.patchState({selectedUserPurchases: response.data});
-    // }));
+  selectUserPurchases(context: UserStateContext) {
+    const user = context.getState().selectedUser;
+    return this.usersEndpoint.listPurchases(user.id, {expand: ['product']}).pipe(
+      tap((response: PaginatedResponse<Purchase & { product: Product }>) => {
+        context.patchState({selectedUserPurchases: response.data});
+      }));
   }
 
-  @Action(DeselectUser)
-  deselectUser(context: StateContext<UserStateModel>) {
+  @Action(ResetSelectedUser)
+  resetUser(context: UserStateContext) {
     context.patchState({
       selectedUser: null,
       selectedUserSubscriptions: [],
@@ -95,8 +98,8 @@ export class UserState {
   }
 
   @Action(ExchangeProduct)
-  exchangeProduct(context: StateContext<UserStateModel>, {purchaseId, productId}: ExchangeProduct) {
-//     return this.purchasesHttp.edit({id: purchaseId, product_id: productId})
-//       .pipe(switchMap(() => context.dispatch(new RefreshSelectedUser())));
+  exchangeProduct(context: UserStateContext, {purchaseId, productId}: ExchangeProduct) {
+    // return this.purchasesHttp.edit({id: purchaseId, product_id: productId})
+    //  .pipe(switchMap(() => context.dispatch(new SelectUser())));
   }
 }

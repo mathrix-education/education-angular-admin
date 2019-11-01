@@ -1,22 +1,22 @@
 <mat-card>
   <mat-card-title>Achats</mat-card-title>
 
-  <mat-accordion *ngIf="products$ | async as products">
-    <mat-expansion-panel *ngFor="let product of products">
+  <mat-accordion *ngIf="purchases$ | async as purchases">
+    <mat-expansion-panel *ngFor="let purchase of purchases">
       <mat-expansion-panel-header>
-        <mat-panel-title>{{ product.name }}</mat-panel-title>
-        <mat-panel-description *ngIf="product.purchase.transaction_id">
-          Acheté le {{ product.purchase.created_at | date:'dd/MM/yy' }}
+        <mat-panel-title>{{ purchase.product.name }}</mat-panel-title>
+        <mat-panel-description *ngIf="purchase.transaction_id">
+          Acheté le {{ purchase.created_at | date:'dd/MM/yy' }}
         </mat-panel-description>
       </mat-expansion-panel-header>
 
       <div fxLayoutGap="16px">
-        <a mat-flat-button color="primary" [href]="invoiceUrl(product.purchase.transaction_id)" target="_blank">
+        <a mat-flat-button color="primary" [href]="invoiceUrl(purchase.transaction_id)" target="_blank">
           {{ 'Voir sur Stripe' }}
           <mat-icon>launch</mat-icon>
         </a>
 
-        <button mat-flat-button (click)="openExchangeProductDialog(product)">Échanger</button>
+        <button mat-flat-button (click)="openExchangeProductDialog(purchase.product)">Échanger</button>
       </div>
     </mat-expansion-panel>
   </mat-accordion>

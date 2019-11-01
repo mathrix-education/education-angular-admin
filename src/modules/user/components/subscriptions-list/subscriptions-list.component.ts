@@ -12,19 +12,17 @@ import {environment} from '../../../../environments/environment';
   selector: 'app-subscriptions-list',
   templateUrl: './subscriptions-list.component.html',
 })
-export class SubscriptionsListComponent implements OnInit {
+export class SubscriptionsListComponent {
+  /** The selected user */
   @Select(UserState.selectedUser) user$: Observable<User>;
+  /** The selected user's subscriptions. */
   @Select(UserState.selectedUserSubscriptions) subscriptions$: Observable<Subscription[]>;
 
-  constructor(private route: ActivatedRoute, private store: Store) {
-  }
 
-  ngOnInit() {
-    if (this.route.snapshot.params.id) {
-      this.store.dispatch(new SelectUserSubscriptions(+this.route.snapshot.params.id));
-    }
-  }
-
+  /**
+   * Return the url associated with a subscription.
+   * @param subscription The subscription.
+   */
   subscriptionUrl(subscription: Subscription): string {
     if (subscription.type === 'braintree') {
       return `${environment.braintreeUrl}/merchants/${environment.braintreeMerchantId}/subscriptions/${subscription.id}`;

@@ -20,11 +20,7 @@ type ProductWithPurchase = Product & { purchase: Purchase };
 })
 export class UserPurchasesListComponent {
   @Select(UserState.selectedUser) user$: Observable<User>;
-  products$ = this.user$.pipe(
-    filter(user => user !== null),
-    switchMap(user => this.usersEndpoint.listPurchases(user.id)),
-    map(response => response.data)
-  );
+  @Select(UserState.selectedUserPurchases) purchases$: Observable<(Purchase & { product: Product })[]>;
   exchangeableProducts$: Observable<Product[]>;
   matDialogRef: MatDialogRef<any> = null;
   selectedProduct: Product = null;
@@ -55,18 +51,14 @@ export class UserPurchasesListComponent {
   }
 
   resetExchangeProduct() {
-    if (this.matDialogRef) {
-      this.matDialogRef.close();
-      this.matDialogRef = null;
-    }
-
+    this.matDialogRef.close();
     this.selectedProduct = null;
     this.exchangeableProducts$ = null;
   }
 
   doExchangeProduct() {
-    // this.store.dispatch(new ExchangeProduct(this.selectedProduct.purchase.id, this.newProduct.id)).subscribe(() => {
-    //   this.resetExchangeProduct();
-    // });
+    this.store.dispatch(new ExchangeProduct(this.selectedProduct.id, this.newProduct.id)).subscribe(() => {
+      this.resetExchangeProduct();
+    });
   }
 }

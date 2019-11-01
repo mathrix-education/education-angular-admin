@@ -3,6 +3,7 @@ import {Observable, of} from 'rxjs';
 import {AdminState} from '../../../../states/admin/admin.state';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {Select} from '@ngxs/store';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidenav',
@@ -49,10 +50,8 @@ export class SidenavComponent {
     modelNames.forEach(m => {
       associatedScopes = associatedScopes.concat([`${m}:read`, `${m}:delete`, `${m}:write`]);
     });
-    return of(true);
-    // return this.user$.pipe(map(u => {
-    //   return (u.scopes) && (u.scopes.filter(value => associatedScopes.includes(value)).length > 0 || u.scopes.includes('*')
-    //   );
-    // }));
+    return this.user$.pipe(map(u => {
+      return (u.scopes) && (u.scopes.filter(value => associatedScopes.includes(value)).length > 0 || u.scopes.includes('*'));
+    }));
   }
 }

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Select, Store} from '@ngxs/store';
-import {DeselectUser, SelectUser} from '../../../../states/user/user.actions';
+import {ResetSelectedUser, SelectUser} from '../../../../states/user/user.actions';
 import {UserState} from '../../../../states/user/user.state';
 import {Observable} from 'rxjs';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
@@ -13,6 +13,7 @@ import {User} from '@mathrix-education/education-api-sdk/models/user';
 })
 export class ProfilePageComponent implements OnInit {
 
+  /** The selected user to edit. */
   @Select(UserState.selectedUser) user$: Observable<User>;
 
   constructor(private router: Router, private route: ActivatedRoute, private store: Store) {
@@ -27,8 +28,11 @@ export class ProfilePageComponent implements OnInit {
     }
   }
 
+  /**
+   * Go back to the user page.
+   */
   back() {
-    this.store.dispatch(new DeselectUser());
-    this.router.navigate(['admin', 'users']);
+    this.store.dispatch(new ResetSelectedUser());
+    this.router.navigate(['users']);
   }
 }

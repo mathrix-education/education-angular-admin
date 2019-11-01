@@ -59,6 +59,9 @@ export class ContentCreatorPackComponent extends BaseEditorComponent<Product> im
     // ).subscribe(() => this.reloadData());
   }
 
+  addPack() {
+  }
+
   edit(selectedOptions: MatListOption[]) {
     //   this.productsHttp.edit(this.editForm.value).pipe(switchMap((pack: DataResponse<Product>) => {
     //       return this.productsHttp.setProductsInPack(pack.data, selectedOptions.map((option: MatListOption) => option.value));
