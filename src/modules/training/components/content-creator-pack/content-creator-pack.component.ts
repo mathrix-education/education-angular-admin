@@ -52,21 +52,21 @@ export class ContentCreatorPackComponent extends BaseEditorComponent<Product> im
     // return this.selectedPack && this.selectedPack.items.some(product => product.id === training.id);
   }
 
-  add(selectedOptions: MatListOption[]) {
-    // this.productsHttp.create(this.addForm.value).pipe(switchMap((pack: DataResponse<Product>) => {
-    //     return this.productsHttp.setProductsInPack(pack.data, selectedOptions.map((option: MatListOption) => option.value));
-    //   })
-    // ).subscribe(() => this.reloadData());
-  }
-
+  // add(selectedOptions: MatListOption[]) {
+  //   // this.productsHttp.create(this.addForm.value).pipe(switchMap((pack: DataResponse<Product>) => {
+  //   //     return this.productsHttp.setProductsInPack(pack.data, selectedOptions.map((option: MatListOption) => option.value));
+  //   //   })
+  //   // ).subscribe(() => this.reloadData());
+  // }
+  //
   addPack() {
   }
-
-  edit(selectedOptions: MatListOption[]) {
-    //   this.productsHttp.edit(this.editForm.value).pipe(switchMap((pack: DataResponse<Product>) => {
-    //       return this.productsHttp.setProductsInPack(pack.data, selectedOptions.map((option: MatListOption) => option.value));
-    //     })
-    //   ).subscribe(() => this.reloadData());
-  }
+  //
+  // edit(selectedOptions: MatListOption[]) {
+  //   //   this.productsHttp.edit(this.editForm.value).pipe(switchMap((pack: DataResponse<Product>) => {
+  //   //       return this.productsHttp.setProductsInPack(pack.data, selectedOptions.map((option: MatListOption) => option.value));
+  //   //     })
+  //   //   ).subscribe(() => this.reloadData());
+  // }
 
 }

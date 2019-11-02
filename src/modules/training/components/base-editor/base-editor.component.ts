@@ -82,24 +82,24 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
    * Add a model by calling the api
    * @param model: the model to add
    */
-   add(model: any = this.addForm.value) {
-    // this.endpoint.add(model).subscribe(() => this.reloadData());
+  add(model: Model = this.addForm.value) {
+    this.endpoint.create(model).subscribe(() => this.reloadData());
   }
 
   /**
    * Edit a model by calling the api
    * @param model: the model to edit
    */
-   edit(model: any = this.editForm.value) {
-   // this.endpoint.(model).subscribe(() => this.reloadData());
+  edit(model: Model = this.editForm.value) {
+    this.endpoint.update(model.id, model).subscribe(() => this.reloadData());
   }
 
   /**
    * Delete a model by calling the api
    * @param model: the model to edit
    */
-  delete(model: any) {
-    //this.endpoint.delete_(model).subscribe(() => this.reloadData());
+  delete(model: Model) {
+    this.endpoint.delete(model.id).subscribe(() => this.reloadData());
   }
 
   /**
@@ -144,15 +144,15 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
     //     // adjust order
     //     const orderedItems = this.reorder(items, event.previousIndex, event.currentIndex);
 
-      //   return this.chainHttp.sendRaw(
-      //     orderedItems.map((orderedItem, index) => {
-      //       return {
-      //         name: 'item' + index,
-      //         method: 'patch',
-      //         url: `${this.endpoint.base}/${orderedItem.id}`,
-      //         data: orderedItem
-      //       };
-      //     }));
-      // })).subscribe(() => this.reloadData());
+    //   return this.chainHttp.sendRaw(
+    //     orderedItems.map((orderedItem, index) => {
+    //       return {
+    //         name: 'item' + index,
+    //         method: 'patch',
+    //         url: `${this.endpoint.base}/${orderedItem.id}`,
+    //         data: orderedItem
+    //       };
+    //     }));
+    // })).subscribe(() => this.reloadData());
   }
 }

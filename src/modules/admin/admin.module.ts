@@ -13,6 +13,8 @@ const routes: Route[] = [
     path: '', component: AdminComponent,
     children: [
       {path: 'users', loadChildren: () => import('../user/user.module').then(m => m.UserModule)},
+      {path: 'comments', loadChildren: () => import('../comments/comments.module').then(m => m.CommentsModule)},
+
       {path: 'content', loadChildren: () => import('../content/content.module').then(m => m.ContentModule)},
       {path: 'training', loadChildren: () => import('../training/training.module').then(m => m.TrainingModule)},
       {path: '', redirectTo: 'users', pathMatch: 'full'}
