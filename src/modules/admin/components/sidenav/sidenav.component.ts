@@ -4,6 +4,7 @@ import {AdminState} from '../../../../states/admin/admin.state';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {Select} from '@ngxs/store';
 import {map} from 'rxjs/operators';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-sidenav',
@@ -16,6 +17,8 @@ export class SidenavComponent {
 
   /** the current logged user */
   @Select(AdminState.user) user$: Observable<User>;
+
+  relatedWebSite = environment.relatedWebSite;
 
 
   // constructor(private auth: AuthTokensService, private store: Store) {

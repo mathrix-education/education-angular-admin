@@ -19,7 +19,6 @@ export class LoginGuard implements CanActivate {
    * @return whether the user is allowed to go on the admin protected routes
    */
   canActivate(): boolean {
-    console.log('activate login');
     if (!this.store.selectSnapshot(AdminState.user)) {
       return true;
     } else {

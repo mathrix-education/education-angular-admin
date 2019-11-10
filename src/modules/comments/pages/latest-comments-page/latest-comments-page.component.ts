@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BaseEditorComponent} from '../../../training/components/base-editor/base-editor.component';
+import {BaseEditorComponent} from '../../../shared/components/base-editor.component';
 import {PolicyEditor} from '@mathrix-education/rest-editor/interfaces/policy-editor.interface';
 import {Comment} from '@mathrix-education/education-api-sdk/models/comment';
 import {CommentsEndpoint, PaginatedResponse} from '@mathrix-education/education-api-sdk';
@@ -24,13 +24,7 @@ export class LatestCommentsPageComponent extends BaseEditorComponent<Comment> im
     edit: true,
     delete: true
   };
-  /** Number of comments per page */
-  commentsPerPage = 25;
-  /** Current page for comments display */
-  currentPage = 0;
-  /** The total number of comment */
-  total = 0;
-  pageSizeOptions: number[] = [10, 25, 100];
+
   displayedColumns = ['content', 'module_id', 'actions'];
 
   constructor(
@@ -49,30 +43,17 @@ export class LatestCommentsPageComponent extends BaseEditorComponent<Comment> im
   }
 
   /**
-   * Change the pagination of the comments
-   * @param pageEvent
-   */
-  changePagination(pageEvent) {
-    this.commentsPerPage = pageEvent.pageSize;
-    this.currentPage = pageEvent.pageIndex;
-    this.resetIndex();
-    this.reloadData();
-  }
-
-  /**
    * Reset the index observable to have update currentPage and commentsPerPage values
    */
   resetIndex() {
     this.index = this.commentsEndpoint.list({
       sort_by: 'created_at',
       sort_dir: 'desc',
-      page: this.currentPage,
-      per_page: this.commentsPerPage
-    }).pipe(
-      tap((paginatedResponse: PaginatedResponse<Comment>) => {
-        this.total = paginatedResponse.total;
-        this.currentPage = paginatedResponse.page;
-      }),
-      map((paginatedResponse: PaginatedResponse<Comment>) => paginatedResponse.data));
+      page: this.page,
+      per_page: this.perPage
+    }).pipe(tap((paginatedResponse: PaginatedResponse<Comment>) => {
+      this.total = paginatedResponse.total;
+      this.perPage = paginatedResponse.page;
+    }));
   }
 }

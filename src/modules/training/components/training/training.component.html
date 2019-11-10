@@ -6,13 +6,13 @@
   <!-- name column -->
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
   </ng-container>
 
   <!-- slug column -->
   <ng-container matColumnDef="slug">
     <mat-header-cell *matHeaderCellDef>Url</mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.slug }}</mat-cell>
+    <mat-cell *matCellDef="let element"> {{element.slug}}</mat-cell>
   </ng-container>
 
   <!-- description column -->
@@ -47,6 +47,7 @@
 
 
 <ng-template #addDialogTemplate>
+
   <h2 matDialogTitle>Ajouter une formation</h2>
 
   <mat-dialog-content>
@@ -64,7 +65,7 @@
   <h2 matDialogTitle>Editer une formation</h2>
 
   <mat-dialog-content>
-    <ng-container *ngTemplateOutlet="insideForm; context: {form: this.editForm, slugField: false}"></ng-container>
+    <ng-container *ngTemplateOutlet="insideForm; context: {form: editForm, slugField: false}"></ng-container>
 
   </mat-dialog-content>
 

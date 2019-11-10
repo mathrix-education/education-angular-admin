@@ -57,15 +57,15 @@
 
 <!-- inside form -->
 <ng-template #insideForm let-form="form">
-<form [formGroup]="form" fxLayout="column">
-  <!-- name -->
-  <mat-form-field>
-    <input matInput placeholder="Nom" formControlName="name">
-  </mat-form-field>
+  <form [formGroup]="form" fxLayout="column">
+    <!-- name -->
+    <mat-form-field>
+      <input matInput placeholder="Nom" formControlName="name">
+    </mat-form-field>
 
-  <!-- slug -->
-  <mat-form-field>
-    <input matInput placeholder="Url" formControlName="slug">
-  </mat-form-field>
-</form>
+    <!-- slug -->
+    <mat-form-field>
+      <input matInput placeholder="Url" formControlName="slug">
+    </mat-form-field>
+  </form>
 </ng-template>

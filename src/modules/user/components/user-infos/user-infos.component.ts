@@ -111,7 +111,6 @@ export class UserInfosComponent implements OnInit {
   refreshSimplifiedScopes() {
     const scopesModelCopy = [...this.scopesModel];
     this.simplifiedScopesModel.forEach((scopeEntities) => { // for each group of scopes we add the permissions or remove the permissions
-      console.log(scopeEntities);
       scopeEntities.scopes.forEach((scopeName) => {
         const foundScopeIndex = scopesModelCopy.findIndex(s => s.scope === scopeName);
         if (foundScopeIndex !== -1) {

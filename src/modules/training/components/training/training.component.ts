@@ -1,17 +1,19 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
-import {BaseEditorComponent} from '../base-editor/base-editor.component';
+import {BaseEditorComponent} from '../../../shared/components/base-editor.component';
 import {Product} from '@mathrix-education/education-api-sdk/models/product';
 import {ProductsEndpoint} from '@mathrix-education/education-api-sdk';
+import {Store} from '@ngxs/store';
+import {SetSelectedTraining} from '../../../../states/training/training.action';
 
 
 @Component({
-  selector: 'app-content-creator-training',
-  templateUrl: './content-creator-training.component.html'
+  selector: 'app-training',
+  templateUrl: './training.component.html'
 })
 
-export class ContentCreatorTrainingComponent extends BaseEditorComponent<Product> {
+export class TrainingComponent extends BaseEditorComponent<Product> {
 
 
   trainings: Product[] = [];
@@ -20,13 +22,23 @@ export class ContentCreatorTrainingComponent extends BaseEditorComponent<Product
   policy = {
     add: true,
     edit: true,
-    delete: true,
+    delete: true
   };
 
-  addForm: FormGroup = this.formBuilder.group(Object.assign({}, {type: 'training'}));
+  addForm: FormGroup = this.formBuilder.group({
+    name: '',
+    slug: '',
+    description: '',
+    price: 0,
+    type: 'training',
+    buyable: false,
+    visible: true,
+    order: 0
+  });
 
   constructor(
     private productsHttp: ProductsEndpoint,
+    private store: Store,
     protected formBuilder: FormBuilder,
     protected dialog: MatDialog
   ) {
@@ -34,7 +46,6 @@ export class ContentCreatorTrainingComponent extends BaseEditorComponent<Product
   }
 
   selectElement(training: Product) {
-    // this.trainingCreator.select('training', training);
-    // this.nextTab.emit();
+    this.store.dispatch(new SetSelectedTraining(training));
   }
 }

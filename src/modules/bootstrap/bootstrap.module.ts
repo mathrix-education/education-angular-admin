@@ -3,7 +3,6 @@ import {RootComponent} from './components/root/root.component';
 import {SentryErrorHandler} from './sentry-error-handler';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
-import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 import {NgxsModule} from '@ngxs/store';
 import {BootstrapRoutingModule} from './bootstrap-routing.module';
 import {AdminState} from '../../states/admin/admin.state';
@@ -11,6 +10,8 @@ import {UserState} from '../../states/user/user.state';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {environment} from '../../environments/environment';
 import {AuthEndpoint, EducationAPISDKModule} from '@mathrix-education/education-api-sdk';
+import {TrainingState} from '../../states/training/training.state';
+import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 
 
 @NgModule({
@@ -22,9 +23,9 @@ import {AuthEndpoint, EducationAPISDKModule} from '@mathrix-education/education-
     BrowserAnimationsModule,
     BootstrapRoutingModule,
     EducationAPISDKModule.withConfig({authTokenName: environment.token, baseUrl: environment.api}),
-    NgxsModule.forRoot([AdminState, UserState]),
+    NgxsModule.forRoot([AdminState, UserState, TrainingState]),
     NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}),
-    NgxsStoragePluginModule.forRoot(),
+    NgxsStoragePluginModule.forRoot({key: ['admin']}),
 
   ],
   providers: [{

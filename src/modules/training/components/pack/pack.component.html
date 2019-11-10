@@ -48,7 +48,7 @@
 
   <mat-dialog-actions align="end">
     <button mat-button matDialogClose>Annuler</button>
-    <button mat-button matDialogClose color="primary" (click)="addPack()">Ajouter</button>
+    <button mat-button matDialogClose color="primary" (click)="addPack(individualProducts.selectedOptions.selected)">Ajouter</button>
   </mat-dialog-actions>
 </ng-template>
 
@@ -64,7 +64,7 @@
 
   <mat-dialog-actions align="end">
     <button mat-button matDialogClose>Annuler</button>
-    <button mat-button matDialogClose color="primary" (click)="edit(individualProducts.selectedOptions.selected)">
+    <button mat-button matDialogClose color="primary" (click)="editPack(individualProducts.selectedOptions.selected)">
       Editer
     </button>
   </mat-dialog-actions>

@@ -57,7 +57,6 @@ export class UsersTablePageComponent   {
       case 'paginator':
         break;
     }
-    console.log({query});
     this.usersEndpoint.list({query}).subscribe(results => {
       this.results = results;
       this.loading = false;

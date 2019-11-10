@@ -1,11 +1,10 @@
 <rest-editor [dataSource]="dataSource"
-                 [policy]="policy"
-                 [displayedColumns]="displayedColumns"
-                 (edit)="startEdit($event,['content','id','module_id','parent_id'])"
-                 (delete)="delete($event)"
-                 (move)="move($event)"
-                 (visible)="visible($event)"
-
+             [policy]="policy"
+             [displayedColumns]="displayedColumns"
+             (edit)="startEdit($event,['content','id','module_id','parent_id'])"
+             (delete)="delete($event)"
+             (move)="move($event)"
+             (visible)="visible($event)"
 >
   <!-- name column -->
   <ng-container matColumnDef="content">
@@ -21,7 +20,7 @@
 </rest-editor>
 
 <mat-paginator [length]="total"
-               [pageSize]="commentsPerPage"
+               [pageSize]="perPage"
                [pageSizeOptions]="pageSizeOptions"
                (page)="changePagination($event)"
 >

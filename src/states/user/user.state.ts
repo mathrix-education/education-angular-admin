@@ -100,6 +100,6 @@ export class UserState {
   @Action(ExchangeProduct)
   exchangeProduct(context: UserStateContext, {purchaseId, productId}: ExchangeProduct) {
     // return this.purchasesHttp.edit({id: purchaseId, product_id: productId})
-    //  .pipe(switchMap(() => context.dispatch(new SelectUser())));
+    // .pipe(switchMap(() => context.dispatch(new SelectUser())));
   }
 }

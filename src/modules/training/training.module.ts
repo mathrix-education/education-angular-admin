@@ -1,37 +1,48 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {TrainingEditorPageComponent} from './pages/training-editor-page/training-editor-page.component';
-import {ContentCreatorTrainingLessonComponent} from './components/content-creator-training-lesson/content-creator-training-lesson.component';
-import {ContentCreatorTrainingSectionComponent} from './components/content-creator-training-section/content-creator-training-section.component';
-import {ContentCreatorPackComponent} from './components/content-creator-pack/content-creator-pack.component';
-import {ContentCreatorPremiumUpsellComponent} from './components/content-creator-premium-upsell/content-creator-premium-upsell.component';
-import {ContentCreatorTrainingComponent} from './components/content-creator-training/content-creator-training.component';
+import {TrainingPageComponent} from './pages/training-page/training-page.component';
+import {LessonTabComponent} from './components/lesson-tab/lesson-tab.component';
+import {SectionTabComponent} from './components/section-tab/section-tab.component';
+import {PackComponent} from './components/pack/pack.component';
+import {PremiumUpsellComponent} from './components/premium-upsell/premium-upsell.component';
+import {TrainingComponent} from './components/training/training.component';
 import {
   MatButtonModule,
   MatCardModule,
   MatDialogModule,
-  MatFormFieldModule, MatIconModule,
-  MatInputModule, MatListModule, MatSlideToggleModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatSlideToggleModule,
   MatTableModule,
   MatTabsModule
 } from '@angular/material';
 import {RestEditorModule} from '@mathrix-education/rest-editor';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FlexModule} from '@angular/flex-layout';
-import {BaseEditorComponent} from './components/base-editor/base-editor.component';
 import {PricePipe} from './pipes/price.pipe';
+import {Route, RouterModule} from '@angular/router';
+import { TrainingTabComponent } from './components/training-tab/training-tab.component';
 
+
+const routes: Route[] = [
+  {
+    path: '',
+    component: TrainingPageComponent
+  }
+];
 
 @NgModule({
   declarations: [
-    BaseEditorComponent,
-    ContentCreatorTrainingLessonComponent,
-    ContentCreatorTrainingSectionComponent,
-    ContentCreatorPackComponent,
-    ContentCreatorPremiumUpsellComponent,
-    ContentCreatorTrainingComponent,
-    TrainingEditorPageComponent,
-    PricePipe],
+    LessonTabComponent,
+    SectionTabComponent,
+    PackComponent,
+    PremiumUpsellComponent,
+    TrainingComponent,
+    TrainingPageComponent,
+    PricePipe,
+    TrainingTabComponent],
   imports: [
     CommonModule,
     MatTabsModule,
@@ -46,7 +57,8 @@ import {PricePipe} from './pipes/price.pipe';
     MatCardModule,
     MatIconModule,
     MatSlideToggleModule,
-    MatListModule
+    MatListModule,
+    RouterModule.forChild(routes)
   ]
 })
 export class TrainingModule {

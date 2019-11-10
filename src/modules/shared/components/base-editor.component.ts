@@ -7,6 +7,8 @@ import {switchMap} from 'rxjs/internal/operators/switchMap';
 import {PolicyEditor} from '@mathrix-education/rest-editor/interfaces/policy-editor.interface';
 import {Endpoint} from '@mathrix-education/education-api-sdk/lib/endpoints/endpoint';
 import {Model, ModelId} from '@mathrix-education/education-api-sdk/lib/models/model';
+import {map} from 'rxjs/operators';
+import {DataResponse, PaginatedResponse} from '@mathrix-education/education-api-sdk';
 
 /**
  * The BaseEditorComponent provides the base logic for all related editing component in panel admin
@@ -26,7 +28,7 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
   @Output() prevTab = new EventEmitter();
   @Output() nextTab = new EventEmitter();
 
-  /** reloadDataSubject: subject to trigger data reload */
+  /** subject to trigger data reload */
   reloadDataSubject = new BehaviorSubject(true);
   /** dataSource:data inside table */
   dataSource: Observable<any>;
@@ -34,9 +36,18 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
   /** addForm, editForm: the form given to add or edit (used by edit and add template) */
   addForm: FormGroup;
   editForm: FormGroup;
-  changeActivityForm: FormGroup;
-  /** policy: the policy about adding, editing or deleting */
+  /** the policy about adding, editing or deleting */
   policy: PolicyEditor;
+
+  /** The current page */
+  page = 0;
+  /** The number of item per page */
+  perPage = 25;
+  /** The number of page */
+  total = 0;
+  /** The page size options available */
+  pageSizeOptions: number[] = [10, 25, 100];
+
 
   /** dialogConfig: material dialog properties */
   readonly dialogConfig = {
@@ -49,7 +60,15 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
     protected formBuilder: FormBuilder,
     protected dialog: MatDialog
   ) {
-    this.dataSource = this.reloadDataSubject.pipe(switchMap(() => this.index));
+    this.dataSource = this.reloadDataSubject.pipe(switchMap(() => this.index), map((response: (DataResponse<any> | PaginatedResponse<any>)) => {
+      // @ts-ignore
+      this.page = response.page || 0;
+      // @ts-ignore
+      this.total = response.total || 0;
+      // @ts-ignore
+      this.perPage = response.per_page || 0;
+      return response.data;
+    }));
   }
 
   /**
@@ -60,7 +79,7 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
   }
 
   /**
-   * Start the edit process:
+   * Start the edit process.
    * @param model: the model to edit
    * @param fields: the fields to keep on the model (some field are not required in patching so we remove them).
    * (no field given => all field of model are sent)
@@ -79,7 +98,7 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
   }
 
   /**
-   * Add a model by calling the api
+   * Add a model, call the api.
    * @param model: the model to add
    */
   add(model: Model = this.addForm.value) {
@@ -87,7 +106,7 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
   }
 
   /**
-   * Edit a model by calling the api
+   * Edit a model, call the api.
    * @param model: the model to edit
    */
   edit(model: Model = this.editForm.value) {
@@ -95,7 +114,7 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
   }
 
   /**
-   * Delete a model by calling the api
+   * Delete a model, call the api.
    * @param model: the model to edit
    */
   delete(model: Model) {
@@ -108,7 +127,7 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
    */
   visible(model) {
     const patchedModel = {...model, ...{visible: !model.visible}};
-    // this.endpoint.edit(patchedModel).subscribe(() => this.reloadData());
+    this.endpoint.update(patchedModel.id, patchedModel).subscribe(() => this.reloadData());
   }
 
   /**
@@ -116,6 +135,20 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
    */
   protected reloadData() {
     this.reloadDataSubject.next(true);
+  }
+
+  /**
+   * Change the pagination of the comments.
+   * @param pageEvent The page event.
+   */
+  changePagination(pageEvent) {
+    this.perPage = pageEvent.pageSize;
+    this.page = pageEvent.pageIndex;
+    this.resetIndex();
+    this.reloadData();
+  }
+
+  resetIndex() {
   }
 
   /**

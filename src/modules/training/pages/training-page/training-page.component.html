@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-tab-group #tabGroup animationDuration="0ms" [selectedIndex]="selectedTab|async"
+                 (selectedIndexChange)="selectedTabChange($event)">
+
+    <!-- Formations -->
+    <mat-tab [label]="'Formations'">
+      <ng-container *ngIf="(selectedTab|async) === 0">
+        <app-training-tab></app-training-tab>
+      </ng-container>
+    </mat-tab>
+
+    <!-- Sections -->
+    <!--    <mat-tab [label]="trainingCreator.selected.section?  trainingCreator.selected.section.name: 'Sections'">-->
+    <mat-tab [label]="'Sections'">
+      <app-section-tab *ngIf="(selectedTab|async) === 1"></app-section-tab>
+    </mat-tab>
+
+    <!-- Leçons -->
+    <mat-tab [label]="'Leçons'">
+      <app-training-lesson-tab *ngIf="(selectedTab|async) === 2"></app-training-lesson-tab>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>
