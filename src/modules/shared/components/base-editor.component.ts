@@ -1,4 +1,3 @@
-import {moveItemInArray} from '@angular/cdk/drag-drop';
 import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
@@ -7,12 +6,13 @@ import {switchMap} from 'rxjs/internal/operators/switchMap';
 import {PolicyEditor} from '@mathrix-education/rest-editor/interfaces/policy-editor.interface';
 import {Endpoint} from '@mathrix-education/education-api-sdk/lib/endpoints/endpoint';
 import {Model, ModelId} from '@mathrix-education/education-api-sdk/lib/models/model';
-import {map} from 'rxjs/operators';
+import {first, map, tap} from 'rxjs/operators';
 import {DataResponse, PaginatedResponse} from '@mathrix-education/education-api-sdk';
+import {BepJsonWriter} from '@angular/cli/utilities/bep';
 
 /**
  * The BaseEditorComponent provides the base logic for all related editing component in panel admin
- * */
+ */
 @Component({
   selector: 'app-base-editor',
   template: ''
@@ -30,6 +30,7 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
 
   /** subject to trigger data reload */
   reloadDataSubject = new BehaviorSubject(true);
+
   /** dataSource:data inside table */
   dataSource: Observable<any>;
 
@@ -60,15 +61,17 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
     protected formBuilder: FormBuilder,
     protected dialog: MatDialog
   ) {
-    this.dataSource = this.reloadDataSubject.pipe(switchMap(() => this.index), map((response: (DataResponse<any> | PaginatedResponse<any>)) => {
-      // @ts-ignore
-      this.page = response.page || 0;
-      // @ts-ignore
-      this.total = response.total || 0;
-      // @ts-ignore
-      this.perPage = response.per_page || 0;
-      return response.data;
-    }));
+    this.dataSource = this.reloadDataSubject.pipe(switchMap(() => this.index),
+      map((response: (DataResponse<any> | PaginatedResponse<any>)) => {
+        // @ts-ignore
+        this.page = response.page || 0;
+        // @ts-ignore
+        this.total = response.total || 0;
+        // @ts-ignore
+        this.perPage = response.per_page || 0;
+        return response.data;
+      })
+    );
   }
 
   /**
@@ -81,18 +84,8 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
   /**
    * Start the edit process.
    * @param model: the model to edit
-   * @param fields: the fields to keep on the model (some field are not required in patching so we remove them).
-   * (no field given => all field of model are sent)
    */
-  startEdit(model: any, fields?: string[]) {
-
-    if (fields) {
-      Object.keys(model).forEach(k => {
-        if (!fields.includes(k)) {
-          delete model[k];
-        }
-      });
-    }
+  startEdit(model: any) {
     this.editForm = this.formBuilder.group(model);
     this.dialog.open(this.editDialogTemplate, this.dialogConfig);
   }
@@ -148,44 +141,27 @@ export class BaseEditorComponent<T extends Model<ModelId>> {
     this.reloadData();
   }
 
+  /**
+   * Reset index method that shall be overridden.
+   */
   resetIndex() {
   }
 
-  /**
-   * Reorder the data
-   * @param data The data to reorder.
-   * @param previousIndex The previous index given.
-   * @param currentIndex The new index.
-   */
-  protected reorder(data, previousIndex: number, currentIndex: number) {
-    const newIdOrdered = data.sort((a, b) => a.order - b.order).map(chapter => chapter.id);
-    moveItemInArray(newIdOrdered, previousIndex, currentIndex);
-    return newIdOrdered.map((id: number, index: number) => {
-      const newData = data.find(item => item.id === id);
-      newData.order = index;
-      return newData;
-    });
-  }
 
   /**
    * Move an the items given from previousIndex to currentIndex.
-   * @param event the mouse event.
    */
-  move(event: { previousIndex: number, currentIndex: number }) {
-    // this.index.pipe(
-    //   switchMap((items: any[]) => {
-    //     // adjust order
-    //     const orderedItems = this.reorder(items, event.previousIndex, event.currentIndex);
-
-    //   return this.chainHttp.sendRaw(
-    //     orderedItems.map((orderedItem, index) => {
-    //       return {
-    //         name: 'item' + index,
-    //         method: 'patch',
-    //         url: `${this.endpoint.base}/${orderedItem.id}`,
-    //         data: orderedItem
-    //       };
-    //     }));
-    // })).subscribe(() => this.reloadData());
+  move(indexes: { previousIndex: number, currentIndex: number }) {
+    this.dataSource.pipe(
+      first(),
+      switchMap((response: any[]) => {
+        return this.endpoint.update(response[indexes.previousIndex].id, {
+          ...response[indexes.previousIndex],
+          order: indexes.currentIndex
+        });
+      }),
+      tap(() => {
+        this.reloadData();
+      })).subscribe();
   }
 }

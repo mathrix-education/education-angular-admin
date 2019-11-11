@@ -8,6 +8,8 @@ import {Store} from '@ngxs/store';
 import {of} from 'rxjs';
 import {PolicyEditor} from '@mathrix-education/rest-editor/interfaces/policy-editor.interface';
 import {map, tap} from 'rxjs/operators';
+import {UserHelper} from '../../../../states/user/User.helper';
+import {AdminState} from '../../../../states/admin/admin.state';
 
 
 class DisplayService {
@@ -24,6 +26,7 @@ export class ReportPageComponent extends BaseEditorComponent<Report> implements 
   displayedColumns = ['content', 'type', 'status', 'actions'];
 
   constructor(
+    private store: Store,
     protected reportsHttp: ReportsEndpoint,
     protected dialog: MatDialog,
     protected formBuilder: FormBuilder) {
@@ -48,7 +51,7 @@ export class ReportPageComponent extends BaseEditorComponent<Report> implements 
       edit: false,
       delete: false,
     };
-    //this.policy = UserHelper.hasAdminAccess(this.store.selectSnapshot(SessionState.user)) ? adminPolicy : moderatorPolicy;
+    this.policy = UserHelper.hasAdminAccess(this.store.selectSnapshot(AdminState.user)) ? adminPolicy : moderatorPolicy;
   }
 
   selectElement(element) {

@@ -47,7 +47,8 @@ export class PackComponent extends BaseEditorComponent<Product> implements OnIni
   }
 
   ngOnInit() {
-    this.productsEndpoint.listByType(['training']).subscribe((response: PaginatedResponse<ProductTraining>) => {
+    this.productsEndpoint.listByType(['training']).subscribe(
+      (response: PaginatedResponse<ProductTraining>) => {
       this.trainings = response.data;
     });
   }
