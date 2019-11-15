@@ -3,7 +3,7 @@
     [dataSource]="dataSource"
     [displayedColumns]="displayedColumns"
     [policy]="policy"
-    (selectedElement)="selectElement($event)" (edit)="startEdit($event,['id','type','content','status','module_id'])"
+    (selectedElement)="selectElement($event)" (edit)="startEdit($event)"
     (add)="startAdd()" (delete)="delete($event)">
     <!-- content column -->
     <ng-container matColumnDef="content">

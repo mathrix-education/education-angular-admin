@@ -24,6 +24,8 @@ import {FlexModule} from '@angular/flex-layout';
 import {PricePipe} from './pipes/price.pipe';
 import {Route, RouterModule} from '@angular/router';
 import { TrainingTabComponent } from './components/training-tab/training-tab.component';
+import {SharedModule} from '../shared/shared.module';
+import {SilicateCoreModule} from '@mathrix-education/silicate-core';
 
 
 const routes: Route[] = [
@@ -58,7 +60,9 @@ const routes: Route[] = [
     MatIconModule,
     MatSlideToggleModule,
     MatListModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    SharedModule,
+    SilicateCoreModule
   ]
 })
 export class TrainingModule {

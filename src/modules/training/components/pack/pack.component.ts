@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog, MatListOption} from '@angular/material';
-import {BaseEditorComponent} from '../../../shared/components/base-editor.component';
+import {BaseEditorComponent} from '../../../shared/components/base-editor/base-editor.component';
 import {Product, ProductPack, ProductTraining} from '@mathrix-education/education-api-sdk/models/product';
 import {DataResponse, PaginatedResponse, ProductsEndpoint} from '@mathrix-education/education-api-sdk';
 import {first, switchMap} from 'rxjs/operators';

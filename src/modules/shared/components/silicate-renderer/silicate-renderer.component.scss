@@ -1,0 +1,44 @@
+/**
+This file edit main style
+ */
+
+$blockMarginY: 20px;
+
+:host ::ng-deep {
+
+  counter-reset: h2 h3;
+
+  /** Containers */
+  edu-container-brick, edu-block-brick, edu-subtitle-brick {
+    display: block;
+    margin: $blockMarginY 0;
+
+    .wrapper {
+      padding: 10px 20px;
+    }
+
+    h3 {
+      font-weight: 500;
+    }
+  }
+
+
+  /** Video */
+  silicate-video-brick {
+    margin: $blockMarginY 0;
+    display: block;
+  }
+
+
+  silicate-list-brick {
+
+    ul {
+      margin-bottom: $blockMarginY;
+    }
+  }
+}
+
+:host ::ng-deep .mat-menu-panel {
+  background: blue!important;
+  max-width: inherit!important;
+}

@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {DataResponse, ModulesEndpoint, ProductsEndpoint} from '@mathrix-education/education-api-sdk';
-import {BaseEditorComponent} from '../../../shared/components/base-editor.component';
+import {BaseEditorComponent} from '../../../shared/components/base-editor/base-editor.component';
 import {Module} from '@mathrix-education/education-api-sdk/models/module';
 import {Store} from '@ngxs/store';
 import {switchMap} from 'rxjs/operators';
-import {TrainingState} from '../../../../states/training/training.state';
 import {Product} from '@mathrix-education/education-api-sdk/models/product';
+import {SetSelectedLesson} from '../../../../states/training/training.action';
 
 
 @Component({
@@ -49,17 +49,16 @@ export class LessonTabComponent extends BaseEditorComponent<Product> implements 
       page: this.page,
       per_page: this.perPage,
       filters: [['type', '=', 'lesson'],
-        ['parent_id', '=', selectedSection.id]
-      ]
+        ['parent_id', '=', selectedSection.id],
+      ],
+      expand: ['module']
+
     });
     this.reloadData();
   }
 
   selectElement(lesson: Module) {
-    // this.trainingCreator.select('lesson', lesson);
-    // this.sub1 = this.moduleHttp.read(lesson.module.id).subscribe((response: DataResponse<BaseModuleInterface>) => {
-    //   this.display.showModuleEditor(response.data);
-    // });
+    this.store.dispatch(new SetSelectedLesson(lesson));
   }
 
   add() {

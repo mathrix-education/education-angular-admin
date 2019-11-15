@@ -5,6 +5,9 @@ import {AdminState} from '../../../../states/admin/admin.state';
 import {UserHelper} from '../../../../states/user/User.helper';
 import {TrainingState} from '../../../../states/training/training.state';
 import {SetSelectedTab} from '../../../../states/training/training.action';
+import {map} from 'rxjs/operators';
+import {ProductLesson} from '@mathrix-education/education-api-sdk/models/product';
+import {Module} from '@mathrix-education/education-api-sdk/models/module';
 
 @Component({
   selector: 'app-training-page',
@@ -17,10 +20,16 @@ import {SetSelectedTab} from '../../../../states/training/training.action';
 export class TrainingPageComponent implements OnInit {
   /** The selected tab */
   @Select(TrainingState.selectedTab) selectedTab;
+  /** The selected lesson */
+  @Select(TrainingState.selectedLesson) selectedLesson;
   /** The different tabs */
   @ViewChild('tabGroup', {static: true}) tabGroup: MatTabGroup;
   /** the tab policy */
   policy: any;
+
+  data = this.selectedLesson.pipe(map((lesson: ProductLesson & { module: Module }) => {
+    return JSON.parse(lesson.module.content).silicate;
+  }));
 
   constructor(private store: Store) {
   }

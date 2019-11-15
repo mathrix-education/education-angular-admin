@@ -5,7 +5,4 @@ import {Component} from '@angular/core';
   templateUrl: './training-tab.component.html'
 })
 export class TrainingTabComponent {
-
-
-
 }

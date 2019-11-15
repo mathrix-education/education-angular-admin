@@ -1,0 +1,8 @@
+<mat-dialog-content>
+  <span *ngFor="let smiley of smileys" class="item" (click)="select(smiley)">{{smiley}}</span>
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-button matDialogClose>Annuler</button>
+</mat-dialog-actions>

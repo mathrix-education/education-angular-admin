@@ -1,7 +1,7 @@
 <rest-editor [dataSource]="dataSource"
              [policy]="policy"
              [displayedColumns]="displayedColumns"
-             (edit)="startEdit($event,['content','id','module_id','parent_id'])"
+             (edit)="startEdit($event)"
              (delete)="delete($event)"
              (move)="move($event)"
              (visible)="visible($event)"

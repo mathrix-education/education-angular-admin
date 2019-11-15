@@ -1,0 +1,13 @@
+:host {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
+
+.item {
+  font-size: 2em;
+  padding: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background: lightgray;
+  }
+}

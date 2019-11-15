@@ -1,0 +1,4 @@
+{{data|json}}
+<!--<silicate-wrapper [data]="data" [editable]="editable" (dataChange)="dataChange.emit($event)"></silicate-wrapper>-->
+
+<app-silicate-toolbar (editable)="editable = $event" (save)="save.emit()"></app-silicate-toolbar>

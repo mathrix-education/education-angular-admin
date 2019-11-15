@@ -18,6 +18,12 @@
     <!-- Leçons -->
     <mat-tab [label]="'Leçons'">
       <app-training-lesson-tab *ngIf="(selectedTab|async) === 2"></app-training-lesson-tab>
+      <app-silicate-renderer *ngIf="(selectedTab|async) === 3"
+                             [data]="data|async"></app-silicate-renderer>
     </mat-tab>
   </mat-tab-group>
 </mat-card>
+
+
+{{selectedTab|async}}
+

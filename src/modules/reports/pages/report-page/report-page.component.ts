@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BaseEditorComponent} from '../../../shared/components/base-editor.component';
+import {BaseEditorComponent} from '../../../shared/components/base-editor/base-editor.component';
 import {Report} from '@mathrix-education/education-api-sdk/models/report';
 import {PaginatedResponse, ReportsEndpoint} from '@mathrix-education/education-api-sdk';
 import {FormBuilder} from '@angular/forms';
