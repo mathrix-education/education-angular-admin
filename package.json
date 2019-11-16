@@ -27,7 +27,7 @@
     "@mathrix-education/silicate-core": "1.0.2",
     "@mathrix-education/silicate-education": "1.0.2",
     "@mathrix-education/silicate-videos": "1.0.2",
-    "@mathrix-education/silicate-latex": "1.0.2-dev-a49ca34",
+    "@mathrix-education/silicate-latex": "1.0.2",
     "@mathrix-education/silicate-essentials": "1.0.2",
     "@mathrix-education/rest-editor": "1.0.0",
     "@ngxs/router-plugin": "3.5.1",
