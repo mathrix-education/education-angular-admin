@@ -2,24 +2,21 @@ name: Quality assessment
 on: push
 jobs:
   lint:
-    name: Lint with TSLINT
+    name: Lint with TSlint
     runs-on: ubuntu-latest
     steps:
-      steps:
-        - name: Checkout sources
-          uses: actions/checkout@v1
-        - name: Setup Node.js 12.x
-          uses: actions/setup-node@v1
-          with:
-            node-version: 12.x
-            registry-url: 'https://npm.pkg.github.com'
-        - name: Install
-          run: npm install
-      - name: Lint with tsling
+      - name: Checkout sources
+        uses: actions/checkout@v1
+      - name: Setup Node.js 11.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 11.x
+          registry-url: 'https://npm.pkg.github.com'
+      - run: npm install
+      - name: Lint with TSlint
         run: npm run lint
   analyse:
     name: Analyse with Sonar Scanner
-    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
