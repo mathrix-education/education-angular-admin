@@ -56,7 +56,6 @@ export class PackComponent extends BaseEditorComponent<Product> implements OnIni
   startEdit(pack: ProductPack) {
     this.productsEndpoint.read(pack.id, {expand: ['items']}).pipe(first()).subscribe(
       (response: DataResponse<ProductPack>) => {
-        console.log(this.selectedPack);
         this.selectedPack = response.data;
         super.startEdit(pack);
       }

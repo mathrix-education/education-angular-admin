@@ -4,10 +4,11 @@ import {Select, Store} from '@ngxs/store';
 import {AdminState} from '../../../../states/admin/admin.state';
 import {UserHelper} from '../../../../states/user/User.helper';
 import {TrainingState} from '../../../../states/training/training.state';
-import {SetSelectedTab} from '../../../../states/training/training.action';
+import {SaveTrainingModule, SetSelectedTab} from '../../../../states/training/training.action';
 import {map} from 'rxjs/operators';
 import {ProductLesson} from '@mathrix-education/education-api-sdk/models/product';
 import {Module} from '@mathrix-education/education-api-sdk/models/module';
+import {Wall} from '@mathrix-education/silicate-core';
 
 @Component({
   selector: 'app-training-page',
@@ -56,5 +57,11 @@ export class TrainingPageComponent implements OnInit {
 
   selectedTabChange(tab: number) {
     this.store.dispatch(new SetSelectedTab(tab));
+  }
+
+  save(data: Wall) {
+    const lesson = this.store.selectSnapshot(TrainingState.selectedLesson);
+    this.store.dispatch(new SaveTrainingModule({...lesson.module, ...{content: JSON.stringify(data)}}));
+    ;
   }
 }

@@ -18,5 +18,24 @@ export class SilicateRendererComponent {
   /** Whether the course is editable or not */
   @Input() editable: boolean;
   /** Save event triggered by the silicate toolbar. */
-  @Output() save = new EventEmitter();
+  @Output() save = new EventEmitter<Wall>();
+  /** The local Data, to be sent when save event is triggered. */
+  private localData: Wall;
+
+  /**
+   * Handle data change event by emitting and updating localData
+   * @param data The updated data.
+   */
+  onDataChange(data: Wall) {
+    this.dataChange.emit(data);
+    this.localData = data;
+  }
+
+  /**
+   * Handle save event by emitting the saved data.
+   */
+  onSave() {
+    this.save.emit(this.localData);
+  }
+
 }

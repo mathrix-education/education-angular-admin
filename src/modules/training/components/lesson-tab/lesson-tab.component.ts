@@ -62,7 +62,6 @@ export class LessonTabComponent extends BaseEditorComponent<Product> implements 
   }
 
   add() {
-    console.log(this.addForm);
     const selectedSection = this.store.selectSnapshot(state => state.training.selectedSection);
     // @ts-ignore
     this.modulesEndpoint.create({type: 'course', visible: false, order: 0}).pipe(

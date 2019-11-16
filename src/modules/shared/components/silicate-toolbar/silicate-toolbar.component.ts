@@ -2,7 +2,7 @@ import {DOCUMENT} from '@angular/common';
 import {Component, EventEmitter, Inject, Output, ViewChild} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {SmileySelectorComponent} from '../smiley-selector/smiley-selector.component';
-import {ConfirmModalComponent} from '../confirm-modal/confirm.modal';
+import {ConfirmDialogComponent} from '../confirm-dialog/confirm.dialog';
 
 
 @Component({
@@ -35,7 +35,7 @@ export class SilicateToolbarComponent {
   }
 
   openUploadModal() {
-     //this.dialog.open(UploadModalComponent);
+    //this.dialog.open(UploadModalComponent);
   }
 
   validate() {
@@ -56,7 +56,7 @@ export class SilicateToolbarComponent {
 
 
   askValidate() {
-    this.dialog.open(ConfirmModalComponent, {
+    this.dialog.open(ConfirmDialogComponent, {
       data: {message: 'Vous allez importer le cours sur le serveur. Confirmer ?'}
     })
       .afterClosed().subscribe((positiveAnswer: boolean) => {

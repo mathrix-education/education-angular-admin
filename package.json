@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "8.2.3",
     "@angular/router": "8.2.3",
     "@auth0/angular-jwt": "^3.0.0",
-    "@mathrix-education/education-api-sdk": "1.0.0-dims-endpoints-865697e",
+    "@mathrix-education/education-api-sdk": "1.0.0-dims-endpoints-a30d6ee",
     "@mathrix-education/silicate-core": "1.0.2",
     "@mathrix-education/silicate-education": "1.0.2",
     "@mathrix-education/silicate-videos": "1.0.2",

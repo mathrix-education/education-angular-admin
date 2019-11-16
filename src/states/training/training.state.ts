@@ -1,8 +1,12 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
-import {SetSelectedLesson, SetSelectedSection, SetSelectedTab, SetSelectedTraining} from './training.action';
-import {Product} from '@mathrix-education/education-api-sdk/models/product';
-import {DataResponse, ProductsEndpoint} from '@mathrix-education/education-api-sdk';
-import {sample, switchMap, tap} from 'rxjs/operators';
+import {
+  SaveTrainingModule,
+  SetSelectedLesson,
+  SetSelectedSection,
+  SetSelectedTab,
+  SetSelectedTraining
+} from './training.action';
+import {ModulesEndpoint, ProductsEndpoint} from '@mathrix-education/education-api-sdk';
 
 export interface TrainingStateModel {
   selectedTraining: any;
@@ -26,7 +30,6 @@ export class TrainingState {
 
   @Selector()
   static selectedTab(state: TrainingStateModel) {
-    console.log('updataro', state.selectedTab);
     return state.selectedTab;
   }
 
@@ -36,7 +39,7 @@ export class TrainingState {
   }
 
 
-  constructor(private productEndpoint: ProductsEndpoint) {
+  constructor(private productsEndpoint: ProductsEndpoint, private modulesEndpoint: ModulesEndpoint) {
   }
 
   @Action(SetSelectedTraining)
@@ -51,11 +54,16 @@ export class TrainingState {
 
   @Action(SetSelectedLesson)
   setSelectedLesson(context: TrainingStateContext, {selectedLesson}: SetSelectedLesson) {
-        context.patchState({selectedLesson, selectedTab: 3});
+    context.patchState({selectedLesson, selectedTab: 3});
   }
 
   @Action(SetSelectedTab)
   changeTab(context: TrainingStateContext, {selectedTab}: SetSelectedTab) {
     context.patchState({selectedTab});
+  }
+
+  @Action(SaveTrainingModule)
+  saveTrainingModule(context: TrainingStateContext, {savedTrainingModule}: SaveTrainingModule) {
+    return this.modulesEndpoint.update(savedTrainingModule.id, savedTrainingModule);
   }
 }
