@@ -1,4 +1,3 @@
-
 # Mathrix Education Angular
 # =====================
 options:
@@ -37,8 +36,8 @@ steps:
   - id: 'ng:browser'
     name: 'node:12-alpine'
     waitFor: ['workspace:setup']
-    entrypoint: 'npx'
-    args: ['ng', 'build', '--prod']
+    entrypoint: 'npm'
+    args: ['run', 'ng:browser:$BRANCH_NAME']
 
   # ==================================================== #
   # Stage 3:                                             #

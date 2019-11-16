@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "ng:browser:dev": "ng build --prod",
+    "ng:browser:master": "ng:build",
     "test": "ng test",
     "lint": "ng lint"
   },
