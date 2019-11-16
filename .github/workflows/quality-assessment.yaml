@@ -12,11 +12,12 @@ jobs:
         with:
           node-version: 11.x
           registry-url: 'https://npm.pkg.github.com'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm install --verbose
       - name: Lint with TSlint
         run: npm run lint
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+
   analyse:
     name: Analyse with Sonar Scanner
     runs-on: ubuntu-latest
