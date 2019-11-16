@@ -11,15 +11,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - name: Install depencies
-        run: |
-          cp .npmrc .npmrc.ori &&
-          echo "//npm.pkg.github.com/:_authToken=\$${NPM_TOKEN}" >> .npmrc &&
-          npm install &&
-          rm .npmrc &&
-          mv .npmrc.ori .npmrc
+          registry-url: 'https://npm.pkg.github.com'
+      - name: Install dependencies
+        run: npm install --verbose
         env:
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
       - name: Lint with TSLint
         run: npx ng lint
 
