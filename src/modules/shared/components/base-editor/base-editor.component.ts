@@ -8,7 +8,6 @@ import {Endpoint} from '@mathrix-education/education-api-sdk/lib/endpoints/endpo
 import {Model, ModelId} from '@mathrix-education/education-api-sdk/lib/models/model';
 import {first, map, tap} from 'rxjs/operators';
 import {DataResponse, PaginatedResponse} from '@mathrix-education/education-api-sdk';
-import {BepJsonWriter} from '@angular/cli/utilities/bep';
 
 /**
  * The BaseEditorComponent provides the base logic for all related editing component in panel admin
@@ -18,10 +17,11 @@ import {BepJsonWriter} from '@angular/cli/utilities/bep';
   template: ''
 })
 export class BaseEditorComponent<T extends Model<ModelId>> {
-  /**addDialogTemplate,editDialogTemplate, deleteDialogTemplate:the dialog template used to add, edit or delete an entity.
-   * These templates are given next to the restEditor component*/
+  /** The dialog template used to add an entity. */
   @ViewChild('addDialogTemplate', {static: false}) addDialogTemplate;
+  /** The dialog template used to edit an entity. */
   @ViewChild('editDialogTemplate', {static: false}) editDialogTemplate;
+  /** The dialog template used to delete an entity. */
   @ViewChild('deleteDialogTemplate', {static: false}) deleteDialogTemplate;
 
   /** prevTab, nextTab: the event emitter to change tab when the user select an entity */

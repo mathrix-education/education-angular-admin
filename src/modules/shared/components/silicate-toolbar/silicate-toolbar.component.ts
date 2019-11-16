@@ -35,7 +35,7 @@ export class SilicateToolbarComponent {
   }
 
   openUploadModal() {
-    //this.dialog.open(UploadModalComponent);
+    // this.dialog.open(UploadModalComponent);
   }
 
   validate() {

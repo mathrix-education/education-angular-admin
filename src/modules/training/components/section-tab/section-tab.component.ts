@@ -26,7 +26,7 @@ export class SectionTabComponent extends BaseEditorComponent<any> implements OnI
     visible: true
   };
 
-   addForm: FormGroup ;
+  addForm: FormGroup;
 
   constructor(
     private productsEndpoint: ProductsEndpoint,
@@ -52,7 +52,18 @@ export class SectionTabComponent extends BaseEditorComponent<any> implements OnI
         ['parent_id', '=', selectedTraining.id]
       ]
     });
-    this.addForm = this.formBuilder.group({name: '', slug: '', type: 'section', image: null, description: '', price: 0, visible: false, order: 0, parent_id: selectedTraining.id});
+    this.addForm = this.formBuilder.group(
+      {
+        name: '',
+        slug: '',
+        type: 'section',
+        image: null,
+        description: '',
+        price: 0,
+        visible: false,
+        order: 0,
+        parent_id: selectedTraining.id
+      });
     this.reloadData();
   }
 

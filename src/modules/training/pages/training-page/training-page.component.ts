@@ -62,6 +62,5 @@ export class TrainingPageComponent implements OnInit {
   save(data: Wall) {
     const lesson = this.store.selectSnapshot(TrainingState.selectedLesson);
     this.store.dispatch(new SaveTrainingModule({...lesson.module, ...{content: JSON.stringify(data)}}));
-    ;
   }
 }

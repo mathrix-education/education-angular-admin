@@ -55,7 +55,7 @@ export class ReportPageComponent extends BaseEditorComponent<Report> implements 
   }
 
   selectElement(element) {
-    //this.display.showModuleEditor(element.module);
+    // this.display.showModuleEditor(element.module);
   }
 
 

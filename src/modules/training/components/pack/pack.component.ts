@@ -49,8 +49,8 @@ export class PackComponent extends BaseEditorComponent<Product> implements OnIni
   ngOnInit() {
     this.productsEndpoint.listByType(['training']).subscribe(
       (response: PaginatedResponse<ProductTraining>) => {
-      this.trainings = response.data;
-    });
+        this.trainings = response.data;
+      });
   }
 
   startEdit(pack: ProductPack) {
@@ -63,7 +63,8 @@ export class PackComponent extends BaseEditorComponent<Product> implements OnIni
   }
 
   trainingIsInPack(training: ProductTraining): boolean {
-    return (this.selectedPack !== undefined) && this.selectedPack.items && this.selectedPack.items.some(product => product.id === training.id);
+    return (this.selectedPack !== undefined) && this.selectedPack.items &&
+      this.selectedPack.items.some(product => product.id === training.id);
   }
 
   addPack(selectedOptions: MatListOption[]) {
