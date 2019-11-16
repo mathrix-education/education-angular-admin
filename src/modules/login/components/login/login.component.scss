@@ -1,0 +1,12 @@
+@import "../../../../styles/mixins/web.mixins";
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: lightgrey;
+}
+.login {
+  background: white;
+  @include padding(2);
+}

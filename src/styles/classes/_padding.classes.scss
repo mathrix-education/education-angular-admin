@@ -1,0 +1,31 @@
+@import "../mixins/padding.mixins";
+
+@for $i from 0 through 8 {
+  .p-#{$i} {
+    @include padding($i);
+  }
+
+  .px-#{$i} {
+    @include padding-x($i);
+  }
+
+  .py-#{$i} {
+    @include padding-y($i);
+  }
+
+  .pt-#{$i} {
+    @include padding-top($i);
+  }
+
+  .pb-#{$i} {
+    @include padding-bottom($i);
+  }
+
+  .pl-#{$i} {
+    @include padding-left($i);
+  }
+
+  .pr-#{$i} {
+    @include padding-right($i);
+  }
+}

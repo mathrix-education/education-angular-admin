@@ -1,23 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Observable} from 'rxjs';
+import {AdminState, AdminTitle} from '../../../../states/admin/admin.state';
+import {Select} from '@ngxs/store';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
-export class AdminComponent implements OnInit {
-
-  title = 'education-angular-admin';
+export class AdminComponent {
+  /** the title of the selected tab */
+  @Select(AdminState.title) title$: Observable<AdminTitle>;
   sideMenuOpened = false;
-  title$: Observable<string>;
-
-
-  ngOnInit() {
-    // this.title$ = this.adminPage.title$.pipe(
-    //   // delay to avoid ExpressionChanged error
-    //   delay(0));
-  }
 
   /**
    * Toggle or untoggle the sidenav menu
@@ -32,5 +26,4 @@ export class AdminComponent implements OnInit {
   closeMenu() {
     this.sideMenuOpened = false;
   }
-
 }

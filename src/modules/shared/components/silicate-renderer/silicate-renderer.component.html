@@ -1,0 +1,3 @@
+<silicate-wrapper [data]="data" [editable]="editable" (dataChange)="onDataChange($event)"></silicate-wrapper>
+
+<app-silicate-toolbar *ngIf="editable" (editable)="editable = $event" (save)="onSave()"></app-silicate-toolbar>

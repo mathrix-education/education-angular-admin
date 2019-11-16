@@ -1,0 +1,28 @@
+<button mat-icon-button *ngIf="!showEditMenu"
+        matTooltip="éditer"
+        (click)="openMenu()">
+  <mat-icon>edit</mat-icon>
+</button>
+
+<ng-container *ngIf="showEditMenu">
+  <!-- smileys -->
+  <button mat-icon-button
+          matTooltip="ajouter un émoticône"
+          (mousedown)="openSmileyModal()">
+    <mat-icon>tag_faces</mat-icon>
+  </button>
+
+  <!-- image upload -->
+  <button mat-icon-button
+          matTooltip="importer un fichier"
+          (click)="openUploadModal()">
+    <mat-icon>cloud_upload</mat-icon>
+  </button>
+
+  <!-- http validation -->
+  <button mat-icon-button
+          matTooltip="valider les modifications"
+          (click)="askValidate()">
+    <mat-icon>check</mat-icon>
+  </button>
+</ng-container>

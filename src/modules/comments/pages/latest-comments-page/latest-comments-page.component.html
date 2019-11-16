@@ -1,0 +1,53 @@
+<rest-editor [dataSource]="dataSource"
+             [policy]="policy"
+             [displayedColumns]="displayedColumns"
+             (edit)="startEdit($event)"
+             (delete)="delete($event)"
+             (move)="move($event)"
+             (visible)="visible($event)"
+>
+  <!-- name column -->
+  <ng-container matColumnDef="content">
+    <mat-header-cell *matHeaderCellDef>Contenu</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.content}} </mat-cell>
+  </ng-container>
+
+  <!-- slug column -->
+  <ng-container matColumnDef="module_id">
+    <mat-header-cell *matHeaderCellDef>Id du module</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.module_id }}</mat-cell>
+  </ng-container>
+</rest-editor>
+
+<mat-paginator [length]="total"
+               [pageSize]="perPage"
+               [pageSizeOptions]="pageSizeOptions"
+               (page)="changePagination($event)"
+>
+</mat-paginator>
+
+
+<!-- edit dialog -->
+<ng-template #editDialogTemplate>
+  <h2 matDialogTitle>Editer un commentaire</h2>
+
+  <mat-dialog-content>
+
+    <form [formGroup]="editForm" fxLayout="column">
+      <mat-form-field>
+        <input matInput placeholder="Commentaire" formControlName="content">
+      </mat-form-field>
+    </form>
+
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose>Annuler</button>
+    <button mat-button matDialogClose color="primary" (click)="edit()">Editer</button>
+  </mat-dialog-actions>
+</ng-template>
+
+
+
+

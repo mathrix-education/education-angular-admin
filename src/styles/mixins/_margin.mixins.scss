@@ -1,0 +1,35 @@
+@import "../web/web.variables";
+
+@mixin margin($i) {
+  margin: $i*$base-dp !important;
+}
+
+@mixin margin-top($i) {
+  margin-top: $i*$base-dp !important;
+}
+
+@mixin margin-bottom($i) {
+  margin-bottom: $i*$base-dp !important;
+}
+
+@mixin margin-left($i) {
+  margin-left: $i*$base-dp !important;
+}
+
+@mixin margin-right($i) {
+  margin-right: $i*$base-dp !important;
+}
+
+@mixin margin-y($i) {
+  @include margin-top($i);
+  @include margin-bottom($i);
+}
+
+@mixin margin-x($i) {
+  @include margin-left($i);
+  @include margin-right($i);
+}
+
+@mixin margin-auto {
+  margin: auto;
+}

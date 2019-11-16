@@ -1,7 +1,7 @@
 import {DatePipe} from '@angular/common';
 import {Pipe, PipeTransform} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Subscription} from '../../../../_core/_services/api/models/_interfaces/subscription.model';
+import {Subscription} from '@mathrix-education/education-api-sdk/models/subscription';
 
 @Pipe({
   name: 'subscriptionStatus'

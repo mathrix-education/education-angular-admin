@@ -1,0 +1,32 @@
+<div class="login">
+  <form [formGroup]="form" (ngSubmit)="login()" *ngIf="!isLoading">
+    <!-- email -->
+    <mat-form-field appearance="outline" fxFill>
+      <mat-label class="input-label">Email</mat-label>
+
+      <input matInput placeholder="Email ou nom d'utilisateur"
+             formControlName="email"
+             type="email">
+    </mat-form-field>
+
+    <!-- password -->
+    <mat-form-field appearance="outline" fxFill>
+      <mat-label class="input-label">Mot de passe</mat-label>
+
+      <input matInput placeholder="Mot de passe"
+             formControlName="password"
+             type="password">
+    </mat-form-field>
+
+    <!--Login button -->
+    <button mat-raised-button color="primary" fxFill
+            data-cy="login-submit"
+            type="submit"
+            [disabled]="form.status != 'VALID'">
+      Connexion
+    </button>
+  </form>
+
+  <mat-progress-spinner color="primary" mode="indeterminate" *ngIf="isLoading"></mat-progress-spinner>
+</div>
+

@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {AdminComponent} from './components/admin/admin.component';
-import {BootstrapModule} from '../bootstrap/bootstrap.module';
 import {CommonModule} from '@angular/common';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -9,25 +8,32 @@ import {MatIconModule} from '@angular/material/icon';
 import {Route, RouterModule} from '@angular/router';
 import {SidenavComponent} from './components/sidenav/sidenav.component';
 
-const routes: Route[] = [{
-  path: 'user',
-  loadChildren: () => import('../user/user.module').then(m => m.UserModule)
-}];
+const routes: Route[] = [
+  {
+    path: '', component: AdminComponent,
+    children: [
+      {path: 'users', loadChildren: () => import('../user/user.module').then(m => m.UserModule)},
+      {path: 'comments', loadChildren: () => import('../comments/comments.module').then(m => m.CommentsModule)},
+      {path: 'content', loadChildren: () => import('../content/content.module').then(m => m.ContentModule)},
+      {path: 'trainings', loadChildren: () => import('../training/training.module').then(m => m.TrainingModule)},
+      {path: 'reports', loadChildren: () => import('../reports/reports.module').then(m => m.ReportsModule)},
+      {path: '', redirectTo: 'users', pathMatch: 'full'}
+    ]
+  },
+];
 
 @NgModule({
   declarations: [
     AdminComponent,
     SidenavComponent],
   imports: [
-    BootstrapModule,
     CommonModule,
     MatIconModule,
     MatListModule,
     MatSidenavModule,
     MatToolbarModule,
-    RouterModule,
     RouterModule.forChild(routes)
-  ]
+  ],
 })
 export class AdminModule {
 }

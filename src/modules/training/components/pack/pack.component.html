@@ -1,0 +1,111 @@
+<rest-editor [dataSource]="dataSource"
+             [policy]="policy"
+             [displayedColumns]="displayedColumns"
+             (edit)="startEdit($event)"
+             (add)="startAdd()" (visible)="visible($event)" (delete)="delete($event)">
+  <!-- name column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+  </ng-container>
+
+  <!-- slug column -->
+  <ng-container matColumnDef="slug">
+    <mat-header-cell *matHeaderCellDef>Url</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.slug }}</mat-cell>
+  </ng-container>
+
+  <!-- description column -->
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.description }}</mat-cell>
+  </ng-container>
+
+  <!-- price column -->
+  <ng-container matColumnDef="price">
+    <mat-header-cell *matHeaderCellDef>Prix</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.price|price}}</mat-cell>
+  </ng-container>
+
+  <!-- buyable column -->
+  <ng-container matColumnDef="buyable">
+    <mat-header-cell *matHeaderCellDef>Achetable</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-icon *ngIf="element.buyable" style="color: darkgreen">check_circle</mat-icon>
+    </mat-cell>
+  </ng-container>
+</rest-editor>
+
+
+<!-- add dialog -->
+<ng-template #addDialogTemplate>
+  <h2 matDialogTitle>Ajouter un pack</h2>
+
+  <mat-dialog-content>
+    <ng-container *ngTemplateOutlet="insideForm; context: {form: this.addForm, slugField: true}"></ng-container>
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose>Annuler</button>
+    <button mat-button matDialogClose color="primary" (click)="addPack(individualProducts.selectedOptions.selected)">Ajouter</button>
+  </mat-dialog-actions>
+</ng-template>
+
+
+<!-- edit dialog -->
+<ng-template #editDialogTemplate>
+  <h2 matDialogTitle>Editer un pack</h2>
+
+  <mat-dialog-content>
+    <ng-container *ngTemplateOutlet="insideForm; context: {form: this.editForm, slugField: false}"></ng-container>
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose>Annuler</button>
+    <button mat-button matDialogClose color="primary" (click)="editPack(individualProducts.selectedOptions.selected)">
+      Editer
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+
+<!-- interior -->
+<ng-template #insideForm let-form="form" let-slugField="slugField">
+  <form [formGroup]="form" fxLayout="column">
+
+    <!-- name -->
+    <mat-form-field>
+      <input matInput placeholder="Nom" formControlName="name">
+    </mat-form-field>
+
+    <!-- slug -->
+    <mat-form-field *ngIf="slugField">
+      <input matInput placeholder="Url" formControlName="slug">
+    </mat-form-field>
+
+    <!-- description -->
+    <mat-form-field>
+      <input matInput placeholder="Description" formControlName="description">
+    </mat-form-field>
+
+    <!-- price -->
+    <mat-form-field>
+      <input matInput placeholder="Prix" type="number" formControlName="price">
+    </mat-form-field>
+
+    <!-- buyable -->
+    <mat-slide-toggle formControlName="buyable">Achetable</mat-slide-toggle>
+
+    <mat-selection-list #individualProducts>
+      <mat-list-option *ngFor="let training of trainings" checkboxPosition="left"
+                       [value]="training"
+                       [selected]="trainingIsInPack(training)">
+              <span matLine>{{training.name}}
+                <span class="price float-right">{{training.price | price}}</span>
+              </span>
+      </mat-list-option>
+    </mat-selection-list>
+  </form>
+</ng-template>

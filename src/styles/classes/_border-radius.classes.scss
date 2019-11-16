@@ -1,0 +1,40 @@
+@import "../mixins/border-radius.mixins";
+
+@for $i from 0 through 8 {
+  .br-#{$i} {
+    @include border-radius($i);
+  }
+
+  .br-t-#{$i} {
+    @include border-top-radius($i);
+  }
+
+  .br-b-#{$i} {
+    @include border-bottom-radius($i);
+  }
+
+  .br-l-#{$i} {
+    @include border-left-radius($i);
+  }
+
+  .br-r-#{$i} {
+    @include border-right-radius($i);
+  }
+
+  .br-tl-#{$i} {
+    @include border-top-left-radius($i);
+  }
+
+  .br-tr-#{$i} {
+    @include border-top-right-radius($i);
+  }
+
+  .br-bl-#{$i} {
+    @include border-bottom-left-radius($i);
+  }
+
+  .br-br-#{$i} {
+    @include border-bottom-right-radius($i);
+  }
+}
+

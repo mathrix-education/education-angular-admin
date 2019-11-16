@@ -1,0 +1,24 @@
+@import "../web/web.variables";
+
+
+@mixin position-absolute($top: null, $right: null, $bottom: null, $left: null) {
+  position: absolute;
+  @if $top {
+    top: $top * $base-dp;
+  }
+  @if $right {
+    right: $right * $base-dp;
+  }
+  @if $bottom {
+    bottom: $bottom * $base-dp;
+  }
+  @if $left {
+    left: $left * $base-dp;
+  }
+}
+
+@mixin absolute-fullscreen {
+  @include position-absolute;
+  width: 100%;
+  height: 100%;
+}

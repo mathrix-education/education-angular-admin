@@ -93,7 +93,7 @@
         <mat-checkbox
           [(ngModel)]="scope.selected"
           [disabled]="!editMode"
-          (ngModelChange)="refreshScopes(user)">
+          (ngModelChange)="refreshScopes()">
           <span matLine>{{scope.scope}}</span>
         </mat-checkbox>
       </mat-list-item>
