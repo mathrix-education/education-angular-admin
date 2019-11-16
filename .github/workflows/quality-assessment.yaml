@@ -15,6 +15,8 @@ jobs:
       - run: npm install --verbose
       - name: Lint with TSlint
         run: npm run lint
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
   analyse:
     name: Analyse with Sonar Scanner
     runs-on: ubuntu-latest
@@ -44,4 +46,4 @@ jobs:
           entrypoint: ash
           args: -c "npm i -g typescript && sonar-scanner -Dsonar.projectBaseDir=. -Dsonar.login=${{ secrets.SONAR_TOKEN }}"
         env:
-          - NODE_PATH: /usr/lib/node_modules
+          NODE_PATH: /usr/lib/node_modules
