@@ -40,5 +40,5 @@ jobs:
       - name: Analyse with Sonar Scanner
         uses: docker://newtmitch/sonar-scanner:4.0-alpine
         with:
-          entrypoint: sonar-scanner
-          args: -Dsonar.projectBaseDir=. -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          entrypoint: ash
+          args: -c "npm i -g typescript && sonar-scanner -Dsonar.projectBaseDir=. -Dsonar.login=${{ secrets.SONAR_TOKEN }}"
