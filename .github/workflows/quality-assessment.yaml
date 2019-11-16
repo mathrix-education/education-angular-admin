@@ -38,7 +38,7 @@ jobs:
           echo "sonar.branch.name=${CURRENT_BRANCH}" >> sonar-project.properties
           echo "sonar.branch.target=${PARENT_BRANCH}" >> sonar-project.properties
       - name: Analyse with Sonar Scanner
-        uses: docker://skilldlabs/sonar-scanner:3.3
+        uses: docker://newtmitch/sonar-scanner:4.0-alpine
         with:
           entrypoint: sonar-scanner
           args: -Dsonar.projectBaseDir=. -Dsonar.login=${{ secrets.SONAR_TOKEN }}
