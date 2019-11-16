@@ -7,16 +7,23 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v1
-      - name: Setup Node.js 11.x
+      - name: Setup Node.js 12.x
         uses: actions/setup-node@v1
         with:
-          node-version: 11.x
+          node-version: 12.x
           registry-url: 'https://npm.pkg.github.com'
       - run: npm install --verbose
+      - name: Install depencies
+        run: |
+          cp .npmrc .npmrc.ori &&
+          echo "//npm.pkg.github.com/:_authToken=\$${NPM_TOKEN}" >> .npmrc &&
+          npm install &&
+          rm .npmrc &&
+          mv .npmrc.ori .npmrc
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Lint with TSlint
-        run: npm run lint
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Lint with TSLint
+        run: npx ng lint
 
   analyse:
     name: Analyse with Sonar Scanner
