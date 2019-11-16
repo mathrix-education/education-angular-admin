@@ -1,0 +1,49 @@
+name: Build Project
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v1
+      - name: Setup Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: 'https://npm.pkg.github.com'
+      - name: Install dependencies
+        run: npm install --verbose
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branches: ['dev','master']
+      steps:
+        - name: build
+          run: |
+            REF="${{ matrix.branches }}"
+            SHA="${{ github.sha }}"
+            SHORT_SHA=${SHA:0:7}
+            BUILD="${{REF}}-${SHA}"
+            cd dist
+            if [[ "${{matrix.branches}}" != "master" ]]; then
+              jq ".version = .version + \"-${BUILD}\"" package.json > package.json.tmp
+              mv package.json.tmp package.json
+            fi
+            npm run ng:browser:${REF}
+        - name: docker build
+          uses: actions/docker/cli@master
+          with:
+            args: build -t ${{github.repository}}-${{matrix.branches}}-${{github.sha}}
+        - name: Upload docker Box
+          uses: actions/upload-artifact@v1
+          with:
+            name: ${{github.repository}}-${{matrix.branches}}-${{github.sha}}
+            path: tslint.json
