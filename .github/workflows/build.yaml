@@ -24,14 +24,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        branches: ['dev','master']
+        branches:
+          - dev
+          - master
     steps:
       - name: build
         run: |
-          REF="${{ matrix.branches }}"
           SHA="${{ github.sha }}"
+          REF="${{ matrix.branches }}"
           SHORT_SHA=${SHA:0:7}
-          BUILD="${{REF}}-${SHA}"
+          BUILD="${REF}-${SHA}"
           cd dist
           if [[ "${{matrix.branches}}" != "master" ]]; then
             jq ".version = .version + \"-${BUILD}\"" package.json > package.json.tmp
