@@ -4,21 +4,6 @@ on:
     branches:
       - dev
 jobs:
-  setup:
-    name: Setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v1
-      - name: Setup Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-          registry-url: 'https://npm.pkg.github.com'
-      - name: Install dependencies
-        run: npm install --verbose
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -28,31 +13,37 @@ jobs:
           - dev
           - master
     steps:
+      - name: Checkout sources
+        uses: actions/checkout@v1
+      - name: Setup Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: 'https://npm.pkg.github.com'
+      - name: Install dependencies
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+        run: npm install
       - name: build
         run: |
           SHA="${{ github.sha }}"
           REF="${{ matrix.branches }}"
-          SHORT_SHA=${SHA:0:7}
+          SHORT_SHA="${SHA:0:7}"
           BUILD="${REF}-${SHA}"
-          cd dist
-          if [[ "${{matrix.branches}}" != "master" ]]; then
-            jq ".version = .version + \"-${BUILD}\"" package.json > package.json.tmp
-            mv package.json.tmp package.json
-          fi
           npm run ng:browser:${REF}
       - name: Authenticate to Google Cloud Container Registry with service account key
-          run: echo ${{ secrets.GCLOUD_AUTH }} | base64 -d | docker login -u _json_key --password-stdin https://eu.gcr.io
+        run: echo ${{ secrets.GCLOUD_AUTH }} | base64 -d | docker login -u _json_key --password-stdin https://eu.gcr.io
       - name: Push image to Google Cloud Container Registry
-          run: docker push eu.gcr.io/mathrix-education/education-angular-admin:${GITHUB_SHA:0:7}
+        run: docker push eu.gcr.io/mathrix-education/education-angular-admin:${GITHUB_SHA:0:7}
       - name: Deploy To Google Cloud
         if: matrix.branches == 'dev'
-          run: |
-            gcloud beta run deploy education-angular-admin \
-              --image eu.gcr.io/mathrix-education/education-angular-admin:$(printenv GITHUB_SHA | head -c 7) \
-              --platform=managed \
-              --region=europe-west1 \
-              --allow-unauthenticated \
-              --set-env-vars="APP_ENV=dev,APP_BUILD=$(printenv GITHUB_SHA | head -c 7)"
-          env:
-            CLOUDSDK_CORE_PROJECT: mathrix-education
+        run: |
+          gcloud beta run deploy education-angular-admin \
+            --image eu.gcr.io/mathrix-education/education-angular-admin:$(printenv GITHUB_SHA | head -c 7) \
+            --platform=managed \
+            --region=europe-west1 \
+            --allow-unauthenticated \
+            --set-env-vars="APP_ENV=dev,APP_BUILD=$(printenv GITHUB_SHA | head -c 7)"
+        env:
+          CLOUDSDK_CORE_PROJECT: mathrix-education
 
