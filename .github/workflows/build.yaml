@@ -17,10 +17,12 @@ jobs:
         uses: mathrix-education/setup-gcloud@master
         with:
           project: mathrix-education
-          service-acount-key:  ${{secrets.GCLOUD_AUTH }}
+          service-account-key:  ${{secrets.GCLOUD_AUTH }}
           configure-docker: true
-      - name: debug
-        run: gcloud config list account --format "value(core.account)"
+      - name: Test Google Cloud SDK CLI
+        run: |
+          gcloud version
+          gcloud config list account --format "value(core.account)"
       - name: Checkout sources
         uses: actions/checkout@v1
       - name: Setup Node.js 12.x
