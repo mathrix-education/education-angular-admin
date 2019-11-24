@@ -29,6 +29,9 @@ jobs:
           SHA="${{ github.sha }}"
           REF="${{ matrix.branches }}"
           SHORT_SHA="${SHA:0:7}"
+          echo SHA
+          echo REF
+          echo SHORT_SHA
           BUILD="${REF}-${SHA}"
           npm run ng:browser:${REF}
       - name: Authenticate to Google Cloud Container Registry with service account key
