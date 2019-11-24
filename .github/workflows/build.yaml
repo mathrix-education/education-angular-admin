@@ -34,8 +34,12 @@ jobs:
           echo SHORT_SHA
           BUILD="${REF}-${SHA}"
           npm run ng:browser:${REF}
-      - name: Authenticate to Google Cloud Container Registry with service account key
-        run: echo ${{ secrets.GCLOUD_AUTH }} | base64 -d | docker login -u _json_key --password-stdin https://eu.gcr.io
+      - name: Setup gcloud
+        uses: mathrix-education/setup-gcloud@master
+        with:
+          project: mathrix-education
+          service-acount-key:  ${{secrets.GCLOUD_AUTH }}
+          configure-docker: true
       - name: Push image to Google Cloud Container Registry
         run: docker push eu.gcr.io/mathrix-education/education-angular-admin:${GITHUB_SHA:0:7}
       - name: Deploy To Google Cloud
