@@ -13,6 +13,14 @@ jobs:
           - dev
           - master
     steps:
+      - name: Setup gcloud
+        uses: mathrix-education/setup-gcloud@master
+        with:
+          project: mathrix-education
+          service-acount-key:  ${{secrets.GCLOUD_AUTH }}
+          configure-docker: true
+      - name: debug
+        run: gcloud config list account --format "value(core.account)"
       - name: Checkout sources
         uses: actions/checkout@v1
       - name: Setup Node.js 12.x
@@ -40,12 +48,6 @@ jobs:
           npm run ng:browser:${REF}
       - name: Build Docker
         run: docker build -t eu.gcr.io/mathrix-education/education-angular-admin:${GITHUB_SHA:0:7} .
-      - name: Setup gcloud
-        uses: mathrix-education/setup-gcloud@master
-        with:
-          project: mathrix-education
-          service-acount-key:  ${{secrets.GCLOUD_AUTH }}
-          configure-docker: true
       - name: Push image to Google Cloud Container Registry
         run: docker push eu.gcr.io/mathrix-education/education-angular-admin:${GITHUB_SHA:0:7}
       - name: Deploy To Google Cloud
@@ -57,6 +59,3 @@ jobs:
             --region=europe-west1 \
             --allow-unauthenticated \
             --set-env-vars="APP_ENV=dev,APP_BUILD=$(printenv GITHUB_SHA | head -c 7)"
-        env:
-          CLOUDSDK_CORE_PROJECT: mathrix-education
-
