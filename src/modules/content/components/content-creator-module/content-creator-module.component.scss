@@ -1,0 +1,13 @@
+.gray {
+  color: lightgray;
+}
+
+.comment {
+  border-bottom: 1px solid lightgray;
+  padding: 5px;
+}
+
+.options-cell:hover {
+  background: gray;
+  cursor: pointer;
+}

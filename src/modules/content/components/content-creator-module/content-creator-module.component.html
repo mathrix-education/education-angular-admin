@@ -1,0 +1,175 @@
+
+<app-rest-editor [dataSource]="dataSource"
+                 [policy]="policy"
+                 [displayedColumns]="displayedColumns"
+                 (selectedElement)="selectElement($event)"
+                 (add)="startAdd()"
+                 (edit)="startEdit($event)"
+                 (delete)="delete($event)"
+                 (move)="move($event)"
+                 (changeActivity)="startChangeActivity($event)"
+                 (visible)="visible($event)"
+>
+  <!-- seo title column -->
+  <ng-container matColumnDef="seo_title">
+    <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.seo_title}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="type">
+    <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+  </ng-container>
+
+  <!-- seo slug column -->
+  <ng-container matColumnDef="seo_slug">
+    <mat-header-cell *matHeaderCellDef>Url</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.seo_slug }}</mat-cell>
+  </ng-container>
+
+  <!-- seo description column -->
+  <ng-container matColumnDef="seo_description">
+    <mat-header-cell *matHeaderCellDef>Description Seo</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.seo_description }}</mat-cell>
+  </ng-container>
+
+  <!-- seo_index column -->
+  <ng-container matColumnDef="seo_index">
+    <mat-header-cell *matHeaderCellDef>Indexé sur Google</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-icon *ngIf="element.seo_index" style="color: darkgreen">check_circle</mat-icon>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="modules">
+    <mat-header-cell mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let element" class="options-cell" (click)="openMessenger($event, element)">
+
+      <button mat-icon-button *ngIf="element.options?.locked"
+              matTooltip="vérouillé">
+        <mat-icon >lock</mat-icon>
+      </button>
+
+      <button mat-icon-button *ngIf="element.options?.edit_needed"
+              matTooltip="nécéssite un changement">
+        <mat-icon color="warn">warning</mat-icon>
+      </button>
+
+      <button mat-icon-button
+              [class.gray]="element.options?.messages.length === 0"
+              matTooltip="messages">
+        <mat-icon>email</mat-icon>
+        {{element.options?.messages.length}}</button>
+    </mat-cell>
+
+  </ng-container>
+</app-rest-editor>
+
+
+
+<!-- change Activity dialog -->
+<ng-template #changeActivityTemplate let-data>
+  <h2 matDialogTitle>Déplacer dans une autre activité</h2>
+
+  <mat-dialog-content>
+    <ng-container
+      *ngTemplateOutlet="changeActivityInsideForm; context: {form: changeActivityForm, module: data.module}">
+    </ng-container>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose>Annuler</button>
+
+    <button mat-button matDialogClose color="primary" (click)="changeActivity(this.changeActivityForm.value, data.module)">Déplacer</button>
+  </mat-dialog-actions>
+</ng-template>
+
+<!-- add dialog -->
+<ng-template #addDialogTemplate>
+  <h2 matDialogTitle>Ajouter un module</h2>
+
+  <mat-dialog-content>
+    <ng-container *ngTemplateOutlet="insideForm; context: {form: addForm, editMode: false}"></ng-container>
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose>Annuler</button>
+    <button mat-button matDialogClose color="primary" (click)="add()">Ajouter</button>
+  </mat-dialog-actions>
+</ng-template>
+
+
+<!-- edit dialog -->
+<ng-template #editDialogTemplate>
+  <h2 matDialogTitle>Editer un module</h2>
+
+  <mat-dialog-content>
+    <ng-container *ngTemplateOutlet="insideForm; context: {form: editForm, editMode: true}"></ng-container>
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose>Annuler</button>
+    <button mat-button matDialogClose color="primary" (click)="edit()">Editer</button>
+  </mat-dialog-actions>
+</ng-template>
+
+
+
+<!-- Change Activity inside form -->
+<ng-template #changeActivityInsideForm let-form="form" let-module="module">
+  <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+    <form [formGroup]="form" fxLayout="column">
+      <mat-form-field >
+        <input
+          matInput
+          placeholder="ID de l'activité"
+          type="number"
+          formControlName="activity_id"
+          [value]="module.activity_id"
+          (blur)="showActivityByID(form)">
+      </mat-form-field>
+    </form>
+
+    <div *ngIf="this.activity.name">
+      {{ this.activity.name }}
+    </div>
+  </div>
+</ng-template>
+
+<!-- inside form -->
+<ng-template #insideForm let-form="form" let-editMode="editMode">
+  <form [formGroup]="form" fxLayout="column">
+
+    <!-- name -->
+    <mat-form-field>
+      <input matInput placeholder="Titre de la page (SEO)" formControlName="seo_title">
+    </mat-form-field>
+
+    <!-- slug -->
+    <mat-form-field>
+      <input matInput placeholder="Url" formControlName="seo_slug">
+    </mat-form-field>
+
+    <!-- status -->
+    <mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-select matNativeControl required formControlName="type">
+        <mat-option value="course">Cours</mat-option>
+        <mat-option value="mcq">Qcm</mat-option>
+        <mat-option value="flashcard">Flashcard</mat-option>
+        <mat-option value="test">Test</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <!-- seo_description -->
+    <mat-form-field>
+      <input matInput placeholder="Description (SEO)" formControlName="seo_description">
+    </mat-form-field>
+
+    <!-- buyable -->
+    <mat-slide-toggle *ngIf="editMode" formControlName="seo_index">Indexé sur Google</mat-slide-toggle>
+  </form>
+</ng-template>
