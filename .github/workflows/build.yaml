@@ -41,7 +41,7 @@ jobs:
       - name: Build Docker
         run: docker build -t eu.gcr.io/mathrix-education/education-angular-admin:${GITHUB_SHA:0:7} .
       - name: Setup gcloud
-        uses: mathrix-education/setup-gcloud@dev
+        uses: mathrix-education/setup-gcloud@0.1.3
         with:
           service-account-key:  ${{secrets.GCLOUD_AUTH }}
           configure-docker: true
