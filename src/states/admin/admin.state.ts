@@ -1,11 +1,12 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {EditTitle, LoadUser, Login} from './admin.actions';
-import {AuthEndpoint, DataResponse, UsersEndpoint} from '@mathrix-education/education-api-sdk';
+import {AuthEndpoint, UsersEndpoint} from '@mathrix-education/education-api-sdk';
 import {switchMap, tap} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {DataResponse} from '@mathrix-education/iridium';
 
 
 export type AdminTitle =

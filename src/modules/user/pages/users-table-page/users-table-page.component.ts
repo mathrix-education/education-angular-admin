@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
-import {PaginatedResponse, UsersEndpoint} from '@mathrix-education/education-api-sdk';
+import {UsersEndpoint} from '@mathrix-education/education-api-sdk';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {Store} from '@ngxs/store';
 import {ResetSelectedUser} from '../../../../states/user/user.actions';
 import {EditTitle} from '../../../../states/admin/admin.actions';
+import { PaginatedResponse } from '@mathrix-education/iridium';
 
 @Component({
   selector: 'app-users-table-page',
