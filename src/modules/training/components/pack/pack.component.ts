@@ -3,8 +3,9 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog, MatListOption} from '@angular/material';
 import {BaseEditorComponent} from '../../../shared/components/base-editor/base-editor.component';
 import {Product, ProductPack, ProductTraining} from '@mathrix-education/education-api-sdk/models/product';
-import {DataResponse, PaginatedResponse, ProductsEndpoint} from '@mathrix-education/education-api-sdk';
+import {ProductsEndpoint} from '@mathrix-education/education-api-sdk';
 import {first, switchMap} from 'rxjs/operators';
+import { PaginatedResponse, DataResponse } from '@mathrix-education/iridium';
 
 
 @Component({

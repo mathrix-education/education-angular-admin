@@ -1,50 +1,50 @@
-#on: push
-#jobs:
-#  lint:
-#    name: Lint with TSlint
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout sources
-#        uses: actions/checkout@v1
-#      - name: Setup Node.js 12.x
-#        uses: actions/setup-node@v1
-#        with:
-#          node-version: 12.x
-#          registry-url: 'https://npm.pkg.github.com'
-#      - name: Install dependencies
-#        run: npm install --verbose
-#        env:
-#          NODE_AUTH_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
-#      - name: Lint with TSLint
-#        run: npx ng lint
-#
-#  analyse:
-#    name: Analyse with Sonar Scanner
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v1
-#      - name: Unshallow
-#        run: git checkout "${GITHUB_REF:11}"
-#      - name: Setup sonar.properties
-#        run: |
-#          # Setup version
-#          VERSION=$(jq -r .version package.json)
-#          echo "sonar.projectVersion=${VERSION}" >> sonar-project.properties
-#
-#          # Setup branches
-#          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-#          if [[ "$CURRENT_BRANCH" = "dev" ]]; then
-#            PARENT_BRANCH="master"
-#          else
-#            PARENT_BRANCH="dev"
-#          fi
-#          echo "sonar.branch.name=${CURRENT_BRANCH}" >> sonar-project.properties
-#          echo "sonar.branch.target=${PARENT_BRANCH}" >> sonar-project.properties
-#      - name: Analyse with Sonar Scanner
-#        uses: docker://newtmitch/sonar-scanner:4.0-alpine
-#        with:
-#          entrypoint: ash
-#          args: -c "npm i -g typescript && sonar-scanner -Dsonar.projectBaseDir=. -Dsonar.login=${{ secrets.SONAR_TOKEN }}"
-#        env:
-#          NODE_PATH: /usr/lib/node_modules
+on: push
+jobs:
+  lint:
+    name: Lint with TSlint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v1
+      - name: Setup Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: 'https://npm.pkg.github.com'
+      - name: Install dependencies
+        run: npm install --verbose
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+      - name: Lint with TSLint
+        run: npx ng lint
+
+  analyse:
+    name: Analyse with Sonar Scanner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Unshallow
+        run: git checkout "${GITHUB_REF:11}"
+      - name: Setup sonar.properties
+        run: |
+          # Setup version
+          VERSION=$(jq -r .version package.json)
+          echo "sonar.projectVersion=${VERSION}" >> sonar-project.properties
+
+          # Setup branches
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          if [[ "$CURRENT_BRANCH" = "dev" ]]; then
+            PARENT_BRANCH="master"
+          else
+            PARENT_BRANCH="dev"
+          fi
+          echo "sonar.branch.name=${CURRENT_BRANCH}" >> sonar-project.properties
+          echo "sonar.branch.target=${PARENT_BRANCH}" >> sonar-project.properties
+      - name: Analyse with Sonar Scanner
+        uses: docker://newtmitch/sonar-scanner:4.0-alpine
+        with:
+          entrypoint: ash
+          args: -c "npm i -g typescript && sonar-scanner -Dsonar.projectBaseDir=. -Dsonar.login=${{ secrets.SONAR_TOKEN }}"
+        env:
+          NODE_PATH: /usr/lib/node_modules

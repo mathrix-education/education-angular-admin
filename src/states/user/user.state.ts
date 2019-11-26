@@ -2,18 +2,19 @@ import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {Subscription} from '@mathrix-education/education-api-sdk/models/subscription';
 import {
-  ResetSelectedUser,
   ExchangeProduct,
+  ResetSelectedUser,
   SaveSelectedUser,
   SelectUser,
   SelectUserPurchases,
   SelectUserSubscriptions,
   SetSelectedUser
 } from './user.actions';
-import {switchMap, tap} from 'rxjs/operators';
-import {PaginatedResponse, ProductsEndpoint, UsersEndpoint} from '@mathrix-education/education-api-sdk';
+import {tap} from 'rxjs/operators';
 import {Purchase} from '@mathrix-education/education-api-sdk/models/purchase';
 import {Product} from '@mathrix-education/education-api-sdk/models/product';
+import {ProductsEndpoint, UsersEndpoint} from '@mathrix-education/education-api-sdk';
+import {PaginatedResponse} from '@mathrix-education/iridium';
 
 export interface UserStateModel {
   selectedUser: User;
