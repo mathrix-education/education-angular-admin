@@ -28,17 +28,16 @@
   <mat-divider></mat-divider>
 
   <a *ngIf="allowed(['modules','notions','activities','chapters','disciplines', 'countries'])|async" mat-list-item
-     routerLink="content" routerLinkActive="active"
-     data-cy="content">
+     routerLink="/content" routerLinkActive="active" data-cy="content">
     <mat-icon>comments</mat-icon>
     Contenu
   </a>
 
-<!--  <a *ngIf="allowed(['posts','categories'])|async" mat-list-item routerLink="/blog" routerLinkActive="active"-->
-<!--     data-cy="blog">-->
-<!--    <mat-icon>subscriptions</mat-icon>-->
-<!--    Blog-->
-<!--  </a>-->
+  <!--  <a *ngIf="allowed(['posts','categories'])|async" mat-list-item routerLink="/blog" routerLinkActive="active"-->
+  <!--     data-cy="blog">-->
+  <!--    <mat-icon>subscriptions</mat-icon>-->
+  <!--    Blog-->
+  <!--  </a>-->
 
   <a *ngIf="allowed(['products'])|async" mat-list-item routerLink="/trainings" routerLinkActive="active"
      data-cy="trainings">
@@ -46,10 +45,10 @@
     Formations
   </a>
 
-<!--  <a mat-list-item routerLink="live" routerLinkActive="active" data-cy="live">-->
-<!--    <mat-icon>videocam</mat-icon>-->
-<!--    Live-->
-<!--  </a>-->
+  <!--  <a mat-list-item routerLink="live" routerLinkActive="active" data-cy="live">-->
+  <!--    <mat-icon>videocam</mat-icon>-->
+  <!--    Live-->
+  <!--  </a>-->
 
   <mat-divider></mat-divider>
 
@@ -63,9 +62,4 @@
     <mat-icon>flag</mat-icon>
     Rapports
   </a>
-
-<!--  <a mat-list-item routerLink="ui-kit" routerLinkActive="active" data-cy="ui-kit">-->
-<!--    <mat-icon>desktop_mac</mat-icon>-->
-<!--    Kits graphiques-->
-<!--  </a>-->
 </mat-nav-list>

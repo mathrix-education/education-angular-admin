@@ -1,0 +1,101 @@
+<rest-editor [dataSource]="dataSource"
+             [policy]="policy"
+             [displayedColumns]="displayedColumns"
+             (selectedElement)="selectElement($event)"
+             (add)="startAdd()"
+             (edit)="startEdit($event)"
+             (delete)="delete($event)"
+             (move)="move($event)"
+             (visible)="visible($event)"
+>
+  <!-- id column -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+  </ng-container>
+
+  <!-- name column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="type">
+    <mat-header-cell *matHeaderCellDef>type</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.type }}</mat-cell>
+  </ng-container>
+</rest-editor>
+
+<!-- add dialog -->
+<ng-template #addDialogTemplate>
+  <h2 matDialogTitle>Ajouter une activité</h2>
+
+  <mat-dialog-content>
+    <ng-container *ngTemplateOutlet="insideForm; context: {form: addForm}"></ng-container>
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose>Annuler</button>
+    <button mat-button matDialogClose color="primary" (click)="add()">Ajouter</button>
+  </mat-dialog-actions>
+</ng-template>
+
+<!-- edit dialog -->
+<ng-template #editDialogTemplate>
+  <h2 matDialogTitle>Editer une activité</h2>
+
+  <mat-dialog-content>
+    <ng-container *ngTemplateOutlet="insideForm; context: {form: editForm}"></ng-container>
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose>Annuler</button>
+    <button mat-button matDialogClose color="primary" (click)="edit()">Editer</button>
+  </mat-dialog-actions>
+</ng-template>
+
+
+<!-- inside form -->
+<ng-template #insideForm let-form="form">
+  <form [formGroup]="form" fxLayout="column">
+    <!-- name -->
+    <mat-form-field>
+      <input matInput placeholder="Nom" formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option value="video">
+          Vidéo
+        </mat-option>
+
+        <mat-option value="course">
+          Cours
+        </mat-option>
+
+        <mat-option value="exercise">
+          Exercices
+        </mat-option>
+
+        <mat-option value="flashcard">
+          Flashcard
+        </mat-option>
+
+        <mat-option value="test">
+          Interrogation
+        </mat-option>
+
+        <mat-option value="summary">
+          Sommaire
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-slide-toggle
+      formControlName="premium"> Premium
+    </mat-slide-toggle>
+  </form>
+</ng-template>

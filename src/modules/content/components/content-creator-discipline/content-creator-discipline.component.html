@@ -1,0 +1,30 @@
+<app-rest-editor [dataSource]="dataSource"
+                 [policy]="policy"
+                 [displayedColumns]="displayedColumns"
+                 (selectedElement)="selectElement($event)"
+                 (add)="startAdd()">
+  <!-- name column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+  </ng-container>
+
+  <!-- slug column -->
+  <ng-container matColumnDef="slug">
+    <mat-header-cell *matHeaderCellDef>Url</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.slug }}</mat-cell>
+  </ng-container>
+</app-rest-editor>
+
+
+
+
+<ng-template #addDialogTemplate>
+  <h2 matDialogTitle>Ajouter une matière existante</h2>
+
+  <mat-dialog-content>
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let discipline of availableDisciplines$ | async" (click)="addExistingDiscipline(discipline)">{{discipline.name}}</mat-list-item>
+    </mat-list>
+  </mat-dialog-content>
+</ng-template>

@@ -1,0 +1,50 @@
+<app-rest-editor
+  [dataSource]="dataSource"
+  [displayedColumns]="displayedColumns"
+  [policy]="policy"
+  (selectedElement)="selectElement($event)" (add)="startAdd()" (delete)="delete($event)">
+  <!-- Code Column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+  </ng-container>
+
+  <!-- Type Column -->
+  <ng-container matColumnDef="slug">
+    <mat-header-cell *matHeaderCellDef>Url</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.slug }}</mat-cell>
+  </ng-container>
+
+  <!-- Type Column -->
+  <ng-container matColumnDef="visible">
+    <mat-header-cell *matHeaderCellDef>Visible</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-icon *ngIf="element.visible">remove_red_eye</mat-icon></mat-cell>
+  </ng-container>
+</app-rest-editor>
+
+<!-- add dialog -->
+<ng-template #addDialogTemplate>
+  <h2 matDialogTitle>Ajouter une classe</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="addForm" fxLayout="column">
+      <!-- name -->
+      <mat-form-field>
+        <input matInput placeholder="Nom" formControlName="name">
+      </mat-form-field>
+
+      <!-- slug -->
+      <mat-form-field>
+        <input matInput placeholder="Url" formControlName="slug">
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose>Annuler</button>
+    <button mat-button matDialogClose color="primary" (click)="add()">Ajouter</button>
+  </mat-dialog-actions>
+</ng-template>
+

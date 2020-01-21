@@ -1,0 +1,65 @@
+<app-rest-editor [dataSource]="dataSource"
+                 [policy]="policy"
+                 [displayedColumns]="displayedColumns"
+                 (selectedElement)="selectElement($event)"
+                 (add)="startAdd()"
+                 (edit)="startEdit($event)"
+                 (delete)="delete($event)"
+                 (move)="move($event)"
+                 (visible)="visible($event)"
+>
+  <!-- name column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+  </ng-container>
+
+  <!-- slug column -->
+  <ng-container matColumnDef="slug">
+    <mat-header-cell *matHeaderCellDef>Url</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.slug }}</mat-cell>
+  </ng-container>
+</app-rest-editor>
+
+
+
+
+<!-- add dialog -->
+<ng-template #addDialogTemplate>
+  <h2 matDialogTitle>Ajouter une notion</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="addForm" fxLayout="column">
+      <!-- name -->
+      <mat-form-field>
+        <input matInput placeholder="Nom" formControlName="name">
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose>Annuler</button>
+    <button mat-button matDialogClose color="primary" (click)="add()">Ajouter</button>
+  </mat-dialog-actions>
+</ng-template>
+
+<!-- edit dialog -->
+<ng-template #editDialogTemplate>
+  <h2 matDialogTitle>Editer une notion</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="editForm" fxLayout="column">
+      <!-- name -->
+      <mat-form-field>
+        <input matInput placeholder="Nom" formControlName="name">
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose>Annuler</button>
+    <button mat-button matDialogClose color="primary" (click)="edit()">Editer</button>
+  </mat-dialog-actions>
+</ng-template>
