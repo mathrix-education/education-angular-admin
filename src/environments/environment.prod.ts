@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  api: 'https://next.api.mathrix.fr',
+  api: 'https://graphql.mathrix.fr',
   env: 'master',
   relatedWebSite: 'https://mathrix.fr',
   braintreeUrl: 'https://braintreegateway.com',

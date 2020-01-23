@@ -7,6 +7,7 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {DataResponse} from '@mathrix-education/iridium';
+import {AdminGraphql} from './admin.graphql';
 
 
 export type AdminTitle =
@@ -56,7 +57,7 @@ export class AdminState {
     return state.user && state.user.id;
   }
 
-  constructor(private authEndpoint: AuthEndpoint, private usersEndpoint: UsersEndpoint) {
+  constructor(private adminGraphql: AdminGraphql, private usersEndpoint: UsersEndpoint) {
   }
 
   @Action(EditTitle)
@@ -67,9 +68,10 @@ export class AdminState {
 
   @Action(Login)
   login(ctx: AdminStateContext, {email, password}: Login) {
-    return this.authEndpoint.loginWithCredentials({email, password}).pipe(
-      tap((resp: DataResponse<{ token: string }>) => {
-        localStorage.setItem(environment.token, resp.data.token);
+    return this.adminGraphql.login(email, password).pipe(
+      tap((resp: any) => {
+        console.log(resp);
+        localStorage.setItem(environment.token, resp.token);
       }),
       switchMap((resp: DataResponse<{ token: string }>) => {
         const userId = this.jwt.decodeToken(resp.data.token).sub;

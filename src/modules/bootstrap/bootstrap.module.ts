@@ -12,6 +12,10 @@ import {environment} from '../../environments/environment';
 import {AuthEndpoint, EducationAPISDKModule} from '@mathrix-education/education-api-sdk';
 import {TrainingState} from '../../states/training/training.state';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
+import {APOLLO_OPTIONS, ApolloModule} from 'apollo-angular';
+import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
+import {HttpClientModule} from '@angular/common/http';
+import {InMemoryCache} from 'apollo-cache-inmemory';
 
 
 @NgModule({
@@ -19,6 +23,9 @@ import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
     RootComponent
   ],
   imports: [
+    HttpClientModule,
+    ApolloModule,
+    HttpLinkModule,
     BrowserModule,
     BrowserAnimationsModule,
     BootstrapRoutingModule,
@@ -26,14 +33,25 @@ import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
     NgxsModule.forRoot([AdminState, UserState, TrainingState]),
     NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}),
     NgxsStoragePluginModule.forRoot({key: ['admin']}),
-
   ],
   providers: [{
     provide: ErrorHandler,
     useClass: SentryErrorHandler
   },
-    AuthEndpoint],
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: (httpLink: HttpLink) => {
+        return {
+          cache: new InMemoryCache(),
+          link: httpLink.create({
+            uri: environment.api
+          })
+        };
+      },
+      deps: [HttpLink]
+    }],
   bootstrap: [RootComponent]
 })
+
 export class BootstrapModule {
 }

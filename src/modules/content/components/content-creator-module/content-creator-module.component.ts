@@ -96,7 +96,7 @@ export class ContentCreatorModuleComponent extends BaseEditorComponent<Module> {
     this.dialog.open(this.changeActivityTemplate, config);
   }
 
-  protected changeActivity(model: any = this.changeActivityForm.value, module: any) {
+  changeActivity(model: any = this.changeActivityForm.value, module: any) {
     if (!model) {
       return;
     }
