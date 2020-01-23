@@ -1,4 +1,4 @@
-<app-rest-editor [dataSource]="dataSource"
+<rest-editor [dataSource]="dataSource"
                  [policy]="policy"
                  [displayedColumns]="displayedColumns"
                  (selectedElement)="selectElement($event)"
@@ -19,7 +19,7 @@
     <mat-header-cell *matHeaderCellDef>Url</mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.slug }}</mat-cell>
   </ng-container>
-</app-rest-editor>
+</rest-editor>
 
 
 

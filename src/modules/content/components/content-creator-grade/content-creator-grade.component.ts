@@ -2,10 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {Store} from '@ngxs/store';
-import {map} from 'rxjs/operators';
 import {Grade} from '@mathrix-education/education-api-sdk/models/grade';
 import {BaseEditorComponent} from '../../../shared/components/base-editor/base-editor.component';
 import {Empty} from '../../../shared/helpers/empty.helper';
+import {GradesEndpoint} from '@mathrix-education/education-api-sdk';
+import {EditTitle} from '../../../../states/admin/admin.actions';
+import {PolicyEditor} from '@mathrix-education/rest-editor/interfaces/policy-editor.interface';
+import {UserHelper} from '../../../../states/user/User.helper';
+import {AdminState} from '../../../../states/admin/admin.state';
 
 
 @Component({
@@ -18,24 +22,21 @@ export class ContentCreatorGradeComponent extends BaseEditorComponent<Grade> imp
   displayedColumns = ['name', 'slug', 'visible', 'actions'];
 
   constructor(
-    protected gradesHttp: GradesHttpService,
+    protected gradesHttp: GradesEndpoint,
     protected dialog: MatDialog,
     protected formBuilder: FormBuilder,
-    private adminPage: AdminPageService,
     private store: Store,
-    private contentCreator: ContentCreatorService,
-    protected chainHttp: ChainHttpService
   ) {
-    super(gradesHttp.index(), gradesHttp, formBuilder, dialog, chainHttp);
+    super(gradesHttp, gradesHttp.list(), formBuilder, dialog);
   }
 
   ngOnInit() {
-    this.adminPage.editTitle('Classes');
+    this.store.dispatch(new EditTitle('Contenu'));
     this.selectPolicy();
   }
 
   selectElement(grade: Grade) {
-    this.contentCreator.select('grade', grade);
+    // this.contentCreator.select('grade', grade);
     this.nextTab.emit();
   }
 
@@ -51,6 +52,6 @@ export class ContentCreatorGradeComponent extends BaseEditorComponent<Grade> imp
       edit: false,
       delete: false,
     };
-    this.policy = UserHelper.hasAdminAccess(this.store.selectSnapshot(SessionState.user)) ? adminPolicy : moderatorPolicy;
+    this.policy = UserHelper.hasAdminAccess(this.store.selectSnapshot(AdminState.user)) ? adminPolicy : moderatorPolicy;
   }
 }

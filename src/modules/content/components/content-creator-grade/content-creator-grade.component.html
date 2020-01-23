@@ -1,4 +1,4 @@
-<app-rest-editor
+<rest-editor
   [dataSource]="dataSource"
   [displayedColumns]="displayedColumns"
   [policy]="policy"
@@ -21,7 +21,7 @@
     <mat-cell *matCellDef="let element">
       <mat-icon *ngIf="element.visible">remove_red_eye</mat-icon></mat-cell>
   </ng-container>
-</app-rest-editor>
+</rest-editor>
 
 <!-- add dialog -->
 <ng-template #addDialogTemplate>

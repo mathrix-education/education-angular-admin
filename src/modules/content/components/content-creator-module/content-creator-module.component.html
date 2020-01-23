@@ -1,5 +1,5 @@
 
-<app-rest-editor [dataSource]="dataSource"
+<rest-editor [dataSource]="dataSource"
                  [policy]="policy"
                  [displayedColumns]="displayedColumns"
                  (selectedElement)="selectElement($event)"
@@ -7,7 +7,6 @@
                  (edit)="startEdit($event)"
                  (delete)="delete($event)"
                  (move)="move($event)"
-                 (changeActivity)="startChangeActivity($event)"
                  (visible)="visible($event)"
 >
   <!-- seo title column -->
@@ -63,7 +62,7 @@
     </mat-cell>
 
   </ng-container>
-</app-rest-editor>
+</rest-editor>
 
 
 

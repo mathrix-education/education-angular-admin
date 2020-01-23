@@ -19,12 +19,14 @@ import {MatOptionModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FlexModule} from '@angular/flex-layout';
+import {MatIconModule} from '@angular/material/icon';
+import {MatListModule} from '@angular/material/list';
 
 
-const routes: Route[] = [{
-  path: '',
-  component:
-}];
+// const routes: Route[] = [{
+//   path: '',
+//   component:
+// }];
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ const routes: Route[] = [{
     MatOptionModule,
     MatSelectModule,
     MatSlideToggleModule,
-    FlexModule
+    FlexModule,
+    MatIconModule,
+    MatListModule
   ]
 })
 export class ContentModule {
