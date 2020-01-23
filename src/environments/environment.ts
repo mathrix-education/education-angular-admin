@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: 'https://graphql.mathrix.fr',
+  api: 'https://v7.api.mathrix.fr/graphql',
   env: 'dev',
   relatedWebSite: 'https://dev.mathrix.fr',
   braintreeUrl: 'https://braintreegateway.com',

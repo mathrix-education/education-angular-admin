@@ -1,32 +1,43 @@
-<div class="login">
-  <form [formGroup]="form" (ngSubmit)="login()" *ngIf="!isLoading">
-    <!-- email -->
-    <mat-form-field appearance="outline" fxFill>
-      <mat-label class="input-label">Email</mat-label>
+<mat-card class="container" [ngClass.gt-xs]="'gt-xs'">
+  <div class="left" fxHide.xs fxShow.gt-xs>
+    <img src="assets/logo.svg" class="logo"/>
+  </div>
 
-      <input matInput placeholder="Email ou nom d'utilisateur"
-             formControlName="email"
-             type="email">
-    </mat-form-field>
+  <div class="login">
+    <img src="assets/logo.svg" class="logo" fxHide.gt-xs/>
+    <h1 class="mb-1">Bienvenue</h1>
+    <div mat-card-subtitle>Connectez-vous pour ouvrir la partie administrateur</div>
+    <div class="login-form">
+      <form [formGroup]="form" (ngSubmit)="login()">
+        <!-- email -->
+        <mat-form-field appearance="outline" fxFill>
+          <mat-label class="input-label">Email</mat-label>
 
-    <!-- password -->
-    <mat-form-field appearance="outline" fxFill>
-      <mat-label class="input-label">Mot de passe</mat-label>
+          <input matInput placeholder="Email ou nom d'utilisateur"
+                 formControlName="email"
+                 type="email">
+        </mat-form-field>
 
-      <input matInput placeholder="Mot de passe"
-             formControlName="password"
-             type="password">
-    </mat-form-field>
+        <!-- password -->
+        <mat-form-field appearance="outline" fxFill>
+          <mat-label class="input-label">Mot de passe</mat-label>
 
-    <!--Login button -->
-    <button mat-raised-button color="primary" fxFill
-            data-cy="login-submit"
-            type="submit"
-            [disabled]="form.status != 'VALID'">
-      Connexion
-    </button>
-  </form>
+          <input matInput placeholder="Mot de passe"
+                 formControlName="password"
+                 type="password">
+        </mat-form-field>
 
-  <mat-progress-spinner color="primary" mode="indeterminate" *ngIf="isLoading"></mat-progress-spinner>
-</div>
+        <!--Login button -->
+        <button mat-raised-button color="primary" fxFill
+                data-cy="login-submit"
+                type="submit"
+                [disabled]="form.status != 'VALID'">
+          <span class="spinner mr-2" *ngIf="isLoading"></span>
+          <span *ngIf="!isLoading">Connexion</span>
+        </button>
+      </form>
+    </div>
+  </div>
 
+
+</mat-card>

@@ -7,7 +7,10 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {DataResponse} from '@mathrix-education/iridium';
-import {AdminGraphql} from './admin.graphql';
+import {AuthQlEndpoint} from '../../graphql/endpoints/auth-ql-endpoint';
+import {UserQlEndpoint} from '../../graphql/endpoints/user-ql-endpoint';
+import {Apollo} from 'apollo-angular';
+import {ApolloQueryResult} from 'apollo-client';
 
 
 export type AdminTitle =
@@ -57,7 +60,7 @@ export class AdminState {
     return state.user && state.user.id;
   }
 
-  constructor(private adminGraphql: AdminGraphql, private usersEndpoint: UsersEndpoint) {
+  constructor(private authEndpoint: AuthQlEndpoint, private usersEndpoint: UserQlEndpoint) {
   }
 
   @Action(EditTitle)
@@ -68,13 +71,13 @@ export class AdminState {
 
   @Action(Login)
   login(ctx: AdminStateContext, {email, password}: Login) {
-    return this.adminGraphql.login(email, password).pipe(
-      tap((resp: any) => {
+    return this.authEndpoint.login(email, password).pipe(
+      tap((resp: DataResponse<any>) => {
         console.log(resp);
-        localStorage.setItem(environment.token, resp.token);
+        localStorage.setItem(environment.token, resp.data.loginBasic.token);
       }),
-      switchMap((resp: DataResponse<{ token: string }>) => {
-        const userId = this.jwt.decodeToken(resp.data.token).sub;
+      switchMap((resp: DataResponse<any>) => {
+        const userId = this.jwt.decodeToken(resp.data.loginBasic.token).sub;
         return ctx.dispatch(new LoadUser(userId));
       }));
   }
@@ -82,8 +85,9 @@ export class AdminState {
   @Action(LoadUser)
   loadUser(ctx: AdminStateContext, {userId}: LoadUser) {
     return this.usersEndpoint.read(userId).pipe(
-      tap((resp: DataResponse<User>) => {
-        ctx.patchState({user: resp.data});
+      tap((resp: ApolloQueryResult<any>) => {
+        console.log("FDP", resp);
+        ctx.patchState({user: resp.data.readUser});
       }));
   }
 

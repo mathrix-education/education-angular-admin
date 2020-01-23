@@ -8,7 +8,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
-import {FlexModule} from '@angular/flex-layout';
+import {ExtendedModule, FlexModule} from '@angular/flex-layout';
 
 export const routes: Routes = [
   {
@@ -20,17 +20,18 @@ export const routes: Routes = [
 
 @NgModule({
   declarations: [LoginComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    MatFormFieldModule,
-    MatCardModule,
-    ReactiveFormsModule,
-    MatProgressSpinnerModule,
-    MatButtonModule,
-    MatInputModule,
-    FlexModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        MatFormFieldModule,
+        MatCardModule,
+        ReactiveFormsModule,
+        MatProgressSpinnerModule,
+        MatButtonModule,
+        MatInputModule,
+        FlexModule,
+        ExtendedModule
+    ],
   exports: [LoginComponent]
 })
 
