@@ -1,15 +1,12 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {EditTitle, LoadUser, Login} from './admin.actions';
-import {AuthEndpoint, UsersEndpoint} from '@mathrix-education/education-api-sdk';
 import {switchMap, tap} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {DataResponse} from '@mathrix-education/iridium';
 import {AuthQlEndpoint} from '../../graphql/endpoints/auth-ql-endpoint';
 import {UserQlEndpoint} from '../../graphql/endpoints/user-ql-endpoint';
-import {Apollo} from 'apollo-angular';
 import {ApolloQueryResult} from 'apollo-client';
 
 
@@ -84,10 +81,10 @@ export class AdminState {
 
   @Action(LoadUser)
   loadUser(ctx: AdminStateContext, {userId}: LoadUser) {
-    return this.usersEndpoint.read(userId).pipe(
+    return this.usersEndpoint.defaultRead(userId).pipe(
       tap((resp: ApolloQueryResult<any>) => {
-        console.log("FDP", resp);
-        ctx.patchState({user: resp.data.readUser});
+        console.log(resp.data.user);
+        return ctx.patchState({user: resp.data.readUser});
       }));
   }
 

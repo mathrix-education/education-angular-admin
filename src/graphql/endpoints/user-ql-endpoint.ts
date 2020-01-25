@@ -1,24 +1,11 @@
 import {Injectable} from '@angular/core';
-import gql from 'graphql-tag';
 import {Apollo} from 'apollo-angular';
+import {BaseQlEndpoint} from './endpoint';
+import {User} from '../types/user';
 
 @Injectable({providedIn: 'root'})
-export class UserQlEndpoint {
-
-  userQuery = gql`query readUser($userId: ID){
-    readUser(id: $userId) {
-      id,
-      username,
-      firstname,
-      lastname
-    }
-  }`;
-
-  constructor(private apollo: Apollo) {
+export class UserQlEndpoint extends BaseQlEndpoint<User> {
+  constructor(apollo: Apollo) {
+    super(apollo, 'User', ['username', 'firstname', 'lastname', 'email', 'scopes']);
   }
-
-  read(userId: number) {
-    return this.apollo.query({query: this.userQuery, variables: {userId}});
-  }
-
 }

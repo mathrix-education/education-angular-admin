@@ -9,7 +9,7 @@ import {AdminState} from '../../states/admin/admin.state';
 import {UserState} from '../../states/user/user.state';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {environment} from '../../environments/environment';
-import {AuthEndpoint, EducationAPISDKModule} from '@mathrix-education/education-api-sdk';
+import {EducationAPISDKModule} from '@mathrix-education/education-api-sdk';
 import {TrainingState} from '../../states/training/training.state';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 import {APOLLO_OPTIONS, ApolloModule} from 'apollo-angular';
