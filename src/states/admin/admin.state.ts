@@ -8,6 +8,7 @@ import {DataResponse} from '@mathrix-education/iridium';
 import {AuthQlEndpoint} from '../../graphql/endpoints/auth-ql-endpoint';
 import {UserQlEndpoint} from '../../graphql/endpoints/user-ql-endpoint';
 import {ApolloQueryResult} from 'apollo-client';
+import {of} from 'rxjs';
 
 
 export type AdminTitle =
@@ -81,9 +82,8 @@ export class AdminState {
 
   @Action(LoadUser)
   loadUser(ctx: AdminStateContext, {userId}: LoadUser) {
-    return this.usersEndpoint.defaultRead(userId).pipe(
+    this.usersEndpoint.defaultRead(userId).pipe(
       tap((resp: ApolloQueryResult<any>) => {
-        console.log(resp.data.user);
         return ctx.patchState({user: resp.data.readUser});
       }));
   }

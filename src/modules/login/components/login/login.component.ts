@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Store} from '@ngxs/store';
-import {finalize, first} from 'rxjs/operators';
+import {catchError, finalize, first} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {Login} from '../../../../states/admin/admin.actions';
 
@@ -45,9 +45,9 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.store.dispatch(new Login(email, password))
       .pipe(
-        first(),
         finalize(() => this.isLoading = false))
       .subscribe(() => {
+        console.log('FINALIZE');
         this.router.navigate(['/']);
       });
   }

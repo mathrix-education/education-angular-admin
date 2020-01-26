@@ -1,6 +1,7 @@
 import {Apollo} from 'apollo-angular';
 import {Model} from '../types/model';
 import gql from 'graphql-tag';
+import {Observable} from 'rxjs';
 
 export class BaseQlEndpoint<T extends Model> {
 
@@ -20,7 +21,7 @@ export class BaseQlEndpoint<T extends Model> {
   constructor(private apollo: Apollo, private name: string, private fields: string[]) { // name: User, Chapter for the moment
   }
 
-  defaultRead(id: string | number, customFields?: string[]) {
+  defaultRead(id: string | number, customFields?: string[]): Observable<any> {
     const query = gql`
       query {
         read${this.name}(id: ${id}){
