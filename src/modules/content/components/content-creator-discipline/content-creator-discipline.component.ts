@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-import {MatDialog} from '@angular/material';
 import {Store} from '@ngxs/store';
-import {ChaptersEndpoint, DisciplinesEndpoint} from '@mathrix-education/education-api-sdk';
+import {DisciplinesEndpoint} from '@mathrix-education/education-api-sdk';
 import {Discipline} from '@mathrix-education/education-api-sdk/models/discipline';
 import {Empty} from '../../../shared/helpers/empty.helper';
 import {BaseEditorComponent} from '../../../shared/components/base-editor/base-editor.component';
 import {PolicyEditor} from '@mathrix-education/rest-editor/interfaces/policy-editor.interface';
 import {UserHelper} from '../../../../states/user/User.helper';
 import {AdminState} from '../../../../states/admin/admin.state';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({

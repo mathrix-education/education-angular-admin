@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-import {MatDialog} from '@angular/material';
 import {Store} from '@ngxs/store';
 import {Grade} from '@mathrix-education/education-api-sdk/models/grade';
 import {BaseEditorComponent} from '../../../shared/components/base-editor/base-editor.component';
@@ -10,6 +9,7 @@ import {EditTitle} from '../../../../states/admin/admin.actions';
 import {PolicyEditor} from '@mathrix-education/rest-editor/interfaces/policy-editor.interface';
 import {UserHelper} from '../../../../states/user/User.helper';
 import {AdminState} from '../../../../states/admin/admin.state';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({

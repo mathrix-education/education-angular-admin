@@ -1,11 +1,12 @@
 import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+
 import {BehaviorSubject, Observable} from 'rxjs';
 import {switchMap} from 'rxjs/internal/operators/switchMap';
 import {PolicyEditor} from '@mathrix-education/rest-editor/interfaces/policy-editor.interface';
 import {first, map, tap} from 'rxjs/operators';
 import { Model, Endpoint, PaginatedResponse, DataResponse, ModelId } from '@mathrix-education/iridium';
+import {MatDialog} from '@angular/material/dialog';
 
 /**
  * The BaseEditorComponent provides the base logic for all related editing component in panel admin

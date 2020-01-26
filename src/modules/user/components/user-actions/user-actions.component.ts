@@ -5,7 +5,8 @@ import {UserState} from '../../../../states/user/user.state';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {AdminState} from '../../../../states/admin/admin.state';
 import {AuthEndpoint, UsersEndpoint} from '@mathrix-education/education-api-sdk';
-import {MatSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-admin-user-actions',

@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatTabGroup} from '@angular/material';
+
 import {Select, Store} from '@ngxs/store';
 import {AdminState} from '../../../../states/admin/admin.state';
 import {UserHelper} from '../../../../states/user/User.helper';
@@ -9,6 +9,7 @@ import {map} from 'rxjs/operators';
 import {ProductLesson} from '@mathrix-education/education-api-sdk/models/product';
 import {Module} from '@mathrix-education/education-api-sdk/models/module';
 import {Wall} from '@mathrix-education/silicate-core';
+import {MatTabGroup} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-training-page',

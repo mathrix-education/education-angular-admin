@@ -1,8 +1,7 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MatDialog} from '@angular/material';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {distinctUntilChanged, filter, map, switchMap, tap} from 'rxjs/operators';
 import {SaveSelectedUser, SetSelectedUser} from '../../../../states/user/user.actions';
 import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {UsersEndpoint} from '@mathrix-education/education-api-sdk';
@@ -11,6 +10,7 @@ import {AdminState} from '../../../../states/admin/admin.state';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {scopesList, simplifiedScopes} from './simplified.scopes';
 import {UserHelper} from '../../../../states/user/User.helper';
+import {MatDialog} from '@angular/material/dialog';
 
 
 /**
