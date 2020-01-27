@@ -1,14 +1,14 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
-import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {EditTitle, LoadUser, Login} from './admin.actions';
 import {switchMap, tap} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {DataResponse} from '@mathrix-education/iridium';
-import {AuthQlEndpoint} from '../../graphql/endpoints/auth-ql-endpoint';
-import {UserQlEndpoint} from '../../graphql/endpoints/user-ql-endpoint';
+import {AuthEndpoint} from '../../graphql/endpoints/auth.endpoint';
+import {UserEndpoint} from '../../graphql/endpoints/user.endpoint';
 import {ApolloQueryResult} from 'apollo-client';
 import {of} from 'rxjs';
+import {User} from '../../graphql/types/user';
 
 
 export type AdminTitle =
@@ -58,7 +58,7 @@ export class AdminState {
     return state.user && state.user.id;
   }
 
-  constructor(private authEndpoint: AuthQlEndpoint, private usersEndpoint: UserQlEndpoint) {
+  constructor(private authEndpoint: AuthEndpoint, private usersEndpoint: UserEndpoint) {
   }
 
   @Action(EditTitle)
@@ -71,7 +71,6 @@ export class AdminState {
   login(ctx: AdminStateContext, {email, password}: Login) {
     return this.authEndpoint.login(email, password).pipe(
       tap((resp: DataResponse<any>) => {
-        console.log(resp);
         localStorage.setItem(environment.token, resp.data.loginBasic.token);
       }),
       switchMap((resp: DataResponse<any>) => {
@@ -83,9 +82,9 @@ export class AdminState {
   @Action(LoadUser)
   loadUser(ctx: AdminStateContext, {userId}: LoadUser) {
     return this.usersEndpoint.defaultRead(userId).pipe(
-      tap((resp: ApolloQueryResult<any>) => {
-        console.log('patch users', resp.data.readUser);
-        return ctx.patchState({user: resp.data.readUser});
+      tap((resp) => {
+        console.log('RESP', resp);
+        return ctx.patchState({user: resp});
       }));
   }
 

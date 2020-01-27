@@ -1,4 +1,4 @@
-import {User} from '@mathrix-education/education-api-sdk/models/user';
+import {User} from '../../graphql/types/user';
 
 export class SetSelectedUser {
   static readonly type = '[USER] Set Selected User';
@@ -16,7 +16,7 @@ export class RefreshSelectedUser {
 }
 
 export class SelectUser {
-  static readonly type = '[USER] Select User Id';
+  static readonly type = '[USER] Select User';
 
   constructor(public userId: number) {
   }

@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 
 
 @Injectable({providedIn: 'root'})
-export class AuthQlEndpoint {
+export class AuthEndpoint {
 
   private loginMutation = gql`mutation loginBasic($email: String!, $password: String!) {
     loginBasic(email: $email, password: $password)

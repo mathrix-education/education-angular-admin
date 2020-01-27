@@ -21,17 +21,16 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf="results.total > 0">
+<mat-card *ngIf="results.paginatorInfo.total > 0">
   <mat-card-header>
-    <mat-card-title>
-      {{ results.total }} utilisateur{{ results.total > 1 ? 's' : '' }} trouvé{{ results.total > 1 ? 's' : '' }}
+    <mat-card-title *ngIf="results.paginatorInfo.total as total">
+      {{ total }} utilisateur{{ total > 1 ? 's' : '' }} trouvé{{ total > 1 ? 's' : '' }}
     </mat-card-title>
   </mat-card-header>
 
   <mat-card-content *ngIf="results">
     <mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
-    <table mat-table matSort [dataSource]="results.data" (matSortChange)="makeSearchRequest('sort', $event)"
-           class="w-100">
+    <table mat-table matSort fxFill [dataSource]="results.data" (matSortChange)="makeSearchRequest('sort', $event)">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
         <td mat-cell *matCellDef="let user"> {{user.id}} </td>
@@ -74,11 +73,6 @@
         <td mat-cell *matCellDef="let user">{{ user.grade ? user.grade.name : "Non renseigné" }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="level">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Niveau</th>
-        <td mat-cell *matCellDef="let user">{{ user.level }}</td>
-      </ng-container>
-
       <ng-container matColumnDef="provider">
         <th mat-header-cell *matHeaderCellDef>Type</th>
         <td mat-cell *matCellDef="let user">{{ user.provider }}</td>
@@ -95,9 +89,9 @@
       <tr mat-row *matRowDef="let user; columns: displayedColumns;" (click)="selectUser(user)"></tr>
     </table>
 
-    <mat-paginator [length]="this.results.total"
-                   [pageIndex]="this.results.page"
-                   [pageSize]="this.results.per_page"
+    <mat-paginator [length]="this.results.paginatorInfo.total"
+                   [pageIndex]="this.results.paginatorInfo.currentPage"
+                   [pageSize]="this.results.paginatorInfo.perPage"
                    [pageSizeOptions]="[5, 10, 25, 100]"
                    (page)="makeSearchRequest('paginator', $event)"
     >

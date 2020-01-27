@@ -63,8 +63,8 @@ export class UserActionsComponent {
    */
   clearCache() {
     const user = this.store.selectSnapshot(UserState.selectedUser);
-    this.usersEndpoint.deleteCache(user.id).subscribe(t => {
-      this.snackbar.open('Cache vidé', null, {duration: 3000});
-    });
+    // this.usersEndpoint.deleteCache(user.id).subscribe(t => {
+    //   this.snackbar.open('Cache vidé', null, {duration: 3000});
+    // });
   }
 }

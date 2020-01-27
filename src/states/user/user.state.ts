@@ -1,5 +1,4 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
-import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {Subscription} from '@mathrix-education/education-api-sdk/models/subscription';
 import {
   ExchangeProduct,
@@ -13,8 +12,9 @@ import {
 import {tap} from 'rxjs/operators';
 import {Purchase} from '@mathrix-education/education-api-sdk/models/purchase';
 import {Product} from '@mathrix-education/education-api-sdk/models/product';
-import {ProductsEndpoint, UsersEndpoint} from '@mathrix-education/education-api-sdk';
-import {PaginatedResponse} from '@mathrix-education/iridium';
+import {ProductsEndpoint} from '@mathrix-education/education-api-sdk';
+import {UserEndpoint} from '../../graphql/endpoints/user.endpoint';
+import {User} from '../../graphql/types/user';
 
 export interface UserStateModel {
   selectedUser: User;
@@ -35,7 +35,7 @@ export type UserStateContext = StateContext<UserStateModel>;
 export class UserState {
 
 
-  constructor(private usersEndpoint: UsersEndpoint, private productsEndpoint: ProductsEndpoint) {
+  constructor(private userEndpoint: UserEndpoint, private productsEndpoint: ProductsEndpoint) {
   }
 
   @Selector()
@@ -61,32 +61,32 @@ export class UserState {
   @Action(SaveSelectedUser)
   saveSelectedUser(context: UserStateContext) {
     const user = context.getState().selectedUser;
-    return this.usersEndpoint.update(user.id, user);
+    // return this.userEndpoint.update(user.id, user);
   }
 
   @Action(SelectUser)
   selectUser(context: UserStateContext, {userId}: SelectUser) {
-    return this.usersEndpoint.read(userId).pipe(tap((response => {
-      context.dispatch(new SetSelectedUser(response.data));
+    return this.userEndpoint.defaultRead(userId).pipe(tap((response) => {
+      context.dispatch(new SetSelectedUser(response));
       context.dispatch([new SelectUserPurchases(), new SelectUserSubscriptions()]);
-    })));
+    }));
   }
 
   @Action(SelectUserSubscriptions)
   selectUserSubscriptions(context: UserStateContext) {
     const user = context.getState().selectedUser;
-    return this.usersEndpoint.listSubscriptions(user.id).pipe(tap(response => {
-      context.patchState({selectedUserSubscriptions: response.data});
-    }));
+    // return this.userEndpoint.listSubscriptions(user.id).pipe(tap(response => {
+    //   context.patchState({selectedUserSubscriptions: response.data});
+    // }));
   }
 
   @Action(SelectUserPurchases)
   selectUserPurchases(context: UserStateContext) {
     const user = context.getState().selectedUser;
-    return this.usersEndpoint.listPurchases(user.id, {expand: ['product']}).pipe(
-      tap((response: PaginatedResponse<Purchase & { product: Product }>) => {
-        context.patchState({selectedUserPurchases: response.data});
-      }));
+    // return this.userEndpoint.listPurchases(user.id, {expand: ['product']}).pipe(
+    //   tap((response: PaginatedResponse<Purchase & { product: Product }>) => {
+    //     context.patchState({selectedUserPurchases: response.data});
+    //   }));
   }
 
   @Action(ResetSelectedUser)

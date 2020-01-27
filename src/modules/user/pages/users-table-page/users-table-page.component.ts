@@ -1,39 +1,35 @@
 import {Component} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
-import {UsersEndpoint} from '@mathrix-education/education-api-sdk';
-import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {Store} from '@ngxs/store';
 import {ResetSelectedUser} from '../../../../states/user/user.actions';
 import {EditTitle} from '../../../../states/admin/admin.actions';
-import { PaginatedResponse } from '@mathrix-education/iridium';
+import {UserEndpoint} from '../../../../graphql/endpoints/user.endpoint';
+import {Paginator} from '../../../../graphql/types/PaginatorInfo';
+import {User} from '../../../../graphql/types/user';
+import {emptyPaginator} from '../../../../graphql/types/empty.helper';
 
 @Component({
   selector: 'app-users-table-page',
   templateUrl: './users-table-page.component.html',
   styleUrls: ['./users-table-page.component.scss']
 })
-export class UsersTablePageComponent   {
-  displayedColumns = ['id', 'firstname', 'lastname', 'username', 'email', 'grade_id', 'level', 'provider', 'created_at'];
-  options = {};
-  results: PaginatedResponse<User> = {
-    data: [],
-    total: 0,
-    page: 0,
-    per_page: 10,
-    success: true
-  };
-  loading = false;
+export class UsersTablePageComponent {
+  displayedColumns = ['id', 'firstname', 'lastname', 'username', 'email', 'grade_id', 'provider', 'created_at'];
+
+  results: Paginator<User> = emptyPaginator;
 
   searchForm = this.fb.group({
     query: '',
   });
 
+  loading = false;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private store: Store,
-    private usersEndpoint: UsersEndpoint,
+    private usersEndpoint: UserEndpoint,
   ) {
     this.store.dispatch(new ResetSelectedUser());
     this.store.dispatch(new EditTitle('Utilisateurs'));
@@ -58,8 +54,8 @@ export class UsersTablePageComponent   {
       case 'paginator':
         break;
     }
-    this.usersEndpoint.list({query}).subscribe(results => {
-      this.results = results;
+    this.usersEndpoint.defaultList(0, 100).subscribe((response: Paginator<User>) => {
+      this.results = response;
       this.loading = false;
     });
   }
