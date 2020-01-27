@@ -28,7 +28,7 @@ export class BaseQlEndpoint<T extends Model> {
           ${this.queryFieldsBuilder(customFields)}
         }
       }`;
-    return this.apollo.watchQuery({query}).valueChanges;
+    return this.apollo.query({query});
   }
 
   protected defaultCreate(model: any) {

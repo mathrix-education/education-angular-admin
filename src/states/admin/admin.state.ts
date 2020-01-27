@@ -82,8 +82,9 @@ export class AdminState {
 
   @Action(LoadUser)
   loadUser(ctx: AdminStateContext, {userId}: LoadUser) {
-    this.usersEndpoint.defaultRead(userId).pipe(
+    return this.usersEndpoint.defaultRead(userId).pipe(
       tap((resp: ApolloQueryResult<any>) => {
+        console.log('patch users', resp.data.readUser);
         return ctx.patchState({user: resp.data.readUser});
       }));
   }
