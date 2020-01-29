@@ -1,13 +1,11 @@
 import {Component} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-import {MatDialog} from '@angular/material';
-import {map} from 'rxjs/operators';
 import {BaseEditorComponent} from '../../../shared/components/base-editor/base-editor.component';
 import {Empty} from '../../../shared/helpers/empty.helper';
 import {PolicyEditor} from '@mathrix-education/rest-editor/interfaces/policy-editor.interface';
-import {Content} from '@angular/compiler/src/render3/r3_ast';
 import {Chapter} from '@mathrix-education/education-api-sdk/models/chapter';
 import {ChaptersEndpoint} from '@mathrix-education/education-api-sdk';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({

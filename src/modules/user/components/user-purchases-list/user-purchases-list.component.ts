@@ -2,14 +2,14 @@ import {Component, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {filter, map, switchMap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {ExchangeProduct} from '../../../../states/user/user.actions';
 import {environment} from '../../../../environments/environment';
 import {Product} from '@mathrix-education/education-api-sdk/models/product';
 import {ProductsEndpoint, UsersEndpoint} from '@mathrix-education/education-api-sdk';
-import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {UserState} from '../../../../states/user/user.state';
 import {Purchase} from '@mathrix-education/education-api-sdk/models/purchase';
+import {User} from '../../../../graphql/types/user';
 
 
 type ProductWithPurchase = Product & { purchase: Purchase };

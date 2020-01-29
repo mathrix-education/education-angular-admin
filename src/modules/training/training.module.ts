@@ -6,18 +6,6 @@ import {SectionTabComponent} from './components/section-tab/section-tab.componen
 import {PackComponent} from './components/pack/pack.component';
 import {PremiumUpsellComponent} from './components/premium-upsell/premium-upsell.component';
 import {TrainingComponent} from './components/training/training.component';
-import {
-  MatButtonModule,
-  MatCardModule,
-  MatDialogModule,
-  MatFormFieldModule,
-  MatIconModule,
-  MatInputModule,
-  MatListModule,
-  MatSlideToggleModule,
-  MatTableModule,
-  MatTabsModule
-} from '@angular/material';
 import {RestEditorModule} from '@mathrix-education/rest-editor';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FlexModule} from '@angular/flex-layout';
@@ -26,6 +14,16 @@ import {Route, RouterModule} from '@angular/router';
 import { TrainingTabComponent } from './components/training-tab/training-tab.component';
 import {SharedModule} from '../shared/shared.module';
 import {SilicateCoreModule} from '@mathrix-education/silicate-core';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatTableModule} from '@angular/material/table';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatListModule} from '@angular/material/list';
 
 
 const routes: Route[] = [

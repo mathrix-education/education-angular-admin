@@ -1,12 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-import {MatDialog} from '@angular/material';
-import {Store} from '@ngxs/store';
 import {BaseEditorComponent} from '../../../shared/components/base-editor/base-editor.component';
 import {Notion} from '@mathrix-education/education-api-sdk/models/notion';
 import {Empty} from '../../../shared/helpers/empty.helper';
 import {PolicyEditor} from '@mathrix-education/rest-editor/interfaces/policy-editor.interface';
 import {NotionsEndpoint} from '@mathrix-education/education-api-sdk';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({
@@ -30,7 +29,6 @@ export class NotionComponent extends BaseEditorComponent<Notion> {
 
   constructor(
     protected notionsEndpoints: NotionsEndpoint,
-    private store: Store,
     protected dialog: MatDialog,
     protected formBuilder: FormBuilder
   ) {

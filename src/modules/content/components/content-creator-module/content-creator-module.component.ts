@@ -1,14 +1,13 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {MatDialog} from '@angular/material';
 import {Store} from '@ngxs/store';
-import {switchMap} from 'rxjs/operators';
 import {BaseEditorComponent} from '../../../shared/components/base-editor/base-editor.component';
 import {Empty} from '../../../shared/helpers/empty.helper';
 import {PolicyEditor} from '@mathrix-education/rest-editor/interfaces/policy-editor.interface';
 import {ModulesEndpoint} from '@mathrix-education/education-api-sdk';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Module} from '@mathrix-education/education-api-sdk/models/module';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({

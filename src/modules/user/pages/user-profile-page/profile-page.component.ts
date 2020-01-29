@@ -4,7 +4,7 @@ import {Select, Store} from '@ngxs/store';
 import {ResetSelectedUser, SelectUser} from '../../../../states/user/user.actions';
 import {UserState} from '../../../../states/user/user.state';
 import {Observable} from 'rxjs';
-import {User} from '@mathrix-education/education-api-sdk/models/user';
+import {User} from '../../../../graphql/types/user';
 
 @Component({
   selector: 'app-user-profile-page',

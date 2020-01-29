@@ -1,8 +1,8 @@
 import {DOCUMENT} from '@angular/common';
 import {Component, EventEmitter, Inject, Output, ViewChild} from '@angular/core';
-import {MatDialog} from '@angular/material';
 import {SmileySelectorComponent} from '../smiley-selector/smiley-selector.component';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm.dialog';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({

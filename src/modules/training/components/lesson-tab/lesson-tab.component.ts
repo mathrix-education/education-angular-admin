@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {MatDialog} from '@angular/material';
 import {BaseEditorComponent} from '../../../shared/components/base-editor/base-editor.component';
 import {Module} from '@mathrix-education/education-api-sdk/models/module';
 import {Store} from '@ngxs/store';
@@ -9,6 +8,7 @@ import {Product} from '@mathrix-education/education-api-sdk/models/product';
 import {SetSelectedLesson} from '../../../../states/training/training.action';
 import {ModulesEndpoint, ProductsEndpoint} from '@mathrix-education/education-api-sdk';
 import { DataResponse } from '@mathrix-education/iridium';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({

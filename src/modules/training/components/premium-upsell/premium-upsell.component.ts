@@ -1,10 +1,9 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {MatDialog} from '@angular/material';
-import {map} from 'rxjs/operators';
 import {BaseEditorComponent} from '../../../shared/components/base-editor/base-editor.component';
 import {Product} from '@mathrix-education/education-api-sdk/models/product';
 import {ProductsEndpoint} from '@mathrix-education/education-api-sdk';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({

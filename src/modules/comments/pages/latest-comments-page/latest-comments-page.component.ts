@@ -3,12 +3,12 @@ import {BaseEditorComponent} from '../../../shared/components/base-editor/base-e
 import {PolicyEditor} from '@mathrix-education/rest-editor/interfaces/policy-editor.interface';
 import {Comment} from '@mathrix-education/education-api-sdk/models/comment';
 import {CommentsEndpoint} from '@mathrix-education/education-api-sdk';
-import {MatDialog} from '@angular/material';
 import {FormBuilder} from '@angular/forms';
-import {map, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {Store} from '@ngxs/store';
 import {EditTitle} from '../../../../states/admin/admin.actions';
-import { PaginatedResponse } from '@mathrix-education/iridium';
+import {PaginatedResponse} from '@mathrix-education/iridium';
+import {MatDialog} from '@angular/material/dialog';
 
 /**
  * Display last comments posted on Mathrix.
