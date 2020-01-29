@@ -1,10 +1,10 @@
 import {Component, HostBinding, Input} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {AdminState} from '../../../../states/admin/admin.state';
-import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {Select} from '@ngxs/store';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
+import {User} from '../../../../graphql/types/user';
 
 @Component({
   selector: 'app-sidenav',

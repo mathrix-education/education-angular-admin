@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {UserState} from '../../../../states/user/user.state';
-import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {AdminState} from '../../../../states/admin/admin.state';
 import {AuthEndpoint, UsersEndpoint} from '@mathrix-education/education-api-sdk';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {User} from '../../../../graphql/types/user';
 
 
 @Component({
@@ -53,9 +53,9 @@ export class UserActionsComponent {
    * Edit user password into 123456.
    */
   setPasswordTo123456(user: User) {
-    this.usersEndpoint.update(user.id, Object.assign(user, {password: '123456'})).subscribe(() => {
-      this.snackbar.open('Mot de passe changé en 123456');
-    });
+    // this.usersEndpoint.update(user.id, Object.assign(user, {password: '123456'})).subscribe(() => {
+    //   this.snackbar.open('Mot de passe changé en 123456');
+    // });
   }
 
   /**

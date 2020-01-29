@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Select} from '@ngxs/store';
 import {UserState} from '../../../../states/user/user.state';
 import {Observable} from 'rxjs';
-import {User} from '@mathrix-education/education-api-sdk/models/user';
+import {User} from '../../../../graphql/types/user';
 
 @Component({
   selector: 'app-stripe-user',

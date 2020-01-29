@@ -42,18 +42,8 @@
 
       <mat-list>
         <mat-list-item>
-          <span matLine>Points</span>
-          <span>{{user.points}}</span>
-        </mat-list-item>
-
-        <mat-list-item>
-          <span matLine>Niveau</span>
-          <span>{{user.level}}</span>
-        </mat-list-item>
-
-        <mat-list-item>
           <span matLine>Inscrit le</span>
-          <span>{{user.created_at | date : 'dd/MM/yyyy'}}</span>
+          <span>{{user.createdAt | date : 'dd/MM/yyyy'}}</span>
         </mat-list-item>
 
         <mat-list-item>

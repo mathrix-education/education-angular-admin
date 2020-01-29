@@ -5,9 +5,9 @@ import {Grade} from '@mathrix-education/education-api-sdk/models/grade';
 import {Discipline} from '@mathrix-education/education-api-sdk/models/discipline';
 import {Chapter} from '@mathrix-education/education-api-sdk/models/chapter';
 import {Notion} from '@mathrix-education/education-api-sdk/models/notion';
-import {User} from '@mathrix-education/education-api-sdk/models/user';
 import {Product} from '@mathrix-education/education-api-sdk/models/product';
 import {Report} from '@mathrix-education/education-api-sdk/models/report';
+import {User} from '../../../graphql/types/user';
 
 
 export class Empty {
@@ -43,15 +43,10 @@ export class Empty {
     email: '',
     firstname: '',
     lastname: '',
-    grade_id: null,
     updated_at: null,
     created_at: null,
-    points: 0,
-    daily: 0,
-    daily_achievements: 0,
-    settings: null,
     stripe_id: null,
-    metadata: {},
+    token: null,
     premium_bypass: false,
     premium_bypass_expires_at: undefined,
     scopes: []

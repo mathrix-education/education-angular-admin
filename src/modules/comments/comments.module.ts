@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LatestCommentsPageComponent} from './pages/latest-comments-page/latest-comments-page.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {FlexModule} from '@angular/flex-layout';
 import {RestEditorModule} from '@mathrix-education/rest-editor';
 import {Route, RouterModule} from '@angular/router';
 import {MatTableModule} from '@angular/material/table';
@@ -30,7 +29,6 @@ const routes: Route[] = [
     MatFormFieldModule,
     ReactiveFormsModule,
     MatButtonModule,
-    FlexModule,
     MatInputModule,
     RestEditorModule
   ]

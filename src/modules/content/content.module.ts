@@ -18,7 +18,6 @@ import {MatInputModule} from '@angular/material/input';
 import {MatOptionModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {FlexModule} from '@angular/flex-layout';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 
@@ -49,7 +48,6 @@ import {MatListModule} from '@angular/material/list';
     MatOptionModule,
     MatSelectModule,
     MatSlideToggleModule,
-    FlexModule,
     MatIconModule,
     MatListModule
   ]

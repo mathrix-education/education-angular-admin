@@ -8,7 +8,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
-import {ExtendedModule, FlexModule} from '@angular/flex-layout';
+import {ExtendedModule, FlexLayoutModule} from '@angular/flex-layout';
 
 export const routes: Routes = [
   {
@@ -29,7 +29,7 @@ export const routes: Routes = [
         MatProgressSpinnerModule,
         MatButtonModule,
         MatInputModule,
-        FlexModule,
+        FlexLayoutModule,
         ExtendedModule
     ],
   exports: [LoginComponent]

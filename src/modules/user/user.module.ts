@@ -20,7 +20,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatRadioModule} from '@angular/material/radio';
-import {FlexModule} from '@angular/flex-layout';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import {UsersTablePageComponent} from './pages/users-table-page/users-table-page.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTableModule} from '@angular/material/table';
@@ -71,7 +71,7 @@ const routes: Route[] = [
     MatDialogModule,
     MatRadioModule,
     MatSnackBarModule,
-    FlexModule,
+    FlexLayoutModule,
     MatToolbarModule,
     ReactiveFormsModule,
     MatTableModule,

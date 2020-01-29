@@ -9,6 +9,7 @@ import {UserEndpoint} from '../../graphql/endpoints/user.endpoint';
 import {ApolloQueryResult} from 'apollo-client';
 import {of} from 'rxjs';
 import {User} from '../../graphql/types/user';
+import {Injectable} from '@angular/core';
 
 
 export type AdminTitle =
@@ -39,6 +40,7 @@ export type AdminStateContext = StateContext<AdminStateModel>;
     title: 'Administration'
   }
 })
+@Injectable()
 export class AdminState {
   /** jwt decoding service in order to get the user id. */
   private jwt = new JwtHelperService();

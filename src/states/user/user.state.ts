@@ -15,6 +15,7 @@ import {Product} from '@mathrix-education/education-api-sdk/models/product';
 import {ProductsEndpoint} from '@mathrix-education/education-api-sdk';
 import {UserEndpoint} from '../../graphql/endpoints/user.endpoint';
 import {User} from '../../graphql/types/user';
+import {Injectable} from '@angular/core';
 
 export interface UserStateModel {
   selectedUser: User;
@@ -32,6 +33,7 @@ export type UserStateContext = StateContext<UserStateModel>;
     selectedUserPurchases: []
   }
 })
+@Injectable()
 export class UserState {
 
 

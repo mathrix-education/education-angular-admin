@@ -7,6 +7,7 @@ import {
   SetSelectedTraining
 } from './training.action';
 import {ModulesEndpoint, ProductsEndpoint} from '@mathrix-education/education-api-sdk';
+import {Injectable} from '@angular/core';
 
 export interface TrainingStateModel {
   selectedTraining: any;
@@ -26,6 +27,7 @@ export type TrainingStateContext = StateContext<TrainingStateModel>;
     selectedTab: 0
   }
 })
+@Injectable()
 export class TrainingState {
 
   @Selector()

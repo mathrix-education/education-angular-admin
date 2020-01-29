@@ -8,7 +8,7 @@ import {PremiumUpsellComponent} from './components/premium-upsell/premium-upsell
 import {TrainingComponent} from './components/training/training.component';
 import {RestEditorModule} from '@mathrix-education/rest-editor';
 import {ReactiveFormsModule} from '@angular/forms';
-import {FlexModule} from '@angular/flex-layout';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import {PricePipe} from './pipes/price.pipe';
 import {Route, RouterModule} from '@angular/router';
 import { TrainingTabComponent } from './components/training-tab/training-tab.component';
@@ -53,7 +53,7 @@ const routes: Route[] = [
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    FlexModule,
+    FlexLayoutModule,
     MatCardModule,
     MatIconModule,
     MatSlideToggleModule,

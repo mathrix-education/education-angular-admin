@@ -11,7 +11,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import {ReactiveFormsModule} from '@angular/forms';
-import {FlexModule} from '@angular/flex-layout';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 const routes: Route[] = [
@@ -35,7 +35,7 @@ const routes: Route[] = [
     MatSelectModule,
     MatButtonModule,
     ReactiveFormsModule,
-    FlexModule
+    FlexLayoutModule
   ]
 })
 export class ReportsModule {

@@ -8,6 +8,7 @@ export interface User extends ModelWithDates {
   scopes: string[];
   token: string;
   premium_bypass: boolean;
+  premium_bypass_expires_at: string;
   stripe_id: string;
   braintree_id: string;
 }
